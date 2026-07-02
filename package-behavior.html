@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hành vi Package — Key Screen Mock</title>
+<title>Phạm vi trả lời Package — Key Screen Mock</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -118,22 +118,22 @@
 
   <div class="main">
     <div class="breadcrumb">
-      <a href="package-list.html">Intent Packages</a> <span>›</span> <a href="package-create.html">IP-HR-WFH-DEPENDENT-CARE</a> <span>›</span> <span style="color:#334155;">Chỉnh sửa — Hành vi</span>
+      <a href="package-list.html">Intent Packages</a> <span>›</span> <a href="package-create.html">IP-HR-WFH-DEPENDENT-CARE</a> <span>›</span> <span style="color:#334155;">Chỉnh sửa — Phạm vi trả lời</span>
     </div>
 
     <div class="page-header">
       <div>
         <div class="package-chip">🧩 IP-HR-WFH-DEPENDENT-CARE · 🔴 High Risk</div>
-        <h1>Chỉnh sửa: Hành vi</h1>
-        <div class="meta">Cấu hình cách bot phản hồi — kiểu trả lời, quy tắc hỏi thêm, nội dung bắt buộc, và khi nào cần escalate. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Hành vi"</strong>.</div>
+        <h1>Chỉnh sửa: Phạm vi trả lời</h1>
+        <div class="meta">Cấu hình cách bot phản hồi — kiểu trả lời, quy tắc hỏi thêm, nội dung bắt buộc, và khi nào cần escalate. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Phạm vi trả lời"</strong>.</div>
       </div>
     </div>
 
     <!-- Stepper -->
     <div class="stepper">
       <div class="step completed" onclick="window.location.href='package-create.html'" style="cursor:pointer"><span class="num">✓</span> Định danh</div>
-      <div class="step completed" onclick="window.location.href='package-scope.html'" style="cursor:pointer"><span class="num">✓</span> Phạm vi</div>
-      <div class="step active" onclick="window.location.href='package-behavior.html'" style="cursor:pointer"><span class="num">3</span> Hành vi</div>
+      <div class="step completed" onclick="window.location.href='package-scope.html'" style="cursor:pointer"><span class="num">✓</span> Phạm vi câu hỏi</div>
+      <div class="step active" onclick="window.location.href='package-behavior.html'" style="cursor:pointer"><span class="num">3</span> Phạm vi trả lời</div>
       <div class="step" onclick="window.location.href='package-assets.html'" style="cursor:pointer"><span class="num">4</span> Tài liệu tham khảo</div>
       <div class="step" onclick="window.location.href='package-rules.html'" style="cursor:pointer"><span class="num">5</span> Rules (tuỳ chọn)</div>
     </div>
@@ -143,7 +143,7 @@
 
     <!-- Section 3: Behavior -->
     <div class="form-card">
-      <h2>3. Hành vi</h2>
+      <h2>3. Phạm vi trả lời</h2>
       <div class="helper">Xác định hình dạng câu trả lời cuối cùng và cách bot xử lý các tình huống đặc biệt — khi nào hỏi thêm, khi nào phải bao gồm nội dung gì, khi nào escalate, khi nào nói "không biết".</div>
 
       <!-- Expected Answer Type -->
@@ -223,7 +223,7 @@
       <div style="display:flex; align-items:center; gap:12px; font-size:13px; color:#475569;">
         <span style="font-size:20px;">⚡</span>
         <div>
-          <strong>Tóm tắt Hành vi</strong><br>
+          <strong>Tóm tắt Phạm vi trả lời</strong><br>
           <span style="color:#64748b;">Kiểu trả lời: <strong>Recommendation</strong> · Có quy tắc hỏi thêm · Có <strong style="color:#16a34a;">must-include</strong> và <strong style="color:#dc2626;">must-not-include</strong> · ✅ Có escalation rule · Có "không biết" boundary</span>
         </div>
       </div>
@@ -232,7 +232,7 @@
     <!-- Action bar -->
     <div class="action-bar">
       <div class="left">
-        <button class="btn btn-outline" onclick="window.location.href='package-scope.html'">◀ Quay lại: Phạm vi</button>
+        <button class="btn btn-outline" onclick="window.location.href='package-scope.html'">◀ Quay lại: Phạm vi câu hỏi</button>
       </div>
       <div class="right">
         <button class="btn btn-outline">Lưu nháp</button>
