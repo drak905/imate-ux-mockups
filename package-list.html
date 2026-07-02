@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intent Package Manager — Key Screen Mock</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #334155; }
+  
+  .app { display: flex; min-height: 100vh; }
+  
+  /* Sidebar */
+  .sidebar { width: 240px; background: #0f172a; color: #e2e8f0; padding: 20px 0; flex-shrink: 0; }
+  .sidebar-logo { padding: 0 20px 24px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 16px; }
+  .sidebar-nav { list-style: none; }
+  .sidebar-item { padding: 10px 20px; font-size: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: #94a3b8; }
+  .sidebar-item:hover { background: rgba(255,255,255,.05); color: #e2e8f0; }
+  .sidebar-item.active { background: rgba(99,102,241,.1); color: #818cf8; border-right: 3px solid #6366f1; }
+  
+  /* Main */
+  .main { flex: 1; padding: 24px 32px; max-width: calc(100vw - 240px); }
+  
+  .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+  .page-header h1 { font-size: 24px; font-weight: 700; color: #0f172a; }
+  .page-header .subtitle { font-size: 14px; color: #64748b; margin-top: 4px; }
+  .btn { height: 36px; padding: 0 20px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #6366f1; color: #fff; }
+  .btn-primary:hover { background: #4f46e5; }
+  .btn-outline { background: #fff; color: #334155; border: 1px solid #e2e8f0; }
+  .btn-outline:hover { background: #f8fafc; }
+  .btn-danger { background: #fff; color: #ef4444; border: 1px solid #fecaca; }
+  .btn-danger:hover { background: #fef2f2; }
+  .btn-sm { height: 28px; padding: 0 12px; font-size: 12px; }
+  
+  /* Filters */
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+  .filter-chip { height: 28px; padding: 0 12px; border-radius: 14px; font-size: 12px; font-weight: 500; border: 1px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
+  .filter-chip.active { background: #eef2ff; border-color: #6366f1; color: #4f46e5; }
+  .filter-chip .count { font-size: 11px; opacity: 0.6; }
+  .search-box { height: 36px; padding: 0 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; width: 260px; background: #fff; }
+  .search-box:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
+  
+  /* Table */
+  .table-container { background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; padding: 12px 16px; font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; }
+  th:first-child { width: 36px; }
+  td { padding: 10px 16px; font-size: 14px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+  
+  .status-badge { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 8px; font-size: 11px; font-weight: 500; }
+  .status-active { background: #f0fdf4; color: #16a34a; }
+  .status-draft { background: #f1f5f9; color: #64748b; }
+  .status-archived { background: #faf5ff; color: #7e22ce; }
+  .status-deleted { background: #f8fafc; color: #94a3b8; border: 1px solid #e2e8f0; }
+  
+  .risk-badge { font-size: 12px; }
+  .risk-high { color: #dc2626; }
+  .risk-medium { color: #d97706; }
+  .risk-low { color: #16a34a; }
+  
+  .readiness-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+  .dot-ready { background: #22c55e; }
+  .dot-review { background: #f59e0b; }
+  .dot-hold { background: #ef4444; }
+  
+  .action-icon { color: #94a3b8; cursor: pointer; padding: 4px; border-radius: 4px; font-size: 16px; }
+  .action-icon:hover { color: #334155; background: #f1f5f9; }
+  
+  .checkbox { width: 16px; height: 16px; border: 1.5px solid #cbd5e1; border-radius: 4px; cursor: pointer; }
+  
+  /* Pagination */
+  .pagination { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #fff; border-top: 1px solid #e2e8f0; font-size: 13px; color: #64748b; }
+  .page-btns { display: flex; gap: 4px; }
+  .page-btn { width: 28px; height: 28px; border-radius: 6px; border: 1px solid #e2e8f0; background: #fff; cursor: pointer; font-size: 12px; color: #334155; }
+  .page-btn.active { background: #6366f1; color: #fff; border-color: #6366f1; }
+  .page-btn:hover:not(.active) { background: #f1f5f9; }
+  
+  /* Bulk bar */
+  .bulk-bar { display: none; padding: 10px 16px; background: #eef2ff; border-bottom: 1px solid #c7d2fe; align-items: center; gap: 12px; font-size: 13px; color: #4338ca; }
+  .bulk-bar.show { display: flex; }
+  
+  /* Legend */
+  .legend { display: flex; gap: 16px; margin-top: 12px; font-size: 12px; color: #64748b; }
+  .legend-item { display: flex; align-items: center; gap: 4px; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 1px solid #e2e8f0; margin-bottom: 24px; }
+  .tab { padding: 10px 20px; font-size: 14px; font-weight: 500; color: #64748b; cursor: pointer; border-bottom: 2px solid transparent; }
+  .tab:hover { color: #334155; }
+  .tab.active { color: #6366f1; border-bottom-color: #6366f1; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">🧩 Knowledge Core</div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-item" onclick="window.location.href='#'">📊 Dashboard</li>
+      <li class="sidebar-item active" onclick="window.location.href='package-list.html'">🧩 Intent Packages</li>
+      <li class="sidebar-item" onclick="window.location.href='#'">📖 Golden Records</li>
+      <li class="sidebar-item" onclick="window.location.href='#'">🧪 Test Suites</li>
+      <li class="sidebar-item" onclick="window.location.href='#'">⚙️ Settings</li>
+    </ul>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="page-header">
+      <div>
+        <h1>Intent Packages</h1>
+        <div class="subtitle">Quản lý các trust block — tạo, cấu hình, kiểm tra và release</div>
+      </div>
+      <button class="btn btn-primary" onclick="window.location.href='package-create.html'">+ Tạo package mới</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab active">Tất cả (12)</div>
+      <div class="tab">Active (5)</div>
+      <div class="tab">Draft (3)</div>
+      <div class="tab">Archived (3)</div>
+      <div class="tab">Deleted (1)</div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <input class="search-box" placeholder="🔍 Tìm kiếm package..." style="margin-right:auto">
+      <div class="filter-chip active">🔴 High Risk <span class="count">(3)</span></div>
+      <div class="filter-chip">🟡 Medium <span class="count">(5)</span></div>
+      <div class="filter-chip">🟢 Low <span class="count">(4)</span></div>
+      <div class="filter-chip">Bot: HR <span class="count">(7)</span></div>
+      <div class="filter-chip">Bot: OE <span class="count">(5)</span></div>
+    </div>
+
+    <!-- Bulk bar -->
+    <div class="bulk-bar" id="bulkBar">
+      <span>Đã chọn <strong id="selectedCount">2</strong> package</span>
+      <button class="btn btn-sm btn-outline">🗂️ Archive</button>
+      <button class="btn btn-sm btn-danger">🗑️ Delete</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th><input type="checkbox" class="checkbox"></th>
+            <th>Tên package</th>
+            <th>Trạng thái</th>
+            <th>Mức rủi ro</th>
+            <th>Bot</th>
+            <th>Cập nhật</th>
+            <th>Ready</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr onclick="window.location.href='package-create.html'" style="cursor:pointer">
+            <td><input type="checkbox" class="checkbox" checked onclick="event.stopPropagation()"></td>
+            <td><strong>IP-HR-WFH-DEPENDENT-CARE</strong><br><span style="font-size:12px;color:#94a3b8;">WFH Dependent Care Request</span></td>
+            <td><span class="status-badge status-active">● Active</span></td>
+            <td><span class="risk-badge risk-high">🔴 High</span></td>
+            <td>HR Assistant</td>
+            <td><span style="font-size:13px;color:#64748b;">02/07/2026</span></td>
+            <td><span class="readiness-dot dot-review" style="display:inline-block"></span><span style="font-size:13px;color:#d97706;">88% Review</span></td>
+            <td><span class="action-icon">⋮</span></td>
+          </tr>
+          <tr onclick="window.location.href='package-create.html'" style="cursor:pointer">
+            <td><input type="checkbox" class="checkbox" checked onclick="event.stopPropagation()"></td>
+            <td><strong>IP-HR-PAYROLL-SLIP</strong><br><span style="font-size:12px;color:#94a3b8;">Yêu cầu bảng lương</span></td>
+            <td><span class="status-badge status-draft">○ Draft</span></td>
+            <td><span class="risk-badge risk-low">🟢 Low</span></td>
+            <td>—</td>
+            <td><span style="font-size:13px;color:#64748b;">30/06/2026</span></td>
+            <td><span class="readiness-dot dot-review" style="display:inline-block"></span><span style="font-size:13px;color:#d97706;">45% Review</span></td>
+            <td><span class="action-icon">⋮</span></td>
+          </tr>
+          <tr onclick="window.location.href='package-create.html'" style="cursor:pointer">
+            <td><input type="checkbox" class="checkbox" onclick="event.stopPropagation()"></td>
+            <td><strong>IP-OE-TRAINING-BUDGET</strong><br><span style="font-size:12px;color:#94a3b8;">Yêu cầu ngân sách đào tạo</span></td>
+            <td><span class="status-badge status-active">● Active</span></td>
+            <td><span class="risk-badge risk-medium">🟡 Medium</span></td>
+            <td>OE Bot</td>
+            <td><span style="font-size:13px;color:#64748b;">28/06/2026</span></td>
+            <td><span class="readiness-dot dot-ready" style="display:inline-block"></span><span style="font-size:13px;color:#16a34a;">95% Ready</span></td>
+            <td><span class="action-icon">⋮</span></td>
+          </tr>
+          <tr onclick="window.location.href='package-create.html'" style="cursor:pointer">
+            <td><input type="checkbox" class="checkbox" onclick="event.stopPropagation()"></td>
+            <td><strong>IP-HR-LEAVE-POLICY</strong><br><span style="font-size:12px;color:#94a3b8;">Chính sách nghỉ phép</span></td>
+            <td><span class="status-badge status-archived">○ Archived</span></td>
+            <td><span class="risk-badge risk-low">🟢 Low</span></td>
+            <td>HR Assistant</td>
+            <td><span style="font-size:13px;color:#64748b;">15/06/2026</span></td>
+            <td><span class="readiness-dot dot-ready" style="display:inline-block"></span><span style="font-size:13px;color:#94a3b8;">—</span></td>
+            <td><span class="action-icon">⋮</span></td>
+          </tr>
+          <tr onclick="window.location.href='package-create.html'" style="cursor:pointer">
+            <td><input type="checkbox" class="checkbox" onclick="event.stopPropagation()"></td>
+            <td><strong>IP-HR-RECRUITMENT</strong><br><span style="font-size:12px;color:#94a3b8;">Quy trình tuyển dụng</span></td>
+            <td><span class="status-badge status-deleted">✕ Deleted</span></td>
+            <td><span class="risk-badge risk-medium">🟡 Medium</span></td>
+            <td>HR Assistant</td>
+            <td><span style="font-size:13px;color:#94a3b8;">10/06/2026</span></td>
+            <td><span style="font-size:13px;color:#94a3b8;">—</span></td>
+            <td><span class="action-icon">⋮</span></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <span>Hiển thị 5 trong tổng 12 packages</span>
+        <div class="page-btns">
+          <button class="page-btn">‹</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">3</button>
+          <button class="page-btn">›</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend">
+      <span class="legend-item"><span class="readiness-dot dot-ready"></span> Ready</span>
+      <span class="legend-item"><span class="readiness-dot dot-review"></span> Review Needed</span>
+      <span class="legend-item"><span class="readiness-dot dot-hold"></span> Hold</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Simulate bulk bar toggle
+  document.querySelectorAll('.checkbox').forEach(cb => {
+    cb.addEventListener('change', () => {
+      const checked = document.querySelectorAll('.checkbox:checked').length;
+      document.getElementById('bulkBar').classList.toggle('show', checked > 0);
+      document.getElementById('selectedCount').textContent = checked;
+    });
+  });
+</script>
+</body>
+</html>

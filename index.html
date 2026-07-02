@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iMate UX Mockups</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #334155; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px; }
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 40px; max-width: 640px; width: 100%; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+  .logo { font-size: 32px; font-weight: 700; color: #0f172a; display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .subtitle { font-size: 15px; color: #64748b; margin-bottom: 28px; }
+  .screens-title { font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+  .screens { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .screen-link { display: flex; align-items: center; gap: 10px; padding: 14px 16px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; text-decoration: none; color: #334155; font-size: 14px; font-weight: 500; transition: all .15s; }
+  .screen-link:hover { background: #eef2ff; border-color: #c7d2fe; color: #4338ca; transform: translateY(-1px); }
+  .screen-link .icon { font-size: 18px; }
+  .screen-link .meta { font-size: 12px; color: #94a3b8; font-weight: 400; margin-top: 2px; }
+  .screen-link .text { display: flex; flex-direction: column; }
+  .footer { margin-top: 24px; font-size: 12px; color: #94a3b8; text-align: center; }
+  .footer a { color: #6366f1; text-decoration: none; }
+  @media (max-width: 560px) { .screens { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">🧩 iMate UX Mockups</div>
+    <div class="subtitle">Intent Package Manager — Key Screen Mocks. Chọn một màn hình để xem.</div>
+
+    <div class="screens-title">Màn hình (6)</div>
+    <div class="screens">
+      <a class="screen-link" href="package-list.html">
+        <span class="icon">📋</span>
+        <span class="text">Package List<span class="meta">Danh sách Intent Packages</span></span>
+      </a>
+      <a class="screen-link" href="package-create.html">
+        <span class="icon">➕</span>
+        <span class="text">Package Create<span class="meta">Bước 1 — Định danh</span></span>
+      </a>
+      <a class="screen-link" href="package-scope.html">
+        <span class="icon">🎯</span>
+        <span class="text">Package Scope<span class="meta">Bước 2 — Phạm vi</span></span>
+      </a>
+      <a class="screen-link" href="package-behavior.html">
+        <span class="icon">⚡</span>
+        <span class="text">Package Behavior<span class="meta">Bước 3 — Hành vi</span></span>
+      </a>
+      <a class="screen-link" href="package-assets.html">
+        <span class="icon">📚</span>
+        <span class="text">Package Assets<span class="meta">Bước 4 — Tài liệu tham khảo</span></span>
+      </a>
+      <a class="screen-link" href="package-rules.html">
+        <span class="icon">⚙️</span>
+        <span class="text">Package Rules<span class="meta">Bước 5 — Business Rules</span></span>
+      </a>
+    </div>
+
+    <div class="footer">Hosted on GitHub Pages · <a href="package-list.html">Mở trang chính →</a></div>
+  </div>
+</body>
+</html>

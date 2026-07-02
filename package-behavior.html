@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hành vi Package — Key Screen Mock</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #334155; }
+  
+  .app { display: flex; min-height: 100vh; }
+  .sidebar { width: 240px; background: #0f172a; color: #e2e8f0; padding: 20px 0; flex-shrink: 0; }
+  .sidebar-logo { padding: 0 20px 24px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 16px; }
+  .sidebar-item { padding: 10px 20px; font-size: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: #94a3b8; }
+  .sidebar-item.active { background: rgba(99,102,241,.1); color: #818cf8; border-right: 3px solid #6366f1; }
+  
+  .main { flex: 1; padding: 24px 32px; max-width: calc(100vw - 240px); }
+  
+  .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+  .page-header h1 { font-size: 22px; font-weight: 700; color: #0f172a; }
+  .page-header .meta { font-size: 13px; color: #64748b; margin-top: 4px; }
+  
+  .btn { height: 36px; padding: 0 20px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #6366f1; color: #fff; }
+  .btn-primary:hover { background: #4f46e5; }
+  .btn-outline { background: #fff; color: #334155; border: 1px solid #e2e8f0; }
+  .btn-outline:hover { background: #f8fafc; }
+  
+  .breadcrumb { font-size: 13px; color: #64748b; margin-bottom: 16px; display: flex; gap: 8px; align-items: center; }
+  .breadcrumb a { color: #64748b; text-decoration: none; }
+  .breadcrumb a:hover { color: #6366f1; }
+  
+  .stepper { display: flex; gap: 0; margin-bottom: 32px; background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; }
+  .step { flex: 1; padding: 12px 16px; text-align: center; font-size: 12px; font-weight: 500; color: #94a3b8; border-right: 1px solid #e2e8f0; position: relative; }
+  .step:last-child { border-right: none; }
+  .step.active { color: #6366f1; background: #eef2ff; }
+  .step.completed { color: #16a34a; }
+  .step .num { display: inline-block; width: 20px; height: 20px; line-height: 20px; border-radius: 50%; text-align: center; font-size: 11px; margin-right: 6px; }
+  .step.active .num { background: #6366f1; color: #fff; }
+  .step.completed .num { background: #16a34a; color: #fff; }
+  .step:not(.active):not(.completed) .num { background: #f1f5f9; color: #94a3b8; }
+  
+  .form-card { background: #fff; border-radius: 8px; border: 1px solid #e2e8f0; padding: 24px; margin-bottom: 16px; }
+  .form-card h2 { font-size: 16px; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
+  .form-card .helper { font-size: 13px; color: #64748b; margin-bottom: 20px; }
+  
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .form-row.full { grid-template-columns: 1fr; }
+  .form-group { display: flex; flex-direction: column; gap: 4px; }
+  .form-group label { font-size: 13px; font-weight: 500; color: #334155; }
+  .form-group label .required { color: #ef4444; }
+  .form-group textarea { padding: 8px 12px; min-height: 72px; resize: vertical; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; font-family: inherit; background: #fff; line-height: 1.5; }
+  .form-group textarea:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
+  .form-group .field-hint { font-size: 12px; color: #94a3b8; }
+  
+  /* Radio card group */
+  .radio-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .radio-card { border: 2px solid #e2e8f0; border-radius: 8px; padding: 14px; cursor: pointer; transition: all .15s; background: #fff; position: relative; }
+  .radio-card:hover { border-color: #c7d2fe; background: #f8faff; }
+  .radio-card.selected { border-color: #6366f1; background: #eef2ff; }
+  .radio-card input[type="radio"] { position: absolute; opacity: 0; }
+  .radio-card .radio-icon { font-size: 22px; margin-bottom: 6px; display: block; }
+  .radio-card .radio-title { font-size: 14px; font-weight: 600; color: #0f172a; margin-bottom: 4px; }
+  .radio-card .radio-desc { font-size: 12px; color: #64748b; line-height: 1.4; }
+  .radio-card.selected .radio-title { color: #4f46e5; }
+  .radio-card .check-mark { position: absolute; top: 8px; right: 8px; width: 18px; height: 18px; border-radius: 50%; background: #6366f1; color: #fff; font-size: 10px; display: none; align-items: center; justify-content: center; }
+  .radio-card.selected .check-mark { display: flex; }
+  
+  /* Section divider with label */
+  .section-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0 16px; }
+  .section-divider .line { flex: 1; height: 1px; background: #e2e8f0; }
+  .section-divider .label { font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; }
+  
+  .warning-banner { padding: 10px 16px; background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; font-size: 13px; color: #92400e; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  
+  .success-banner { padding: 10px 16px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 13px; color: #166534; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  
+  .action-bar { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-top: 1px solid #e2e8f0; margin-top: 24px; }
+  .action-bar .left { display: flex; gap: 8px; }
+  .action-bar .right { display: flex; gap: 8px; }
+  
+  .package-chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 8px; font-size: 13px; color: #4338ca; margin-bottom: 16px; }
+  
+  .info-icon { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: #e2e8f0; color: #64748b; border-radius: 50%; font-size: 10px; font-weight: 700; cursor: help; }
+  
+  /* Behavior pair card (phải/không được) */
+  .behavior-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .behavior-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; }
+  .behavior-card.include { border-left: 3px solid #22c55e; background: #f0fdf4; }
+  .behavior-card.exclude { border-left: 3px solid #ef4444; background: #fef2f2; }
+  .behavior-card label { font-size: 13px; font-weight: 600; color: #334155; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+  .behavior-card.include label { color: #166534; }
+  .behavior-card.exclude label { color: #991b1b; }
+  .behavior-card textarea { width: 100%; min-height: 64px; resize: vertical; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; font-family: inherit; padding: 8px 12px; line-height: 1.5; background: #fff; }
+  .behavior-card textarea:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
+  .behavior-card .field-hint { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+  
+  /* Escalation highlight for High risk */
+  .escalation-required { border: 2px solid #ef4444 !important; border-radius: 8px; padding: 16px; background: #fef2f2; }
+  .escalation-required label { color: #991b1b; }
+  .escalation-required label .badge { background: #ef4444; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; margin-left: 6px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="sidebar">
+    <div class="sidebar-logo">🧩 Knowledge Core</div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-item" onclick="window.location.href='#'">📊 Dashboard</li>
+      <li class="sidebar-item active" onclick="window.location.href='package-list.html'">🧩 Intent Packages</li>
+      <li class="sidebar-item" onclick="window.location.href='#'">📖 Golden Records</li>
+      <li class="sidebar-item" onclick="window.location.href='#'">🧪 Test Suites</li>
+      <li class="sidebar-item" onclick="window.location.href='#'">⚙️ Settings</li>
+    </ul>
+  </div>
+
+  <div class="main">
+    <div class="breadcrumb">
+      <a href="package-list.html">Intent Packages</a> <span>›</span> <a href="package-create.html">IP-HR-WFH-DEPENDENT-CARE</a> <span>›</span> <span style="color:#334155;">Chỉnh sửa — Hành vi</span>
+    </div>
+
+    <div class="page-header">
+      <div>
+        <div class="package-chip">🧩 IP-HR-WFH-DEPENDENT-CARE · 🔴 High Risk</div>
+        <h1>Chỉnh sửa: Hành vi</h1>
+        <div class="meta">Cấu hình cách bot phản hồi — kiểu trả lời, quy tắc hỏi thêm, nội dung bắt buộc, và khi nào cần escalate. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Hành vi"</strong>.</div>
+      </div>
+    </div>
+
+    <!-- Stepper -->
+    <div class="stepper">
+      <div class="step completed" onclick="window.location.href='package-create.html'" style="cursor:pointer"><span class="num">✓</span> Định danh</div>
+      <div class="step completed" onclick="window.location.href='package-scope.html'" style="cursor:pointer"><span class="num">✓</span> Phạm vi</div>
+      <div class="step active" onclick="window.location.href='package-behavior.html'" style="cursor:pointer"><span class="num">3</span> Hành vi</div>
+      <div class="step" onclick="window.location.href='package-assets.html'" style="cursor:pointer"><span class="num">4</span> Tài liệu tham khảo</div>
+      <div class="step" onclick="window.location.href='package-rules.html'" style="cursor:pointer"><span class="num">5</span> Rules (tuỳ chọn)</div>
+    </div>
+
+    <!-- Warning banner: High risk -->
+    <div class="warning-banner">⚠️ Package High risk đang được cấu hình. Bắt buộc khai báo <strong>quy tắc escalate</strong> trước khi chuyển sang bước tiếp theo.</div>
+
+    <!-- Section 3: Behavior -->
+    <div class="form-card">
+      <h2>3. Hành vi</h2>
+      <div class="helper">Xác định hình dạng câu trả lời cuối cùng và cách bot xử lý các tình huống đặc biệt — khi nào hỏi thêm, khi nào phải bao gồm nội dung gì, khi nào escalate, khi nào nói "không biết".</div>
+
+      <!-- Expected Answer Type -->
+      <div class="form-row full">
+        <div class="form-group">
+          <label>Kiểu trả lời kỳ vọng <span class="required">*</span> <span class="info-icon" title="Định nghĩa hình dạng câu trả lời cuối cùng. Hỏi thêm context là phụ, không phải loại trả lời chính.">?</span></label>
+          <div class="radio-group" style="grid-template-columns: 1fr 1fr;">
+            <label class="radio-card selected">
+              <input type="radio" name="answer_type" checked>
+              <span class="check-mark">✓</span>
+              <span class="radio-icon">💡</span>
+              <span class="radio-title">Recommendation</span>
+              <span class="radio-desc">Tư vấn dựa trên policy — đưa ra hướng dẫn và điều kiện áp dụng</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="answer_type">
+              <span class="check-mark">✓</span>
+              <span class="radio-icon">📄</span>
+              <span class="radio-title">Quoting policy</span>
+              <span class="radio-desc">Trích dẫn chính sách trực tiếp — câu trả lời là nội dung policy</span>
+            </label>
+          </div>
+          <span class="field-hint">Chọn 1 kiểu chính. Câu trả lời cuối cùng phải phù hợp với kiểu đã chọn.</span>
+        </div>
+      </div>
+
+      <div class="section-divider"><span class="line"></span><span class="label">Quy tắc phản hồi</span><span class="line"></span></div>
+
+      <!-- Ask Back Rule -->
+      <div class="form-row full">
+        <div class="form-group">
+          <label>Quy tắc hỏi thêm <span class="required">*</span> <span class="info-icon" title="Khi nào bot phải hỏi thêm thông tin trước khi trả lời? Biến hành vi hỏi lại thành thứ có thể test được.">?</span></label>
+          <textarea placeholder="VD: Nếu thiếu role eligibility, location/local policy, hoặc manager approval → hỏi bắt buộc trước khi tư vấn.">Nếu thiếu role eligibility, location/local policy, hoặc manager approval status → hỏi bắt buộc trước khi tư vấn.</textarea>
+          <span class="field-hint">Biến hành vi hỏi lại thành một thứ có thể test được, thay vì tùy thuộc vào answer type.</span>
+        </div>
+      </div>
+
+      <!-- Must Include / Must Not Include -->
+      <div class="behavior-pair">
+        <div class="behavior-card include">
+          <label>✅ Phải bao gồm <span class="info-icon" title="Nội dung bắt buộc phải có trong câu trả lời.">?</span></label>
+          <textarea placeholder="VD: Nội dung bắt buộc phải có trong câu trả lời">Điều kiện WFH phụ thuộc: cần policy reference và manager approval.</textarea>
+          <div class="field-hint">Câu cam kết bắt buộc — không được thiếu ngữ cảnh.</div>
+        </div>
+        <div class="behavior-card exclude">
+          <label>🚫 Không được bao gồm <span class="info-icon" title="Nội dung bot KHÔNG được nói — quy tắc chống over-answer.">?</span></label>
+          <textarea placeholder="VD: Nội dung bot không được nói">Không kết luận "được WFH" khi thiếu context về role, location, hoặc approval.</textarea>
+          <div class="field-hint">Quy tắc chống over-answer — boundary quan trọng nhất.</div>
+        </div>
+      </div>
+
+      <div class="section-divider"><span class="line"></span><span class="label">Xử lý ngoại lệ</span><span class="line"></span></div>
+
+      <!-- Escalation Rule (required for High risk) -->
+      <div class="form-row full">
+        <div class="form-group">
+          <div class="behavior-card exclude">
+            <label>⚠️ Quy tắc escalate <span class="required">*</span> <span class="badge" style="background:#ef4444; color:#fff; padding:2px 8px; border-radius:6px; font-size:10px; font-weight:600; margin-left:6px;">BẮT BUỘC — HIGH RISK</span> <span class="info-icon" title="Khi nào bot phải chuyển người xử lý thay vì tự trả lời? Bắt buộc cho High risk package.">?</span></label>
+            <textarea placeholder="VD: Khi nào bot phải escalate thay vì trả lời?">Exception cá nhân hoặc conflict với manager → escalate tới HR / People Ops để xử lý thủ công.</textarea>
+            <div class="field-hint">Biết khi nào phải chuyển người xử lý — không tự ý giải quyết trường hợp ngoại lệ.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- If Don't Know Rule -->
+      <div class="form-row full">
+        <div class="form-group">
+          <label>Quy tắc khi không biết <span class="required">*</span> <span class="info-icon" title="Khi không có source hoặc câu hỏi ngoài package, bot nói gì? Đây là 'tôi không biết' boundary.">?</span></label>
+          <textarea placeholder="VD: Khi bot không có thông tin để trả lời">Không có source hoặc câu hỏi ngoài package scope → bot nói "Tôi chưa hỗ trợ câu hỏi này, vui lòng liên hệ HR."</textarea>
+          <span class="field-hint">Đặt boundary rõ cho release package — biết khi nào dừng lại quan trọng hơn cố trả lời.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Context summary card -->
+    <div class="form-card" style="background:#f8fafc; border-style:dashed;">
+      <div style="display:flex; align-items:center; gap:12px; font-size:13px; color:#475569;">
+        <span style="font-size:20px;">⚡</span>
+        <div>
+          <strong>Tóm tắt Hành vi</strong><br>
+          <span style="color:#64748b;">Kiểu trả lời: <strong>Recommendation</strong> · Có quy tắc hỏi thêm · Có <strong style="color:#16a34a;">must-include</strong> và <strong style="color:#dc2626;">must-not-include</strong> · ✅ Có escalation rule · Có "không biết" boundary</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action bar -->
+    <div class="action-bar">
+      <div class="left">
+        <button class="btn btn-outline" onclick="window.location.href='package-scope.html'">◀ Quay lại: Phạm vi</button>
+      </div>
+      <div class="right">
+        <button class="btn btn-outline">Lưu nháp</button>
+        <button class="btn btn-primary" onclick="window.location.href='package-assets.html'">Lưu & Tiếp theo: Tài liệu tham khảo ▶</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Radio card toggle
+  document.querySelectorAll('.radio-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      card.querySelector('input[type="radio"]').checked = true;
+    });
+  });
+</script>
+</body>
+</html>
