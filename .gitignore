@@ -12,3 +12,8 @@ desktop.ini
 # Logs
 *.log
 npm-debug.log*
+
+# Auxiliary / local working files (not part of GitHub Pages site)
+update_titles.py
+UTF8
+Version_02/

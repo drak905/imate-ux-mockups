@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phạm vi câu hỏi Package — Key Screen Mock</title>
+<title>Phạm vi Package — Key Screen Mock</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -70,6 +70,29 @@
   .tag-remove:hover { opacity: 1; }
   .tag-input input { border: none; outline: none; height: 24px; font-size: 13px; flex: 1; min-width: 80px; background: transparent; }
   
+  /* CRUD list */
+  .crud-list { border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; }
+  .crud-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #f1f5f9; gap: 12px; }
+  .crud-item:last-child { border-bottom: none; }
+  .crud-item:hover { background: #f8fafc; }
+  .crud-text { font-size: 14px; color: #334155; flex: 1; line-height: 1.4; }
+  .crud-edit-input { flex: 1; height: 32px; padding: 0 8px; border: 1px solid #6366f1; border-radius: 4px; font-size: 14px; outline: none; font-family: inherit; }
+  .crud-actions { display: flex; gap: 4px; flex-shrink: 0; }
+  .crud-btn { width: 28px; height: 28px; border: none; border-radius: 4px; cursor: pointer; background: transparent; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; transition: background .15s; }
+  .crud-btn.edit { color: #6366f1; }
+  .crud-btn.edit:hover { background: #eef2ff; }
+  .crud-btn.delete { color: #ef4444; }
+  .crud-btn.delete:hover { background: #fef2f2; }
+  .crud-btn.save { color: #16a34a; }
+  .crud-btn.save:hover { background: #f0fdf4; }
+  .crud-btn.cancel { color: #64748b; }
+  .crud-btn.cancel:hover { background: #f1f5f9; }
+  .crud-add { display: flex; gap: 8px; margin-top: 8px; }
+  .crud-add input { flex: 1; height: 36px; padding: 0 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; outline: none; font-family: inherit; }
+  .crud-add input:focus { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
+  .btn-sm { height: 36px; padding: 0 14px; font-size: 13px; }
+  .crud-empty { padding: 20px 12px; text-align: center; font-size: 13px; color: #94a3b8; }
+  
   /* Checkbox group */
   .checkbox-group { display: flex; flex-wrap: wrap; gap: 12px; }
   .checkbox-item { display: flex; align-items: center; gap: 8px; font-size: 14px; cursor: pointer; }
@@ -126,7 +149,6 @@
       <div class="step active" onclick="window.location.href='package-scope.html'" style="cursor:pointer"><span class="num">2</span> Phạm vi câu hỏi</div>
       <div class="step" onclick="window.location.href='package-behavior.html'" style="cursor:pointer"><span class="num">3</span> Phạm vi trả lời</div>
       <div class="step" onclick="window.location.href='package-assets.html'" style="cursor:pointer"><span class="num">4</span> Tài liệu tham khảo</div>
-      <div class="step" onclick="window.location.href='package-rules.html'" style="cursor:pointer"><span class="num">5</span> Rules (tuỳ chọn)</div>
     </div>
 
     <!-- Warning banner: High risk -->
@@ -149,28 +171,82 @@
       <!-- Included / Excluded Questions -->
       <div class="form-row">
         <div class="form-group">
-          <label>Câu hỏi thuộc package <span class="info-icon" title="Những câu hỏi mà Bot sẽ trả lời dựa trên package này. Gõ xong nhấn Enter để thêm.">?</span></label>
-          <div class="tag-input">
-            <span class="tag">WFH tạm thời <span class="tag-remove">×</span></span>
-            <span class="tag">Context cần có cho WFH <span class="tag-remove">×</span></span>
-            <span class="tag">Bước tiếp theo nếu manager approve <span class="tag-remove">×</span></span>
-            <span class="tag">Thời gian xử lý đơn WFH <span class="tag-remove">×</span></span>
-            <input type="text" placeholder="Thêm câu hỏi...">
+          <label>Câu hỏi thuộc package <span class="info-icon" title="Những câu hỏi mà Bot sẽ trả lời dựa trên package này. Có thể thêm, sửa, xóa từng câu hỏi.">?</span></label>
+          <div class="crud-list" id="includedList">
+            <div class="crud-item" data-id="1">
+              <span class="crud-text">WFH tạm thời</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+            <div class="crud-item" data-id="2">
+              <span class="crud-text">Context cần có cho WFH</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+            <div class="crud-item" data-id="3">
+              <span class="crud-text">Bước tiếp theo nếu manager approve</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+            <div class="crud-item" data-id="4">
+              <span class="crud-text">Thời gian xử lý đơn WFH</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
           </div>
-          <span class="field-hint">Giúp Bot Owner biết câu hỏi nào thuộc package. Tối đa 50 tags.</span>
-          <span class="counter">4 / 50</span>
+          <div class="crud-add">
+            <input type="text" id="includedAddInput" placeholder="Nhập câu hỏi mới rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('includedList','includedAddInput');}">
+            <button class="btn btn-primary btn-sm" onclick="addItem('includedList','includedAddInput')">+ Thêm</button>
+          </div>
+          <span class="field-hint">Giúp Bot Owner biết câu hỏi nào thuộc package. Tối đa 50 câu hỏi.</span>
+          <span class="counter" id="includedCounter">4 / 50</span>
         </div>
         <div class="form-group">
-          <label>Câu hỏi không thuộc <span class="info-icon" title="Những câu hỏi Bot KHÔNG được trả lời — dù có vẻ liên quan. Đây là boundary quan trọng.">?</span></label>
-          <div class="tag-input">
-            <span class="tag">Exception cá nhân <span class="tag-remove">×</span></span>
-            <span class="tag">Dispute với manager <span class="tag-remove">×</span></span>
-            <span class="tag">Medical/legal advice <span class="tag-remove">×</span></span>
-            <span class="tag">Compensation impact <span class="tag-remove">×</span></span>
-            <input type="text" placeholder="Thêm câu hỏi...">
+          <label>Câu hỏi không thuộc <span class="info-icon" title="Những câu hỏi Bot KHÔNG được trả lời — dù có vẻ liên quan. Đây là boundary quan trọng. Có thể thêm, sửa, xóa từng câu hỏi.">?</span></label>
+          <div class="crud-list" id="excludedList">
+            <div class="crud-item" data-id="11">
+              <span class="crud-text">Exception cá nhân</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+            <div class="crud-item" data-id="12">
+              <span class="crud-text">Dispute với manager</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+            <div class="crud-item" data-id="13">
+              <span class="crud-text">Medical/legal advice</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+            <div class="crud-item" data-id="14">
+              <span class="crud-text">Compensation impact</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
           </div>
-          <span class="field-hint">Đặt ranh boundary để bot không over-answer. Tối đa 50 tags.</span>
-          <span class="counter">4 / 50</span>
+          <div class="crud-add">
+            <input type="text" id="excludedAddInput" placeholder="Nhập câu hỏi không thuộc rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('excludedList','excludedAddInput');}">
+            <button class="btn btn-primary btn-sm" onclick="addItem('excludedList','excludedAddInput')">+ Thêm</button>
+          </div>
+          <span class="field-hint">Đặt ranh boundary để bot không over-answer. Tối đa 50 câu hỏi.</span>
+          <span class="counter" id="excludedCounter">4 / 50</span>
         </div>
       </div>
 
@@ -179,20 +255,39 @@
         <div class="form-group">
           <label>Đối tượng <span class="required">*</span> <span class="info-icon" title="Ai là người dùng cuối của package này? Cùng intent nhưng audience khác có thể cần behavior khác.">?</span></label>
           <div class="checkbox-group">
-            <label class="checkbox-item"><input type="checkbox" checked> 👤 Employee</label>
-            <label class="checkbox-item"><input type="checkbox"> 👥 People Manager</label>
-            <label class="checkbox-item"><input type="checkbox"> 🔒 AIC</label>
+            <label class="checkbox-item"><input type="checkbox" checked disabled> 👤 Toàn bộ nhân viên</label>
           </div>
         </div>
         <div class="form-group">
-          <label>Ngữ cảnh bắt buộc <span class="required">*</span> <span class="info-icon" title="Thông tin bot cần biết trước khi trả lời. High risk cần ít nhất 2.">?</span></label>
-          <div class="tag-input">
-            <span class="tag">🏢 Role eligibility <span class="tag-remove">×</span></span>
-            <span class="tag">📍 Location/local policy <span class="tag-remove">×</span></span>
-            <span class="tag">✅ Manager approval status <span class="tag-remove">×</span></span>
-            <input type="text" placeholder="Thêm ngữ cảnh...">
+          <label>Ngữ cảnh bắt buộc <span class="required">*</span> <span class="info-icon" title="Thông tin bot cần biết trước khi trả lời. High risk cần ít nhất 2. Có thể thêm, sửa, xóa từng ngữ cảnh.">?</span></label>
+          <div class="crud-list" id="contextList">
+            <div class="crud-item" data-id="21">
+              <span class="crud-text">🏢 Role eligibility</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+            <div class="crud-item" data-id="22">
+              <span class="crud-text">📍 Location/local policy</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+            <div class="crud-item" data-id="23">
+              <span class="crud-text">✅ Manager approval status</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
           </div>
-          <span class="field-hint">✅ Đã đạt tối thiểu 2 ngữ cảnh cho High risk</span>
+          <div class="crud-add">
+            <input type="text" id="contextAddInput" placeholder="Nhập ngữ cảnh bắt buộc rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('contextList','contextAddInput');}">
+            <button class="btn btn-primary btn-sm" onclick="addItem('contextList','contextAddInput')">+ Thêm</button>
+          </div>
+          <span class="field-hint" id="contextHint">✅ Đã đạt tối thiểu 2 ngữ cảnh cho High risk</span>
         </div>
       </div>
 
@@ -211,7 +306,7 @@
       <div style="display:flex; align-items:center; gap:12px; font-size:13px; color:#475569;">
         <span style="font-size:20px;">📋</span>
         <div>
-          <strong>Tóm tắt Phạm vi câu hỏi</strong><br>
+          <strong>Tóm tắt Phạm vi</strong><br>
           <span style="color:#64748b;">Package hỗ trợ <strong>1 nhu cầu</strong> · <strong>4 câu hỏi</strong> trong scope · <strong>4 câu hỏi</strong> ngoài scope · <strong>1 đối tượng</strong> · <strong>3 ngữ cảnh</strong> bắt buộc</span>
         </div>
       </div>
@@ -224,10 +319,130 @@
       </div>
       <div class="right">
         <button class="btn btn-outline">Lưu nháp</button>
-        <button class="btn btn-primary" onclick="window.location.href='package-behavior.html'">Lưu & Tiếp theo: Phạm vi trả lời ▶</button>
+        <button class="btn btn-primary" onclick="window.location.href='package-behavior.html'">Lưu & Tiếp theo: Hành vi ▶</button>
       </div>
     </div>
   </div>
 </div>
+<script>
+  let nextId = 100;
+  const MAX = 50;
+
+  function updateCounter(listId) {
+    const list = document.getElementById(listId);
+    const count = list.querySelectorAll('.crud-item').length;
+    const counter = list.parentElement.querySelector('.counter');
+    if (counter) counter.textContent = count + ' / ' + MAX;
+    if (listId === 'contextList') updateContextHint(count);
+  }
+
+  function updateContextHint(count) {
+    const hint = document.getElementById('contextHint');
+    if (!hint) return;
+    if (count >= 2) {
+      hint.textContent = '✅ Đã đạt tối thiểu 2 ngữ cảnh cho High risk';
+      hint.style.color = '';
+    } else {
+      hint.textContent = '⚠️ Cần ít nhất 2 ngữ cảnh cho High risk (hiện có ' + count + ').';
+      hint.style.color = '#92400e';
+    }
+  }
+
+  function renderEmpty(list) {
+    const existing = list.querySelector('.crud-empty');
+    if (list.querySelectorAll('.crud-item').length === 0) {
+      if (!existing) {
+        const empty = document.createElement('div');
+        empty.className = 'crud-empty';
+        empty.textContent = 'Chưa có câu hỏi nào. Thêm câu hỏi đầu tiên bên dưới.';
+        list.appendChild(empty);
+      }
+    } else if (existing) {
+      existing.remove();
+    }
+  }
+
+  function addItem(listId, inputId) {
+    const input = document.getElementById(inputId);
+    const text = input.value.trim();
+    if (!text) return;
+    const list = document.getElementById(listId);
+    if (list.querySelectorAll('.crud-item').length >= MAX) {
+      alert('Đã đạt tối đa ' + MAX + ' câu hỏi.');
+      return;
+    }
+    const empty = list.querySelector('.crud-empty');
+    if (empty) empty.remove();
+    const id = nextId++;
+    const item = document.createElement('div');
+    item.className = 'crud-item';
+    item.dataset.id = id;
+    item.innerHTML = '<span class="crud-text"></span><div class="crud-actions"><button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button><button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button></div>';
+    item.querySelector('.crud-text').textContent = text;
+    list.appendChild(item);
+    input.value = '';
+    input.focus();
+    updateCounter(listId);
+  }
+
+  function deleteItem(btn) {
+    const item = btn.closest('.crud-item');
+    const list = item.closest('.crud-list');
+    if (!confirm('Xóa câu hỏi này?')) return;
+    item.remove();
+    renderEmpty(list);
+    updateCounter(list.id);
+  }
+
+  function editItem(btn) {
+    const item = btn.closest('.crud-item');
+    const textEl = item.querySelector('.crud-text');
+    const current = textEl.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'crud-edit-input';
+    input.value = current;
+    textEl.replaceWith(input);
+    input.focus();
+    input.select();
+    const actions = item.querySelector('.crud-actions');
+    actions.innerHTML = '<button class="crud-btn save" title="Lưu" onclick="saveItem(this)">✓</button><button class="crud-btn cancel" title="Huỷ" onclick="cancelEdit(this,\'' + current.replace(/'/g,"\\'") + '\')">✕</button>';
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); saveItem(actions.querySelector('.save')); }
+      else if (e.key === 'Escape') { cancelEdit(actions.querySelector('.cancel'), current); }
+    });
+  }
+
+  function saveItem(btn) {
+    const item = btn.closest('.crud-item');
+    const input = item.querySelector('.crud-edit-input');
+    const text = input.value.trim();
+    if (!text) { alert('Câu hỏi không được để trống.'); input.focus(); return; }
+    const textEl = document.createElement('span');
+    textEl.className = 'crud-text';
+    textEl.textContent = text;
+    input.replaceWith(textEl);
+    const actions = item.querySelector('.crud-actions');
+    actions.innerHTML = '<button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button><button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>';
+  }
+
+  function cancelEdit(btn, original) {
+    const item = btn.closest('.crud-item');
+    const input = item.querySelector('.crud-edit-input');
+    const textEl = document.createElement('span');
+    textEl.className = 'crud-text';
+    textEl.textContent = original;
+    input.replaceWith(textEl);
+    const actions = item.querySelector('.crud-actions');
+    actions.innerHTML = '<button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button><button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>';
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    ['includedList','excludedList','contextList'].forEach(function(id) {
+      const list = document.getElementById(id);
+      if (list) { updateCounter(id); renderEmpty(list); }
+    });
+  });
+</script>
 </body>
 </html>

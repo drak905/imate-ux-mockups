@@ -125,7 +125,7 @@
       <div>
         <div class="package-chip">🧩 IP-HR-WFH-DEPENDENT-CARE · 🔴 High Risk</div>
         <h1>Chỉnh sửa: Tài liệu tham khảo</h1>
-        <div class="meta">Gắn Golden Records, Boundary Records, chọn đường dẫn truy xuất và nguồn cho phép. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Tài liệu tham khảo"</strong>.</div>
+        <div class="meta">Chọn đường dẫn truy xuất, gắn Golden Records và nguồn cho phép. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Tài liệu tham khảo"</strong>.</div>
       </div>
     </div>
 
@@ -135,17 +135,51 @@
       <div class="step completed" onclick="window.location.href='package-scope.html'" style="cursor:pointer"><span class="num">✓</span> Phạm vi câu hỏi</div>
       <div class="step completed" onclick="window.location.href='package-behavior.html'" style="cursor:pointer"><span class="num">✓</span> Phạm vi trả lời</div>
       <div class="step active" onclick="window.location.href='package-assets.html'" style="cursor:pointer"><span class="num">4</span> Tài liệu tham khảo</div>
-      <div class="step" onclick="window.location.href='package-rules.html'" style="cursor:pointer"><span class="num">5</span> Rules (tuỳ chọn)</div>
     </div>
 
     <!-- Section 4: Trust Assets -->
     <div class="form-card">
       <h2>4. Tài liệu tham khảo</h2>
-      <div class="helper">Chọn các tài liệu và nguồn dữ liệu mà bot được phép dùng để trả lời cho package này — Golden Records, Boundary Records, đường dẫn truy xuất, và nguồn chính thức.</div>
+      <div class="helper">Chọn đường dẫn truy xuất trước, sau đó gắn Golden Records và nguồn cho phép phù hợp với đường dẫn đã chọn.</div>
 
-      <!-- Golden Records & Boundary Records -->
-      <div class="form-row">
+      <div class="section-divider"><span class="line"></span><span class="label">Đường dẫn truy xuất</span><span class="line"></span></div>
+
+      <!-- Allowed Retrieval Path -->
+      <div class="form-row full">
         <div class="form-group">
+          <label>Đường dẫn truy xuất <span class="required">*</span> <span class="info-icon" title="Bot sẽ truy xuất dữ liệu theo đường dẫn nào? Mỗi option quyết định mục nào hiển thị bên dưới.">?</span></label>
+          <div class="path-group">
+            <label class="path-card" data-path="golden-only">
+              <input type="radio" name="retrieval_path">
+              <span class="check-mark">✓</span>
+              <span class="path-icon">📖</span>
+              <span class="path-title">Golden only</span>
+              <span class="path-desc">Chỉ dùng Golden Record — không fallback ra RAG</span>
+            </label>
+            <label class="path-card selected" data-path="graphrag-only">
+              <input type="radio" name="retrieval_path" checked>
+              <span class="check-mark">✓</span>
+              <span class="path-icon">🔍</span>
+              <span class="path-title">GraphRAG only</span>
+              <span class="path-desc">Chỉ query GraphRAG — tránh tiếp cận CorpS MMG</span>
+            </label>
+            <label class="path-card" data-path="golden-graphrag">
+              <input type="radio" name="retrieval_path">
+              <span class="check-mark">✓</span>
+              <span class="path-icon">📖→🔍</span>
+              <span class="path-title">Golden AND GraphRAG</span>
+              <span class="path-desc">Hỏi Golden trước, sau đó bổ sung GraphRAG search</span>
+            </label>
+          </div>
+          <span class="field-hint">Đường dẫn chọn quyết định các mục hiển thị trong "Nguồn & Citation" bên dưới.</span>
+        </div>
+      </div>
+
+      <div class="section-divider"><span class="line"></span><span class="label">Nguồn & Citation</span><span class="line"></span></div>
+
+      <!-- Conditional items driven by retrieval path -->
+      <div class="form-row">
+        <div class="form-group citation-item" data-show-for="golden-only,golden-graphrag">
           <label>Golden Records <span class="info-icon" title="Answer contract chính của package — câu trả lời chuẩn đã được duyệt.">?</span></label>
           <div class="asset-selector">
             <div class="selected-items">
@@ -162,79 +196,7 @@
           </div>
           <span class="field-hint">Golden Record là answer contract chính — bot ưu tiên dùng trước khi fallback.</span>
         </div>
-        <div class="form-group">
-          <label>Boundary Records <span class="info-icon" title="Hướng dẫn khi nào KHÔNG trả lời, khi nào escalate. Không chỉ có câu trả lời đúng.">?</span></label>
-          <div class="asset-selector">
-            <div class="selected-items">
-              <div class="asset-item">
-                <span class="icon">🛡️</span>
-                <div class="info">
-                  <div class="title">Hướng dẫn context WFH</div>
-                  <div class="desc">Cập nhật 28/06/2026</div>
-                </div>
-                <span class="remove">×</span>
-              </div>
-              <div class="asset-item">
-                <span class="icon">🛡️</span>
-                <div class="info">
-                  <div class="title">Escalate exception cá nhân</div>
-                  <div class="desc">Cập nhật 28/06/2026</div>
-                </div>
-                <span class="remove">×</span>
-              </div>
-              <div class="asset-item">
-                <span class="icon">🛡️</span>
-                <div class="info">
-                  <div class="title">Không trả lời ngoài scope</div>
-                  <div class="desc">Cập nhật 28/06/2026</div>
-                </div>
-                <span class="remove">×</span>
-              </div>
-            </div>
-            <button class="btn btn-ghost" style="width:100%; justify-content:center;">+ Thêm Boundary Record</button>
-          </div>
-          <span class="field-hint">Không chỉ có câu trả lời đúng — cần có cả khi nào KHÔNG trả lời.</span>
-        </div>
-      </div>
-
-      <div class="section-divider"><span class="line"></span><span class="label">Đường dẫn truy xuất</span><span class="line"></span></div>
-
-      <!-- Allowed Retrieval Path -->
-      <div class="form-row full">
-        <div class="form-group">
-          <label>Đường dẫn truy xuất <span class="required">*</span> <span class="info-icon" title="Bot sẽ truy xuất dữ liệu theo đường dẫn nào? Mỗi option có hành vi khác nhau.">?</span></label>
-          <div class="path-group">
-            <label class="path-card selected">
-              <input type="radio" name="retrieval_path" checked>
-              <span class="check-mark">✓</span>
-              <span class="path-icon">🔍</span>
-              <span class="path-title">GraphRAG only</span>
-              <span class="path-desc">Chỉ query GraphRAG — tránh tiếp cận CorpS MMG</span>
-            </label>
-            <label class="path-card">
-              <input type="radio" name="retrieval_path">
-              <span class="check-mark">✓</span>
-              <span class="path-icon">📖→🔍</span>
-              <span class="path-title">Golden AND GraphRAG</span>
-              <span class="path-desc">Hỏi Golden trước, sau đó bổ sung GraphRAG search</span>
-            </label>
-            <label class="path-card">
-              <input type="radio" name="retrieval_path">
-              <span class="check-mark">✓</span>
-              <span class="path-icon">📖</span>
-              <span class="path-title">Golden only</span>
-              <span class="path-desc">Chỉ dùng Golden Record — không fallback ra RAG</span>
-            </label>
-          </div>
-          <span class="field-hint">MVP: chọn GraphRAG only nếu package không cần Golden Record fallback.</span>
-        </div>
-      </div>
-
-      <div class="section-divider"><span class="line"></span><span class="label">Nguồn & Citation</span><span class="line"></span></div>
-
-      <!-- Allowed Sources -->
-      <div class="form-row">
-        <div class="form-group">
+        <div class="form-group citation-item" data-show-for="graphrag-only,golden-graphrag">
           <label>Nguồn cho phép <span class="required">*</span> <span class="info-icon" title="Nguồn tài liệu nào được dùng cho package này? Phải rõ ràng để audit.">?</span></label>
           <div class="asset-selector">
             <div style="margin-bottom:8px;">
@@ -245,7 +207,7 @@
           </div>
           <span class="field-hint">Nguồn nào được dùng cho package này phải rõ — phục vụ audit.</span>
         </div>
-        <div class="form-group">
+        <div class="form-group citation-item" data-show-for="golden-only,graphrag-only,golden-graphrag">
           <label>Quy tắc citation <span class="required">*</span> <span class="info-icon" title="Khi nào bot phải trích dẫn nguồn? Citation phục vụ audit, không thay thế behavior spec.">?</span></label>
           <textarea placeholder="VD: Khi nào bot phải citation nguồn?">Policy answer cần citation; thiếu context không trả lời. Citation phải chỉ đến source version cụ thể (VD: v2026.04).</textarea>
           <span class="field-hint">Citation phục vụ audit — không thay thế behavior spec.</span>
@@ -259,7 +221,7 @@
         <span style="font-size:20px;">📚</span>
         <div>
           <strong>Tóm tắt Tài liệu tham khảo</strong><br>
-          <span style="color:#64748b;"><strong>1</strong> Golden Record · <strong>3</strong> Boundary Records · Đường dẫn: <strong>GraphRAG only</strong> · <strong>2</strong> nguồn cho phép · Có citation rule</span>
+          <span style="color:#64748b;"><strong>1</strong> Golden Record · Đường dẫn: <strong>GraphRAG only</strong> · <strong>2</strong> nguồn cho phép · Có citation rule</span>
         </div>
       </div>
     </div>
@@ -267,25 +229,37 @@
     <!-- Action bar -->
     <div class="action-bar">
       <div class="left">
-        <button class="btn btn-outline" onclick="window.location.href='package-behavior.html'">◀ Quay lại: Phạm vi trả lời</button>
+        <button class="btn btn-outline" onclick="window.location.href='package-behavior.html'">◀ Quay lại: Hành vi</button>
       </div>
       <div class="right">
         <button class="btn btn-outline">Lưu nháp</button>
-        <button class="btn btn-primary" onclick="window.location.href='package-rules.html'">Lưu & Tiếp theo: Rules (tuỳ chọn) ▶</button>
+        <button class="btn btn-primary" onclick="window.location.href='package-list.html'">Lưu & Hoàn tất ▶</button>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-  // Path card toggle
+  // Path card toggle + conditional citation items
+  function updateCitationVisibility(path) {
+    document.querySelectorAll('.citation-item').forEach(item => {
+      const showFor = item.dataset.showFor.split(',');
+      item.style.display = showFor.includes(path) ? '' : 'none';
+    });
+  }
+
   document.querySelectorAll('.path-card').forEach(card => {
     card.addEventListener('click', () => {
       document.querySelectorAll('.path-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
       card.querySelector('input[type="radio"]').checked = true;
+      updateCitationVisibility(card.dataset.path);
     });
   });
+
+  // Initialise visibility from the pre-selected card
+  const initial = document.querySelector('.path-card.selected');
+  if (initial) updateCitationVisibility(initial.dataset.path);
 </script>
 </body>
 </html>
