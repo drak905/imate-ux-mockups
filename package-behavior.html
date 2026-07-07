@@ -125,7 +125,7 @@
       <div>
         <div class="package-chip">🧩 IP-HR-WFH-DEPENDENT-CARE · 🔴 High Risk</div>
         <h1>Chỉnh sửa: Phạm vi trả lời</h1>
-        <div class="meta">Cấu hình cách bot phản hồi — kiểu trả lời, quy tắc hỏi thêm, nội dung bắt buộc, và khi nào cần escalate. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Phạm vi trả lời"</strong>.</div>
+        <div class="meta">Cấu hình cách bot phản hồi — kiểu trả lời, nội dung bắt buộc, và khi nào cần escalate. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Phạm vi trả lời"</strong>.</div>
       </div>
     </div>
 
@@ -143,7 +143,7 @@
     <!-- Section 3: Behavior -->
     <div class="form-card">
       <h2>3. Phạm vi câu trả lời</h2>
-      <div class="helper">Xác định hình dạng câu trả lời cuối cùng và cách bot xử lý các tình huống đặc biệt — khi nào hỏi thêm, khi nào phải bao gồm nội dung gì, khi nào escalate, khi nào nói "không biết".</div>
+      <div class="helper">Xác định hình dạng câu trả lời cuối cùng và cách bot xử lý các tình huống đặc biệt — khi nào phải bao gồm nội dung gì và khi nào escalate.</div>
 
       <!-- Expected Answer Type -->
       <div class="form-row full">
@@ -171,15 +171,6 @@
 
       <div class="section-divider"><span class="line"></span><span class="label">Quy tắc phản hồi</span><span class="line"></span></div>
 
-      <!-- Ask Back Rule -->
-      <div class="form-row full">
-        <div class="form-group">
-          <label>Quy tắc hỏi thêm <span class="required">*</span> <span class="info-icon" title="Khi nào bot phải hỏi thêm thông tin trước khi trả lời? Biến hành vi hỏi lại thành thứ có thể test được.">?</span></label>
-          <textarea placeholder="VD: Nếu thiếu role eligibility, location/local policy, hoặc manager approval → hỏi bắt buộc trước khi tư vấn.">Nếu thiếu role eligibility, location/local policy, hoặc manager approval status → hỏi bắt buộc trước khi tư vấn.</textarea>
-          <span class="field-hint">Biến hành vi hỏi lại thành một thứ có thể test được, thay vì tùy thuộc vào answer type.</span>
-        </div>
-      </div>
-
       <!-- Must Include / Must Not Include -->
       <div class="behavior-pair">
         <div class="behavior-card include">
@@ -200,41 +191,21 @@
       <div class="form-row full">
         <div class="form-group">
           <div class="behavior-card exclude">
-            <label>⚠️ Quy tắc escalate <span class="required">*</span> <span class="badge" style="background:#ef4444; color:#fff; padding:2px 8px; border-radius:6px; font-size:10px; font-weight:600; margin-left:6px;">BẮT BUỘC — HIGH RISK</span> <span class="info-icon" title="Khi nào bot phải chuyển người xử lý thay vì tự trả lời? Bắt buộc cho High risk package.">?</span></label>
+            <label>⚠️ Quy tắc escalate tới người phụ trách khi không biết trả lời <span class="required">*</span> <span class="badge" style="background:#ef4444; color:#fff; padding:2px 8px; border-radius:6px; font-size:10px; font-weight:600; margin-left:6px;">BẮT BUỘC — HIGH RISK</span> <span class="info-icon" title="Khi nào bot phải chuyển người xử lý thay vì tự trả lời? Bắt buộc cho High risk package.">?</span></label>
             <textarea placeholder="VD: Khi nào bot phải escalate thay vì trả lời?">Exception cá nhân hoặc conflict với manager → escalate tới HR / People Ops để xử lý thủ công.</textarea>
             <div class="field-hint">Biết khi nào phải chuyển người xử lý — không tự ý giải quyết trường hợp ngoại lệ.</div>
           </div>
         </div>
       </div>
 
-      <!-- If Don't Know Rule -->
-      <div class="form-row full">
-        <div class="form-group">
-          <label>Quy tắc khi không biết <span class="required">*</span> <span class="info-icon" title="Khi không có source hoặc câu hỏi ngoài package, bot nói gì? Đây là 'tôi không biết' boundary.">?</span></label>
-          <textarea placeholder="VD: Khi bot không có thông tin để trả lời">Không có source hoặc câu hỏi ngoài package scope → bot nói "Tôi chưa hỗ trợ câu hỏi này, vui lòng liên hệ HR."</textarea>
-          <span class="field-hint">Đặt boundary rõ cho release package — biết khi nào dừng lại quan trọng hơn cố trả lời.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Context summary card -->
-    <div class="form-card" style="background:#f8fafc; border-style:dashed;">
-      <div style="display:flex; align-items:center; gap:12px; font-size:13px; color:#475569;">
-        <span style="font-size:20px;">⚡</span>
-        <div>
-          <strong>Tóm tắt Hành vi</strong><br>
-          <span style="color:#64748b;">Kiểu trả lời: <strong>Recommendation</strong> · Có quy tắc hỏi thêm · Có <strong style="color:#16a34a;">must-include</strong> và <strong style="color:#dc2626;">must-not-include</strong> · ✅ Có escalation rule · Có "không biết" boundary</span>
-        </div>
-      </div>
     </div>
 
     <!-- Action bar -->
     <div class="action-bar">
       <div class="left">
-        <button class="btn btn-outline" onclick="window.location.href='package-scope.html'">◀ Quay lại: Phạm vi</button>
+        <button class="btn btn-outline" onclick="window.location.href='package-scope.html'">◀ Quay lại: Phạm vi câu hỏi</button>
       </div>
       <div class="right">
-        <button class="btn btn-outline">Lưu nháp</button>
         <button class="btn btn-primary" onclick="window.location.href='package-assets.html'">Lưu & Tiếp theo: Tài liệu tham khảo ▶</button>
       </div>
     </div>

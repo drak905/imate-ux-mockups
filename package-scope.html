@@ -151,18 +151,15 @@
       <div class="step" onclick="window.location.href='package-assets.html'" style="cursor:pointer"><span class="num">4</span> Tài liệu tham khảo</div>
     </div>
 
-    <!-- Warning banner: High risk -->
-    <div class="warning-banner">⚠️ Package High risk đang được cấu hình. Cần khai báo ít nhất <strong>2 ngữ cảnh bắt buộc</strong> trước khi chuyển sang bước tiếp theo.</div>
-
     <!-- Section 2: Scope -->
     <div class="form-card">
       <h2>2. Phạm vi câu hỏi</h2>
-      <div class="helper">Xác định ranh giới của package — câu hỏi nào được support, câu hỏi nào không, cho ai, và khi nào cần hỏi thêm thông tin.</div>
+      <div class="helper">Xác định ranh giới của package — chủ đề nào được support, chủ đề nào không, cho ai, và khi nào cần hỏi thêm thông tin.</div>
 
       <!-- Supported User Need -->
       <div class="form-row full">
         <div class="form-group">
-          <label>Nhu cầu người dùng <span class="required">*</span> <span class="info-icon" title="Mô tả ngắn gọn nhu cầu mà package này giải quyết. VD: Nhân viên muốn biết có được WFH khi con ốm không.">?</span></label>
+          <label>Mô tả thông tin <span class="required">*</span> <span class="info-icon" title="Mô tả ngắn gọn nhu cầu mà package này giải quyết. VD: Nhân viên muốn biết có được WFH khi con ốm không.">?</span></label>
           <textarea placeholder="VD: Nhân viên hỏi có thể WFH vì con/người phụ thuộc bị ốm không?" style="min-height:80px;">Nhân viên hỏi có thể WFH vì con/người phụ thuộc bị ốm không.</textarea>
           <span class="field-hint">Mô tả outcome package support, không chỉ keyword</span>
         </div>
@@ -171,7 +168,7 @@
       <!-- Included / Excluded Questions -->
       <div class="form-row">
         <div class="form-group">
-          <label>Câu hỏi thuộc package <span class="info-icon" title="Những câu hỏi mà Bot sẽ trả lời dựa trên package này. Có thể thêm, sửa, xóa từng câu hỏi.">?</span></label>
+          <label>Chủ đề thuộc package <span class="info-icon" title="Những chủ đề mà Bot sẽ trả lời dựa trên package này. Có thể thêm, sửa, xóa từng chủ đề.">?</span></label>
           <div class="crud-list" id="includedList">
             <div class="crud-item" data-id="1">
               <span class="crud-text">WFH tạm thời</span>
@@ -203,14 +200,14 @@
             </div>
           </div>
           <div class="crud-add">
-            <input type="text" id="includedAddInput" placeholder="Nhập câu hỏi mới rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('includedList','includedAddInput');}">
+            <input type="text" id="includedAddInput" placeholder="Nhập chủ đề mới rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('includedList','includedAddInput');}">
             <button class="btn btn-primary btn-sm" onclick="addItem('includedList','includedAddInput')">+ Thêm</button>
           </div>
-          <span class="field-hint">Giúp Bot Owner biết câu hỏi nào thuộc package. Tối đa 50 câu hỏi.</span>
+          <span class="field-hint">Giúp Bot Owner biết chủ đề nào thuộc package. Tối đa 50 chủ đề.</span>
           <span class="counter" id="includedCounter">4 / 50</span>
         </div>
         <div class="form-group">
-          <label>Câu hỏi không thuộc <span class="info-icon" title="Những câu hỏi Bot KHÔNG được trả lời — dù có vẻ liên quan. Đây là boundary quan trọng. Có thể thêm, sửa, xóa từng câu hỏi.">?</span></label>
+          <label>Chủ đề không thuộc package <span class="info-icon" title="Những chủ đề Bot KHÔNG được trả lời — dù có vẻ liên quan. Đây là boundary quan trọng. Có thể thêm, sửa, xóa từng chủ đề.">?</span></label>
           <div class="crud-list" id="excludedList">
             <div class="crud-item" data-id="11">
               <span class="crud-text">Exception cá nhân</span>
@@ -242,10 +239,10 @@
             </div>
           </div>
           <div class="crud-add">
-            <input type="text" id="excludedAddInput" placeholder="Nhập câu hỏi không thuộc rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('excludedList','excludedAddInput');}">
+            <input type="text" id="excludedAddInput" placeholder="Nhập chủ đề không thuộc package rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('excludedList','excludedAddInput');}">
             <button class="btn btn-primary btn-sm" onclick="addItem('excludedList','excludedAddInput')">+ Thêm</button>
           </div>
-          <span class="field-hint">Đặt ranh boundary để bot không over-answer. Tối đa 50 câu hỏi.</span>
+          <span class="field-hint">Đặt ranh boundary để bot không over-answer. Tối đa 50 chủ đề.</span>
           <span class="counter" id="excludedCounter">4 / 50</span>
         </div>
       </div>
@@ -258,57 +255,6 @@
             <label class="checkbox-item"><input type="checkbox" checked disabled> 👤 Toàn bộ nhân viên</label>
           </div>
         </div>
-        <div class="form-group">
-          <label>Ngữ cảnh bắt buộc <span class="required">*</span> <span class="info-icon" title="Thông tin bot cần biết trước khi trả lời. High risk cần ít nhất 2. Có thể thêm, sửa, xóa từng ngữ cảnh.">?</span></label>
-          <div class="crud-list" id="contextList">
-            <div class="crud-item" data-id="21">
-              <span class="crud-text">🏢 Role eligibility</span>
-              <div class="crud-actions">
-                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
-                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
-              </div>
-            </div>
-            <div class="crud-item" data-id="22">
-              <span class="crud-text">📍 Location/local policy</span>
-              <div class="crud-actions">
-                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
-                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
-              </div>
-            </div>
-            <div class="crud-item" data-id="23">
-              <span class="crud-text">✅ Manager approval status</span>
-              <div class="crud-actions">
-                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
-                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
-              </div>
-            </div>
-          </div>
-          <div class="crud-add">
-            <input type="text" id="contextAddInput" placeholder="Nhập ngữ cảnh bắt buộc rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('contextList','contextAddInput');}">
-            <button class="btn btn-primary btn-sm" onclick="addItem('contextList','contextAddInput')">+ Thêm</button>
-          </div>
-          <span class="field-hint" id="contextHint">✅ Đã đạt tối thiểu 2 ngữ cảnh cho High risk</span>
-        </div>
-      </div>
-
-      <!-- Out of Scope Boundary -->
-      <div class="form-row full">
-        <div class="form-group">
-          <label>Giới hạn ngoài phạm vi <span class="required">*</span> <span class="info-icon" title="Khi nào bot nói 'Tôi không hỗ trợ' thay vì cố trả lời? Đây là 'tôi không biết' boundary.">?</span></label>
-          <textarea placeholder="VD: Các trường hợp ngoại lệ hoặc policy không được hỗ trợ" style="min-height:72px;">1.000.000 policy hoặc exception cá nhân: escalate nơi chưa hỗ trợ.</textarea>
-          <span class="field-hint">Tạo "tôi không biết" boundary cho package — biết khi nào dừng lại quan trọng hơn biết khi nào trả lời.</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Context summary card -->
-    <div class="form-card" style="background:#f8fafc; border-style:dashed;">
-      <div style="display:flex; align-items:center; gap:12px; font-size:13px; color:#475569;">
-        <span style="font-size:20px;">📋</span>
-        <div>
-          <strong>Tóm tắt Phạm vi</strong><br>
-          <span style="color:#64748b;">Package hỗ trợ <strong>1 nhu cầu</strong> · <strong>4 câu hỏi</strong> trong scope · <strong>4 câu hỏi</strong> ngoài scope · <strong>1 đối tượng</strong> · <strong>3 ngữ cảnh</strong> bắt buộc</span>
-        </div>
       </div>
     </div>
 
@@ -318,8 +264,7 @@
         <button class="btn btn-outline" onclick="window.location.href='package-create.html'">◀ Quay lại: Định danh</button>
       </div>
       <div class="right">
-        <button class="btn btn-outline">Lưu nháp</button>
-        <button class="btn btn-primary" onclick="window.location.href='package-behavior.html'">Lưu & Tiếp theo: Hành vi ▶</button>
+        <button class="btn btn-primary" onclick="window.location.href='package-behavior.html'">Lưu & Tiếp theo: Phạm vi trả lời ▶</button>
       </div>
     </div>
   </div>
@@ -333,19 +278,6 @@
     const count = list.querySelectorAll('.crud-item').length;
     const counter = list.parentElement.querySelector('.counter');
     if (counter) counter.textContent = count + ' / ' + MAX;
-    if (listId === 'contextList') updateContextHint(count);
-  }
-
-  function updateContextHint(count) {
-    const hint = document.getElementById('contextHint');
-    if (!hint) return;
-    if (count >= 2) {
-      hint.textContent = '✅ Đã đạt tối thiểu 2 ngữ cảnh cho High risk';
-      hint.style.color = '';
-    } else {
-      hint.textContent = '⚠️ Cần ít nhất 2 ngữ cảnh cho High risk (hiện có ' + count + ').';
-      hint.style.color = '#92400e';
-    }
   }
 
   function renderEmpty(list) {
@@ -354,7 +286,7 @@
       if (!existing) {
         const empty = document.createElement('div');
         empty.className = 'crud-empty';
-        empty.textContent = 'Chưa có câu hỏi nào. Thêm câu hỏi đầu tiên bên dưới.';
+        empty.textContent = 'Chưa có chủ đề nào. Thêm chủ đề đầu tiên bên dưới.';
         list.appendChild(empty);
       }
     } else if (existing) {
@@ -368,7 +300,7 @@
     if (!text) return;
     const list = document.getElementById(listId);
     if (list.querySelectorAll('.crud-item').length >= MAX) {
-      alert('Đã đạt tối đa ' + MAX + ' câu hỏi.');
+      alert('Đã đạt tối đa ' + MAX + ' chủ đề.');
       return;
     }
     const empty = list.querySelector('.crud-empty');
@@ -388,7 +320,7 @@
   function deleteItem(btn) {
     const item = btn.closest('.crud-item');
     const list = item.closest('.crud-list');
-    if (!confirm('Xóa câu hỏi này?')) return;
+    if (!confirm('Xóa chủ đề này?')) return;
     item.remove();
     renderEmpty(list);
     updateCounter(list.id);
@@ -417,7 +349,7 @@
     const item = btn.closest('.crud-item');
     const input = item.querySelector('.crud-edit-input');
     const text = input.value.trim();
-    if (!text) { alert('Câu hỏi không được để trống.'); input.focus(); return; }
+    if (!text) { alert('Chủ đề không được để trống.'); input.focus(); return; }
     const textEl = document.createElement('span');
     textEl.className = 'crud-text';
     textEl.textContent = text;
@@ -438,7 +370,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-    ['includedList','excludedList','contextList'].forEach(function(id) {
+    ['includedList','excludedList'].forEach(function(id) {
       const list = document.getElementById(id);
       if (list) { updateCounter(id); renderEmpty(list); }
     });
