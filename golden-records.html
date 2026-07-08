@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Golden Records — Key Screen Mock</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #334155; }
+
+  .app { display: flex; min-height: 100vh; }
+  .sidebar { width: 240px; background: #0f172a; color: #e2e8f0; padding: 20px 0; flex-shrink: 0; }
+  .sidebar-logo { padding: 0 20px 24px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 16px; }
+  .sidebar-item { padding: 10px 20px; font-size: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: #94a3b8; }
+  .sidebar-item:hover { background: rgba(255,255,255,.05); color: #e2e8f0; }
+  .sidebar-item.active { background: rgba(99,102,241,.1); color: #818cf8; border-right: 3px solid #6366f1; }
+
+  .main { flex: 1; padding: 24px 32px; max-width: calc(100vw - 240px); }
+  .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+  .page-header h1 { font-size: 24px; font-weight: 700; color: #0f172a; }
+  .subtitle { font-size: 14px; color: #64748b; margin-top: 4px; }
+
+  .btn { height: 36px; padding: 0 16px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #6366f1; color: #fff; }
+  .btn-primary:hover { background: #4f46e5; }
+  .btn-outline { background: #fff; color: #334155; border: 1px solid #e2e8f0; }
+  .btn-outline:hover { background: #f8fafc; }
+  .btn-soft { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+  .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; }
+  .btn-danger { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+  .info-note { padding: 12px 16px; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 8px; font-size: 13px; color: #4338ca; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .stat-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; }
+  .stat-label { font-size: 12px; color: #64748b; margin-bottom: 6px; }
+  .stat-value { font-size: 24px; font-weight: 700; color: #0f172a; }
+  .stat-hint { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+
+  .content-grid { display: grid; grid-template-columns: 1.4fr .8fr; gap: 20px; align-items: start; }
+  .panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+  .panel-header { padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .panel-title { font-size: 16px; font-weight: 700; color: #0f172a; }
+  .panel-subtitle { font-size: 12px; color: #64748b; margin-top: 3px; }
+  .panel-body { padding: 16px; }
+
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .filter-select, .search-input { height: 36px; padding: 0 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; background: #fff; color: #334155; }
+  .search-input { min-width: 240px; }
+  .filter-select:focus, .search-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
+
+  .candidate-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 12px; background: #fff; }
+  .candidate-card.needs-fix { border-color: #fde68a; background: #fffbeb; }
+  .candidate-card.out-of-scope { border-color: #fecaca; background: #fef2f2; }
+  .candidate-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .candidate-title { font-size: 14px; font-weight: 600; color: #0f172a; }
+  .candidate-meta { font-size: 11px; color: #64748b; margin-top: 3px; }
+  .candidate-text { font-size: 13px; line-height: 1.45; color: #334155; margin-top: 8px; }
+  .answer-preview { border-left: 3px solid #c7d2fe; padding-left: 10px; color: #475569; }
+  .candidate-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 8px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .badge-good { background: #dcfce7; color: #15803d; }
+  .badge-fix { background: #fef3c7; color: #b45309; }
+  .badge-boundary { background: #fee2e2; color: #b91c1c; }
+  .badge-new { background: #eef2ff; color: #4338ca; }
+  .badge-gray { background: #f1f5f9; color: #64748b; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; }
+  td { padding: 12px; font-size: 13px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  .record-title { font-weight: 600; color: #0f172a; }
+  .record-meta { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+  .rerun-list { display: flex; flex-direction: column; gap: 10px; }
+  .rerun-item { padding: 12px; border: 1px solid #fde68a; background: #fffbeb; border-radius: 10px; font-size: 13px; }
+  .rerun-item strong { color: #92400e; }
+  .empty-note { padding: 18px; text-align: center; color: #64748b; font-size: 13px; border: 1px dashed #cbd5e1; border-radius: 12px; background: #f8fafc; }
+
+  .drawer-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,.18); display: none; justify-content: flex-end; }
+  .drawer-backdrop.open { display: flex; }
+  .drawer { width: 520px; height: 100vh; background: #fff; border-left: 1px solid #e2e8f0; box-shadow: -12px 0 32px rgba(15,23,42,.12); padding: 20px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+  .drawer-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .drawer-title { font-size: 18px; font-weight: 700; color: #0f172a; }
+  .drawer-meta { font-size: 12px; color: #64748b; margin-top: 4px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 13px; font-weight: 600; color: #334155; }
+  .form-group textarea, .form-group input, .form-group select { border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 13px; font-family: inherit; color: #334155; }
+  .form-group textarea { min-height: 86px; resize: vertical; }
+  .helper { font-size: 12px; color: #64748b; }
+  .drawer-footer { position: sticky; bottom: -20px; margin: 4px -20px -20px; padding: 14px 20px; background: #fff; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 8px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="sidebar">
+    <div class="sidebar-logo">🧩 Knowledge Core</div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-item">📊 Dashboard</li>
+      <li class="sidebar-item" onclick="window.location.href='package-list.html'">🧩 Intent Packages</li>
+      <li class="sidebar-item" onclick="window.location.href='readiness-gate.html'">🛡️ Readiness Gate</li>
+      <li class="sidebar-item active" onclick="window.location.href='golden-records.html'">📖 Golden Records</li>
+      <li class="sidebar-item" onclick="window.location.href='question-import.html'">🧪 Test Suites</li>
+      <li class="sidebar-item">⚙️ Settings</li>
+    </ul>
+  </div>
+
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>📖 Golden Records</h1>
+        <div class="subtitle">Duyệt Golden Records và gửi hội thoại thật vào Question Bank trước khi thành Test Suite evidence</div>
+      </div>
+      <button class="btn btn-primary">＋ New Golden Record</button>
+    </div>
+
+    <div class="info-note">
+      💡 <span><strong>Human approval only:</strong> Hội thoại thật không bao giờ tự động thành Golden Record. Bot Owner phải duyệt, chỉnh canonical question và approved answer trước khi promote.</span>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card"><div class="stat-label">Approved Records</div><div class="stat-value">42</div><div class="stat-hint">Golden + Boundary đã duyệt</div></div>
+      <div class="stat-card"><div class="stat-label">Golden Candidates</div><div class="stat-value">7</div><div class="stat-hint">Cần Bot Owner review</div></div>
+      <div class="stat-card"><div class="stat-label">Needs Re-run</div><div class="stat-value">3</div><div class="stat-hint">Package có Golden/Test thay đổi</div></div>
+      <div class="stat-card"><div class="stat-label">Boundary Records</div><div class="stat-value">11</div><div class="stat-hint">Kịch bản từ chối/escalate</div></div>
+    </div>
+
+    <div class="content-grid">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Golden Candidates</div>
+            <div class="panel-subtitle">Hội thoại thật chờ duyệt để làm giàu Golden Dataset và Test Suite</div>
+          </div>
+          <button class="btn btn-sm btn-outline">↻ Refresh</button>
+        </div>
+        <div class="panel-body">
+          <div class="toolbar">
+            <input class="search-input" value="Tìm câu hỏi, package, source..." aria-label="Tìm Golden Candidates">
+            <select class="filter-select"><option>Tất cả types</option><option>Good Answer</option><option>Needs Fix</option><option>Out of Scope</option><option>New Question</option></select>
+            <select class="filter-select"><option>Tất cả packages</option><option>WFH Dependent Care</option><option>Payroll Slip</option><option>Training Budget</option></select>
+          </div>
+
+          <article class="candidate-card needs-fix">
+            <div class="candidate-top">
+              <div>
+                <div class="candidate-title">Manager chưa duyệt nhưng tôi vẫn muốn WFH, bot xác nhận giúp tôi được không?</div>
+                <div class="candidate-meta">WFH Dependent Care · HR Assistant · 06/07/2026 09:42 · từ failed Boundary test</div>
+              </div>
+              <span class="badge badge-fix">⚠️ Needs Fix</span>
+            </div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Bạn có thể WFH khi cần chăm sóc con bị sốt nếu vai trò của bạn đủ điều kiện WFH. Bạn nên thông báo cho quản lý và cập nhật lý do trên hệ thống. Trường hợp này có thể được xem xét theo chính sách WFH Dependent Care.” — thiếu điều kiện manager approval.</div>
+            <div class="candidate-actions">
+              <button class="btn btn-sm btn-primary js-open-promote">Promote to Golden</button>
+              <button class="btn btn-sm btn-outline js-open-promote">Promote to Question Bank</button>
+              <button class="btn btn-sm btn-outline">Needs Edit</button>
+              <button class="btn btn-sm btn-danger">Dismiss</button>
+            </div>
+          </article>
+
+          <article class="candidate-card">
+            <div class="candidate-top">
+              <div>
+                <div class="candidate-title">Ngân sách training có được chuyển sang khóa học online không?</div>
+                <div class="candidate-meta">Training Budget · OE Bot · 06/07/2026 11:18 · user thumbs up</div>
+              </div>
+              <span class="badge badge-good">✅ Good Answer</span>
+            </div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Có. Ngân sách training có thể được dùng cho khóa học online nếu khóa học liên quan trực tiếp đến năng lực công việc, còn ngân sách trong kỳ, và được manager phê duyệt trước khi đăng ký. Vui lòng tham chiếu Training Budget Policy v2026.07.”</div>
+            <div class="candidate-actions">
+              <button class="btn btn-sm btn-primary js-open-promote">Promote to Golden</button>
+              <button class="btn btn-sm btn-outline js-open-promote">Promote to Question Bank</button>
+              <button class="btn btn-sm btn-danger">Dismiss</button>
+            </div>
+          </article>
+
+          <article class="candidate-card out-of-scope">
+            <div class="candidate-top">
+              <div>
+                <div class="candidate-title">Chính sách WFH này áp dụng cho vendor bên ngoài không?</div>
+                <div class="candidate-meta">WFH Dependent Care · HR Assistant · 05/07/2026 15:05 · low confidence fallback</div>
+              </div>
+              <span class="badge badge-boundary">🧱 Out of Scope</span>
+            </div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Chính sách WFH thường áp dụng cho nhân viên nội bộ. Với vendor bên ngoài, bạn nên kiểm tra thêm với HR hoặc người phụ trách hợp đồng để xác nhận phạm vi áp dụng.” — chưa từ chối rõ ràng theo boundary vendor policy.</div>
+            <div class="candidate-actions">
+              <button class="btn btn-sm btn-outline js-open-promote">Promote to Question Bank</button>
+              <button class="btn btn-sm btn-outline js-open-promote">Promote Boundary Record</button>
+              <button class="btn btn-sm btn-danger">Dismiss</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Approved Records</div>
+            <div class="panel-subtitle">Nguồn chuẩn đã duyệt cho package</div>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Record</th><th>Type</th><th>Package</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="record-title">WFH khi con bị ốm</div><div class="record-meta">v3 · reviewed by Nguyen Van A</div></td>
+              <td><span class="badge badge-good">Golden</span></td>
+              <td>WFH</td>
+            </tr>
+            <tr>
+              <td><div class="record-title">Không có approval</div><div class="record-meta">v2 · escalation required</div></td>
+              <td><span class="badge badge-boundary">Boundary</span></td>
+              <td>WFH</td>
+            </tr>
+            <tr>
+              <td><div class="record-title">Training online</div><div class="record-meta">v1 · source v2026.07</div></td>
+              <td><span class="badge badge-good">Golden</span></td>
+              <td>Training</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="panel-body">
+          <div class="panel-title" style="font-size:14px; margin-bottom:10px;">Packages cần re-run</div>
+          <div class="rerun-list">
+            <div class="rerun-item"><strong>WFH Dependent Care</strong><br>Boundary candidate đã vào Question Bank; cần Builder tạo suite mới rồi re-run.</div>
+            <div class="rerun-item"><strong>Training Budget</strong><br>Golden Record mới được approve từ hội thoại thật.</div>
+            <div class="rerun-item"><strong>Payroll Slip</strong><br>Candidate Needs Fix đã chuyển thành Question Bank item, chưa tự vào Test Suite.</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<div class="drawer-backdrop" id="promoteDrawer">
+  <aside class="drawer" aria-label="Promote Golden Candidate drawer">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title">✨ Promote Candidate</div>
+        <div class="drawer-meta">WFH Dependent Care · source conversation #HR-2048</div>
+      </div>
+      <button class="btn btn-sm btn-outline js-close-promote">×</button>
+    </div>
+
+    <div class="form-group">
+      <label for="destination">Promote thành</label>
+      <select id="destination">
+        <option>Question Bank · Boundary</option>
+        <option>Golden Record</option>
+        <option>Question Bank · Standard</option>
+      </select>
+      <div class="helper">Guardrail: candidate không đi thẳng vào Test Suite; phải đủ chuẩn trong Question Bank trước.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="canonical-question">Canonical question</label>
+      <textarea id="canonical-question">Nếu chưa có manager approval thì nhân viên có được WFH vì con bị ốm không?</textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="approved-answer">Approved answer / Expected behavior</label>
+      <textarea id="approved-answer">Bot không được xác nhận thay manager. Bot phải yêu cầu nhân viên xin manager approval hoặc escalate tới People Ops nếu là ngoại lệ cá nhân.</textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="source">Expected source</label>
+      <input id="source" value="WFH Policy v2026.07 · section Manager Approval">
+    </div>
+
+    <div class="form-group">
+      <label for="severity">Severity</label>
+      <select id="severity">
+        <option>Medium</option>
+        <option>High</option>
+        <option>Low</option>
+      </select>
+    </div>
+
+    <div class="info-note" style="margin-bottom:0;">
+      Sau khi lưu vào Question Bank, package chuyển <strong>Needs Re-run</strong>; snapshot Test Suite cũ không đổi.
+    </div>
+
+    <div class="drawer-footer">
+      <button class="btn btn-outline js-close-promote">Cancel</button>
+      <button class="btn btn-primary">Save to Question Bank & Mark Needs Re-run</button>
+    </div>
+  </aside>
+</div>
+
+<script>
+  const promoteDrawer = document.getElementById('promoteDrawer');
+
+  document.querySelectorAll('.js-open-promote').forEach((button) => {
+    button.addEventListener('click', () => promoteDrawer.classList.add('open'));
+  });
+
+  document.querySelectorAll('.js-close-promote').forEach((button) => {
+    button.addEventListener('click', () => promoteDrawer.classList.remove('open'));
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Question Bank — Clean Data MVP Mock</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #334155; }
+  .app { display: flex; min-height: 100vh; }
+  .sidebar { width: 240px; background: #0f172a; color: #e2e8f0; padding: 20px 0; flex-shrink: 0; }
+  .sidebar-logo { padding: 0 20px 24px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 16px; }
+  .sidebar-nav { list-style: none; }
+  .sidebar-item { padding: 10px 20px; font-size: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: #94a3b8; }
+  .sidebar-item:hover { background: rgba(255,255,255,.05); color: #e2e8f0; }
+  .sidebar-item.active { background: rgba(99,102,241,.1); color: #818cf8; border-right: 3px solid #6366f1; }
+  .main { flex: 1; padding: 24px 32px; max-width: calc(100vw - 240px); }
+  .page-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
+  .page-header h1 { font-size: 24px; font-weight: 700; color: #0f172a; }
+  .subtitle { font-size: 14px; color: #64748b; margin-top: 4px; }
+  .header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn { height: 36px; padding: 0 16px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+  .btn-primary { background: #6366f1; color: #fff; }
+  .btn-primary:hover { background: #4f46e5; }
+  .btn-outline { background: #fff; color: #334155; border: 1px solid #e2e8f0; }
+  .btn-outline:hover { background: #f8fafc; }
+  .btn-soft { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+  .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; }
+  .tabs { display: flex; border-bottom: 1px solid #e2e8f0; margin-bottom: 18px; }
+  .tab { padding: 10px 18px; font-size: 14px; font-weight: 500; color: #64748b; border-bottom: 2px solid transparent; text-decoration: none; }
+  .tab.active { color: #6366f1; border-bottom-color: #6366f1; }
+  .note { padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 18px; display: flex; align-items: flex-start; gap: 8px; }
+  .note.ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
+  .note.warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 18px; }
+  .stat-card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 16px; }
+  .stat-label { font-size: 12px; color: #64748b; margin-bottom: 6px; }
+  .stat-value { font-size: 24px; font-weight: 700; color: #0f172a; }
+  .stat-hint { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+  .filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+  .chip { min-height: 30px; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; border: 1px solid #e2e8f0; background: #fff; color: #64748b; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+  .chip.active { background: #eef2ff; border-color: #6366f1; color: #4338ca; }
+  .chip.ok { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+  .search-input, .filter-select { height: 36px; padding: 0 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; background: #fff; color: #334155; }
+  .search-input { min-width: 300px; margin-right: auto; }
+  .search-input:focus, .filter-select:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
+  .table-wrap { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 980px; }
+  th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; white-space: nowrap; }
+  td { padding: 12px; font-size: 13px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+  th:first-child, td:first-child { position: sticky; left: 0; background: inherit; z-index: 1; }
+  th:first-child { background: #f8fafc; z-index: 2; }
+  .q-title { font-weight: 600; color: #0f172a; max-width: 380px; }
+  .q-meta { font-size: 11px; color: #94a3b8; margin-top: 3px; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; min-height: 22px; padding: 3px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .badge-ready { background: #dcfce7; color: #15803d; }
+  .badge-suite { background: #eef2ff; color: #4338ca; }
+  .badge-blue { background: #eef2ff; color: #4338ca; }
+  .badge-purple { background: #faf5ff; color: #7e22ce; }
+  .risk-high { color: #dc2626; font-weight: 600; }
+  .risk-medium { color: #d97706; font-weight: 600; }
+  .source-cell { max-width: 220px; color: #475569; }
+  .empty-state { margin-top: 16px; padding: 18px; border: 1px dashed #cbd5e1; border-radius: 12px; background: #fff; text-align: center; color: #64748b; font-size: 13px; }
+  .drawer-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,.18); display: none; justify-content: flex-end; z-index: 10; }
+  .drawer-backdrop.open { display: flex; }
+  .drawer { width: 560px; max-width: 100vw; height: 100vh; background: #fff; border-left: 1px solid #e2e8f0; box-shadow: -12px 0 32px rgba(15,23,42,.12); padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; }
+  .drawer-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .drawer-title { font-size: 18px; font-weight: 700; color: #0f172a; }
+  .drawer-meta { font-size: 12px; color: #64748b; margin-top: 4px; }
+  .section-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; background: #fff; }
+  .section-title { font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 10px; }
+  .detail-grid { display: grid; grid-template-columns: 140px 1fr; gap: 8px 12px; font-size: 13px; }
+  .detail-label { color: #64748b; }
+  .detail-value { color: #0f172a; font-weight: 500; }
+  .audit-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; font-size: 13px; }
+  .audit-item { padding: 10px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; }
+  .audit-label { font-size: 11px; color: #64748b; margin-bottom: 3px; }
+  .drawer-footer { position: sticky; bottom: -20px; margin: 4px -20px -20px; padding: 14px 20px; background: #fff; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 8px; }
+  @media (max-width: 900px) { .app { display: block; } .sidebar { width: 100%; } .main { max-width: none; padding: 18px; } .stats, .audit-grid { grid-template-columns: 1fr; } .search-input { min-width: 100%; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-logo">🧩 Knowledge Core</div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-item">📊 Dashboard</li>
+      <li class="sidebar-item" onclick="window.location.href='package-list.html'">🧩 Intent Packages</li>
+      <li class="sidebar-item" onclick="window.location.href='readiness-gate.html'">🛡️ Readiness Gate</li>
+      <li class="sidebar-item" onclick="window.location.href='golden-records.html'">📖 Golden Records</li>
+      <li class="sidebar-item active" onclick="window.location.href='question-import.html'">🧪 Test Suites</li>
+      <li class="sidebar-item">⚙️ Settings</li>
+    </ul>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>🧪 Bộ câu hỏi kiểm chứng</h1>
+        <div class="subtitle">Chỉ chứa câu hỏi đã pass Import Gate và sẵn sàng đưa vào Test Suite.</div>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-primary" href="question-import.html">📥 Nhập bộ câu hỏi</a>
+        <a class="btn btn-outline" href="test-suite-builder.html">🧱 Mở Builder</a>
+      </div>
+    </div>
+
+    <nav class="tabs" aria-label="Test Suites tabs">
+      <a class="tab" href="question-import.html">Import Questions</a>
+      <a class="tab active" href="question-bank.html">Question Bank</a>
+      <a class="tab" href="test-suite-builder.html">Test Suite Builder</a>
+      <a class="tab" href="#">Test Run</a>
+    </nav>
+
+    <div class="note ok">✅ <span><strong>Clean Bank rule:</strong> dòng import lỗi không được lưu vào Question Bank. Nếu file có lỗi blocking, hệ thống trả file Excel lỗi để Bot Owner/QA sửa offline và upload lại.</span></div>
+
+    <section class="stats" aria-label="Question Bank summary">
+      <div class="stat-card"><div class="stat-label">Câu hỏi sạch</div><div class="stat-value">96</div><div class="stat-hint">Đã pass Import Gate</div></div>
+      <div class="stat-card"><div class="stat-label">Sẵn sàng đưa vào suite</div><div class="stat-value">43</div><div class="stat-hint">Chưa nằm trong snapshot</div></div>
+      <div class="stat-card"><div class="stat-label">Trong suite</div><div class="stat-value">53</div><div class="stat-hint">Snapshot hiện tại không đổi</div></div>
+      <div class="stat-card"><div class="stat-label">Import lỗi gần nhất</div><div class="stat-value">12</div><div class="stat-hint">Không commit · tải Excel lỗi ở Import</div></div>
+    </section>
+
+    <div class="filters" aria-label="Question filters">
+      <button class="chip active">Tất cả <strong>96</strong></button>
+      <button class="chip ok">✅ Sẵn sàng đưa vào suite <strong>43</strong></button>
+      <button class="chip">🧪 Trong suite <strong>53</strong></button>
+      <button class="chip">○ Lưu trữ <strong>8</strong></button>
+    </div>
+
+    <div class="toolbar">
+      <input class="search-input" value="Tìm câu hỏi, nguồn, package..." aria-label="Tìm câu hỏi">
+      <select class="filter-select"><option>Package: WFH Dependent Care</option><option>Tất cả packages</option><option>Training Budget</option></select>
+      <select class="filter-select"><option>Tất cả loại câu</option><option>Standard</option><option>Boundary</option><option>Critical</option><option>Source</option></select>
+      <select class="filter-select"><option>Tất cả rủi ro</option><option>🔴 High</option><option>🟡 Medium</option><option>🟢 Low</option></select>
+    </div>
+
+    <section class="table-wrap" aria-label="Question Bank table">
+      <table>
+        <thead>
+          <tr>
+            <th>Câu hỏi</th><th>Package</th><th>Loại câu</th><th>Rủi ro</th><th>Trạng thái</th><th>Nguồn đúng</th><th>Batch import</th><th>Cập nhật</th><th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="q-title">Bot phải nói gì khi chính sách WFH không có nguồn hiệu lực?</div><div class="q-meta">Golden Candidate promoted · reviewed by Nguyen Van A</div></td>
+            <td>WFH Dependent Care</td><td><span class="badge badge-purple">Critical</span></td><td><span class="risk-high">🔴 High</span></td>
+            <td><span class="badge badge-suite">🧪 Trong suite v3</span></td><td class="source-cell">WFH Policy v2026.07 §Citation</td><td>GOLDEN-2048</td><td>06/07/2026</td>
+            <td><button class="btn btn-sm btn-outline js-open-drawer">Xem</button></td>
+          </tr>
+          <tr>
+            <td><div class="q-title">Nếu chưa có manager approval thì bot phải phản hồi thế nào?</div><div class="q-meta">Imported từ faq-wfh-v2026-fixed.xlsx · row 18</div></td>
+            <td>WFH Dependent Care</td><td><span class="badge badge-blue">Boundary</span></td><td><span class="risk-high">🔴 High</span></td>
+            <td><span class="badge badge-ready">✅ Sẵn sàng</span></td><td class="source-cell">WFH Policy v2026.07 §Manager Approval</td><td>IMP-20260707-02</td><td>07/07/2026</td>
+            <td><button class="btn btn-sm btn-outline js-open-drawer">Xem</button></td>
+          </tr>
+          <tr>
+            <td><div class="q-title">Nhân viên WFH khi con bị sốt cần điều kiện nào?</div><div class="q-meta">Imported từ faq-wfh-v2026-fixed.xlsx · row 24</div></td>
+            <td>WFH Dependent Care</td><td><span class="badge badge-blue">Standard</span></td><td><span class="risk-medium">🟡 Medium</span></td>
+            <td><span class="badge badge-ready">✅ Sẵn sàng</span></td><td class="source-cell">WFH Policy v2026.07 §2.1</td><td>IMP-20260707-02</td><td>07/07/2026</td>
+            <td><button class="btn btn-sm btn-outline js-open-drawer">Xem</button></td>
+          </tr>
+          <tr>
+            <td><div class="q-title">Vendor bên ngoài có áp dụng chính sách WFH nội bộ không?</div><div class="q-meta">Boundary record · approved by Bot Owner</div></td>
+            <td>WFH Dependent Care</td><td><span class="badge badge-blue">Boundary</span></td><td><span class="risk-medium">🟡 Medium</span></td>
+            <td><span class="badge badge-suite">🧪 Trong suite v3</span></td><td class="source-cell">Vendor Contract Policy §Scope</td><td>MANUAL-118</td><td>05/07/2026</td>
+            <td><button class="btn btn-sm btn-outline js-open-drawer">Xem</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="empty-state">Không thấy câu lỗi ở đây? Đúng thiết kế: dòng lỗi chỉ xuất hiện trong <strong>Import Questions</strong> để tải Excel lỗi, sửa offline và upload lại.</div>
+  </main>
+</div>
+
+<div class="drawer-backdrop" id="questionDrawer">
+  <aside class="drawer" role="dialog" aria-labelledby="drawerTitle">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title" id="drawerTitle">Chi tiết câu hỏi sạch</div>
+        <div class="drawer-meta">WFH Dependent Care · Ready · source verified</div>
+      </div>
+      <button class="btn btn-sm btn-outline js-close-drawer" aria-label="Đóng drawer">×</button>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Nội dung đã pass validation</div>
+      <div class="detail-grid">
+        <div class="detail-label">Câu hỏi</div><div class="detail-value">Nếu chưa có manager approval thì bot phải phản hồi thế nào?</div>
+        <div class="detail-label">Bot cần làm gì?</div><div class="detail-value">Không xác nhận thay manager; yêu cầu approval hoặc escalate People Ops.</div>
+        <div class="detail-label">Loại câu</div><div class="detail-value">Boundary</div>
+        <div class="detail-label">Rủi ro</div><div class="detail-value">🔴 High</div>
+        <div class="detail-label">Nguồn đúng</div><div class="detail-value">WFH Policy v2026.07 §Manager Approval</div>
+        <div class="detail-label">Trạng thái</div><div class="detail-value">✅ Sẵn sàng đưa vào suite</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-title">Import audit</div>
+      <div class="audit-grid">
+        <div class="audit-item"><div class="audit-label">Batch</div>IMP-20260707-02</div>
+        <div class="audit-item"><div class="audit-label">File</div>faq-wfh-v2026-fixed.xlsx</div>
+        <div class="audit-item"><div class="audit-label">Người import</div>Nguyen Van A</div>
+        <div class="audit-item"><div class="audit-label">Validation</div>Pass all · 53/53 committed</div>
+      </div>
+    </div>
+
+    <div class="note warn" style="margin-bottom:0;">⚠️ <span>Nếu sửa câu hỏi đang nằm trong suite, suite mới sẽ cần re-run; snapshot cũ không đổi.</span></div>
+
+    <div class="drawer-footer">
+      <button class="btn btn-outline js-close-drawer">Đóng</button>
+      <button class="btn btn-soft">Lưu trữ</button>
+      <button class="btn btn-primary">Đưa vào Builder</button>
+    </div>
+  </aside>
+</div>
+
+<script>
+  const drawer = document.getElementById('questionDrawer');
+  document.querySelectorAll('.js-open-drawer').forEach((button) => button.addEventListener('click', () => drawer.classList.add('open')));
+  document.querySelectorAll('.js-close-drawer').forEach((button) => button.addEventListener('click', () => drawer.classList.remove('open')));
+</script>
+</body>
+</html>

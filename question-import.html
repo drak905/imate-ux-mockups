@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Import Questions — All-or-Nothing MVP Mock</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #334155; }
+  .app { display: flex; min-height: 100vh; }
+  .sidebar { width: 240px; background: #0f172a; color: #e2e8f0; padding: 20px 0; flex-shrink: 0; }
+  .sidebar-logo { padding: 0 20px 24px; font-size: 18px; font-weight: 700; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 16px; }
+  .sidebar-item { padding: 10px 20px; font-size: 14px; display: flex; gap: 10px; cursor: pointer; color: #94a3b8; }
+  .sidebar-item.active { background: rgba(99,102,241,.1); color: #818cf8; border-right: 3px solid #6366f1; }
+  .main { flex: 1; padding: 24px 32px; max-width: calc(100vw - 240px); }
+  .page-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
+  h1 { font-size: 24px; color: #0f172a; }
+  .subtitle { font-size: 14px; color: #64748b; margin-top: 4px; }
+  .btn { height: 36px; padding: 0 16px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; display: inline-flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+  .btn-primary { background: #6366f1; color: #fff; }
+  .btn-outline { background: #fff; color: #334155; border: 1px solid #e2e8f0; }
+  .btn-soft { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+  .btn-danger { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+  .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; }
+  .tabs { display: flex; border-bottom: 1px solid #e2e8f0; margin-bottom: 18px; }
+  .tab { padding: 10px 18px; font-size: 14px; font-weight: 500; color: #64748b; border-bottom: 2px solid transparent; text-decoration: none; }
+  .tab.active { color: #6366f1; border-bottom-color: #6366f1; }
+  .stepper { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 18px; }
+  .step { padding: 12px; border: 1px solid #e2e8f0; background: #fff; border-radius: 10px; font-size: 13px; font-weight: 600; color: #64748b; cursor: pointer; text-align: left; }
+  .step.done { border-color: #bbf7d0; background: #f0fdf4; color: #15803d; }
+  .step.active { border-color: #6366f1; background: #eef2ff; color: #4338ca; }
+  .step:disabled { cursor: not-allowed; opacity: .5; }
+  .step-panel[hidden] { display: none; }
+  .grid { display: grid; grid-template-columns: 1fr; gap: 18px; align-items: start; }
+  .panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+  .panel-header { padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .panel-title { font-size: 16px; font-weight: 700; color: #0f172a; }
+  .panel-subtitle { font-size: 12px; color: #64748b; margin-top: 3px; }
+  .panel-body { padding: 16px; }
+  .dropzone { border: 2px dashed #cbd5e1; border-radius: 14px; background: #f8fafc; padding: 26px; text-align: center; }
+  .hint { font-size: 13px; color: #64748b; margin: 8px 0 14px; }
+  .form-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 14px; }
+  label { font-size: 13px; font-weight: 600; color: #334155; display: block; margin-bottom: 6px; }
+  select, input { height: 36px; width: 100%; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0 10px; font-size: 13px; background: #fff; color: #334155; }
+  .field-note { min-height: 36px; display: flex; align-items: center; font-size: 13px; line-height: 1.4; color: #64748b; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; min-height: 22px; padding: 3px 8px; border-radius: 8px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .badge-ready { background: #dcfce7; color: #15803d; }
+  .badge-warn { background: #fef3c7; color: #b45309; }
+  .badge-danger { background: #fee2e2; color: #b91c1c; }
+  .badge-blue { background: #eef2ff; color: #4338ca; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
+  td { padding: 10px 12px; font-size: 13px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  .error-row td { background: #fff7f7; }
+  .pass-row td { background: #f8fff9; }
+  .summary { display: grid; gap: 8px; font-size: 13px; }
+  .summary-item { display: flex; justify-content: space-between; gap: 10px; padding: 10px; border-radius: 10px; background: #f8fafc; }
+  .summary-item strong { color: #0f172a; }
+  .note { padding: 12px 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 8px; }
+  .note.danger { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+  .note.ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
+  .action-bar { position: sticky; bottom: 0; z-index: 5; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px; display: flex; justify-content: flex-end; gap: 8px; box-shadow: 0 -4px 18px rgba(15,23,42,.06); }
+  @media (max-width: 980px) { .app { display: block; } .sidebar { width: 100%; } .main { max-width: none; padding: 18px; } .grid, .form-grid, .stepper { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-logo">🧩 Knowledge Core</div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-item">📊 Dashboard</li>
+      <li class="sidebar-item" onclick="window.location.href='package-list.html'">🧩 Intent Packages</li>
+      <li class="sidebar-item" onclick="window.location.href='readiness-gate.html'">🛡️ Readiness Gate</li>
+      <li class="sidebar-item" onclick="window.location.href='golden-records.html'">📖 Golden Records</li>
+      <li class="sidebar-item active" onclick="window.location.href='question-import.html'">🧪 Test Suites</li>
+      <li class="sidebar-item">⚙️ Settings</li>
+    </ul>
+  </aside>
+
+  <main class="main">
+    <div class="page-header">
+      <div><h1>📥 Nhập bộ câu hỏi</h1><div class="subtitle">Import Gate chặn lỗi trước khi dữ liệu vào Question Bank.</div></div>
+      <a class="btn btn-outline" href="question-bank.html">← Quay lại Question Bank</a>
+    </div>
+
+    <nav class="tabs" aria-label="Test Suites tabs">
+      <a class="tab active" href="question-import.html">Import Questions</a><a class="tab" href="question-bank.html">Question Bank</a><a class="tab" href="test-suite-builder.html">Test Suite Builder</a><a class="tab" href="#">Test Run</a>
+    </nav>
+
+    <div class="stepper" aria-label="Import steps">
+      <button class="step active" type="button" data-step="1" data-title="Tải lên bộ câu hỏi" aria-current="step">● 1. Tải lên bộ câu hỏi</button><button class="step" type="button" data-step="2" data-title="Kiểm tra lỗi upload" disabled>2. Kiểm tra lỗi upload</button><button class="step" type="button" data-step="3" data-title="Upload thành công" disabled>3. Upload thành công</button>
+    </div>
+
+    <div class="grid">
+      <div>
+        <section class="panel step-panel" data-step-panel="1">
+          <div class="panel-header"><div><div class="panel-title">1. Tải lên bộ câu hỏi</div><div class="panel-subtitle">Hỗ trợ .xlsx/.csv, không macro. Tối đa 1.000 dòng/lần nhập.</div></div><span class="badge badge-ready">Đã chọn faq-wfh-v2026.xlsx</span></div>
+          <div class="panel-body">
+            <div class="dropzone">
+              <strong>Kéo thả file Excel/CSV vào đây</strong>
+              <div class="hint">File lỗi sẽ không commit vào Question Bank. User sửa offline rồi upload lại.</div>
+              <button class="btn btn-outline">Tải template mẫu</button> <button class="btn btn-danger" type="button" onclick="finishUpload('error')">Upload file có lỗi</button> <button class="btn btn-primary" type="button" onclick="finishUpload('success')">Upload file hợp lệ</button>
+            </div>
+            <div class="form-grid">
+              <div><label>Dùng để test package</label><select><option>IP-HR-WFH-DEPENDENT-CARE · High Risk</option></select></div>
+              <div><label>Sheet</label><div class="field-note">Chỉ hỗ trợ đọc dữ liệu trong Sheet đầu tiên của file</div></div>
+              <div><label>Encoding CSV</label><div class="field-note">Chỉ hỗ trợ UTF-8, không phải UTF-8 sẽ lỗi khi đọc dữ liệu tiếng việt</div></div>
+              <div><label>Import rows</label><div class="field-note">Hệ thống sẽ đọc toàn bộ dòng trong sheet, kể cả những dòng đã ẩn</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel step-panel" data-step-panel="2" hidden>
+          <div class="panel-header"><div><div class="panel-title">2. Kiểm tra lỗi upload — all-or-nothing</div><div class="panel-subtitle">Nếu còn lỗi blocking, toàn bộ batch không commit. Không sửa inline trong MVP.</div></div><span class="badge badge-danger">Batch chưa thể import</span></div>
+          <div class="panel-body">
+            <div class="note danger">⛔ <span><strong>Không thể import batch này.</strong> 12 dòng lỗi sẽ được ghi vào Excel lỗi. Sửa offline rồi upload lại; Question Bank không nhận dữ liệu bẩn.</span></div>
+            <table>
+              <thead><tr><th>Dòng</th><th>Field</th><th>Giá trị hiện tại</th><th>Lý do lỗi</th><th>Gợi ý sửa</th></tr></thead>
+              <tbody>
+                <tr class="error-row"><td>#18</td><td>package_id</td><td>IP-HR-WFH-OTHER</td><td>Package không thuộc tenant</td><td>Chọn package thuộc People Operations</td></tr>
+                <tr class="error-row"><td>#27</td><td>question</td><td>WFH dependent care</td><td>Duplicate với QB-123</td><td>Sửa câu hoặc đánh dấu variant trong template</td></tr>
+                <tr class="error-row"><td>#44</td><td>expected_source</td><td>WFH Policy</td><td>High-risk cần nguồn rõ</td><td>Điền policy version + section</td></tr>
+              </tbody>
+            </table>
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;"><button class="btn btn-danger">Tải file lỗi Excel</button><button class="btn btn-outline" type="button" onclick="finishUpload('success')">Upload lại file đã sửa</button></div>
+          </div>
+        </section>
+
+        <section class="panel step-panel" data-step-panel="3" hidden>
+          <div class="panel-header"><div><div class="panel-title">3. Upload thành công — batch sạch</div><div class="panel-subtitle">Khi batch sạch, Import pass = Ready Questions. Builder không verify lại từng dòng.</div></div><span class="badge badge-ready">53/53 ready</span></div>
+          <div class="panel-body">
+            <div class="note ok">✅ <span>Tất cả dòng đã pass validation. Có thể commit vào Question Bank hoặc mở Builder để chọn scope + review coverage.</span></div>
+            <table>
+              <thead><tr><th>Nhóm câu</th><th>Số dòng</th><th>Trạng thái sau commit</th></tr></thead>
+              <tbody><tr class="pass-row"><td>Standard</td><td>42</td><td>Ready</td></tr><tr class="pass-row"><td>Boundary</td><td>8</td><td>Ready</td></tr><tr class="pass-row"><td>Critical</td><td>3</td><td>Ready</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="action-bar step-panel" data-step-panel="3" aria-label="Commit actions" hidden>
+          <button class="btn btn-outline">Lưu vào Question Bank</button>
+          <button class="btn btn-primary">Lưu & mở Builder</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script>
+  const steps = [...document.querySelectorAll('.step')];
+  const panels = [...document.querySelectorAll('.step-panel')];
+  let allowedStep = 1;
+
+  function showStep(current) {
+    if (steps[current - 1].disabled) return;
+    steps.forEach((step) => {
+      const stepNumber = Number(step.dataset.step);
+      const isDone = stepNumber < current && (stepNumber === 1 || !step.disabled);
+      step.classList.toggle('done', isDone);
+      step.classList.toggle('active', stepNumber === current);
+      step.textContent = `${isDone ? '✓' : stepNumber === current ? '●' : ''} ${stepNumber}. ${step.dataset.title}`.trim();
+      step.toggleAttribute('aria-current', stepNumber === current);
+    });
+    panels.forEach((panel) => {
+      panel.hidden = Number(panel.dataset.stepPanel) !== current;
+    });
+  }
+
+  function setAllowedStep(nextStep) {
+    allowedStep = nextStep;
+    steps.forEach((step) => {
+      const stepNumber = Number(step.dataset.step);
+      step.disabled = stepNumber !== allowedStep;
+    });
+  }
+
+  function finishUpload(result) {
+    setAllowedStep(result === 'error' ? 2 : 3);
+    showStep(allowedStep);
+  }
+
+  steps.forEach((step) => step.addEventListener('click', () => showStep(Number(step.dataset.step))));
+</script>
+</body>
+</html>
