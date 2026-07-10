@@ -140,7 +140,7 @@
       <div>
         <div class="package-chip">🧩 IP-HR-WFH-DEPENDENT-CARE · 🔴 High Risk</div>
         <h1>Chỉnh sửa: Phạm vi câu hỏi</h1>
-        <div class="meta">Định nghĩa những câu hỏi nào thuộc và không thuộc package này. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Phạm vi câu hỏi"</strong>.</div>
+        <div class="meta">Định nghĩa những chủ đề package hỗ trợ. Chủ đề ngoài danh sách mặc định bot báo chưa hỗ trợ. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Phạm vi câu hỏi"</strong>.</div>
       </div>
     </div>
 
@@ -155,7 +155,7 @@
     <!-- Section 2: Scope -->
     <div class="form-card">
       <h2>2. Phạm vi câu hỏi</h2>
-      <div class="helper">Xác định ranh giới của package — chủ đề nào được support, chủ đề nào không, cho ai, và khi nào cần hỏi thêm thông tin.</div>
+      <div class="helper">Xác định ranh giới của package — chủ đề nào được support (ngoài danh sách = chưa hỗ trợ), cho ai, và khi nào cần hỏi thêm thông tin.</div>
 
       <!-- Supported User Need -->
       <div class="form-row full">
@@ -166,10 +166,10 @@
         </div>
       </div>
 
-      <!-- Included / Excluded Questions -->
-      <div class="form-row">
+      <!-- Included Topics -->
+      <div class="form-row full">
         <div class="form-group">
-          <label>Chủ đề thuộc package <span class="info-icon" title="Những chủ đề mà Bot sẽ trả lời dựa trên package này. Có thể thêm, sửa, xóa từng chủ đề.">?</span></label>
+          <label>Chủ đề thuộc package <span class="info-icon" title="Những chủ đề mà Bot sẽ trả lời dựa trên package này. Có thể thêm, sửa, xóa từng chủ đề. Chủ đề ngoài danh sách → bot báo chưa hỗ trợ.">?</span></label>
           <div class="crud-list" id="includedList">
             <div class="crud-item" data-id="1">
               <span class="crud-text">WFH tạm thời</span>
@@ -204,47 +204,8 @@
             <input type="text" id="includedAddInput" placeholder="Nhập chủ đề mới rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('includedList','includedAddInput');}">
             <button class="btn btn-primary btn-sm" onclick="addItem('includedList','includedAddInput')">+ Thêm</button>
           </div>
-          <span class="field-hint">Giúp Bot Owner biết chủ đề nào thuộc package. Tối đa 50 chủ đề.</span>
+          <span class="field-hint">Chỉ cấu hình chủ đề được hỗ trợ. Chủ đề ngoài danh sách → bot báo chưa hỗ trợ trong Intent package. Tối đa 50.</span>
           <span class="counter" id="includedCounter">4 / 50</span>
-        </div>
-        <div class="form-group">
-          <label>Chủ đề không thuộc package <span class="info-icon" title="Những chủ đề Bot KHÔNG được trả lời — dù có vẻ liên quan. Đây là boundary quan trọng. Có thể thêm, sửa, xóa từng chủ đề.">?</span></label>
-          <div class="crud-list" id="excludedList">
-            <div class="crud-item" data-id="11">
-              <span class="crud-text">Exception cá nhân</span>
-              <div class="crud-actions">
-                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
-                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
-              </div>
-            </div>
-            <div class="crud-item" data-id="12">
-              <span class="crud-text">Dispute với manager</span>
-              <div class="crud-actions">
-                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
-                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
-              </div>
-            </div>
-            <div class="crud-item" data-id="13">
-              <span class="crud-text">Medical/legal advice</span>
-              <div class="crud-actions">
-                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
-                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
-              </div>
-            </div>
-            <div class="crud-item" data-id="14">
-              <span class="crud-text">Compensation impact</span>
-              <div class="crud-actions">
-                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
-                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
-              </div>
-            </div>
-          </div>
-          <div class="crud-add">
-            <input type="text" id="excludedAddInput" placeholder="Nhập chủ đề không thuộc package rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('excludedList','excludedAddInput');}">
-            <button class="btn btn-primary btn-sm" onclick="addItem('excludedList','excludedAddInput')">+ Thêm</button>
-          </div>
-          <span class="field-hint">Đặt ranh boundary để bot không over-answer. Tối đa 50 chủ đề.</span>
-          <span class="counter" id="excludedCounter">4 / 50</span>
         </div>
       </div>
 
