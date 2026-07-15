@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Review Conversation — Key Screen Mock</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: #f8fafc; color: #334155; }
+
+  .app { display: flex; min-height: 100vh; }
+  .sidebar { width: 240px; background: #0f172a; color: #e2e8f0; padding: 20px 0; flex-shrink: 0; }
+  .sidebar-logo { padding: 0 20px 24px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 16px; }
+  .sidebar-item { padding: 10px 20px; font-size: 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; color: #94a3b8; }
+  .sidebar-item:hover { background: rgba(255,255,255,.05); color: #e2e8f0; }
+  .sidebar-item.active { background: rgba(99,102,241,.1); color: #818cf8; border-right: 3px solid #6366f1; }
+
+  .main { flex: 1; padding: 24px 32px; max-width: calc(100vw - 240px); }
+  .page-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px; }
+  .page-header h1 { font-size: 24px; font-weight: 700; color: #0f172a; }
+  .subtitle { font-size: 14px; color: #64748b; margin-top: 4px; }
+
+  .btn { height: 36px; padding: 0 16px; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; border: none; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: #6366f1; color: #fff; }
+  .btn-primary:hover { background: #4f46e5; }
+  .btn-outline { background: #fff; color: #334155; border: 1px solid #e2e8f0; }
+  .btn-outline:hover { background: #f8fafc; }
+  .btn-soft { background: #eef2ff; color: #4338ca; border: 1px solid #c7d2fe; }
+  .btn-sm { height: 28px; padding: 0 10px; font-size: 12px; }
+  .btn-danger { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+  .info-note { padding: 12px 16px; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 8px; font-size: 13px; color: #4338ca; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+
+  .content-grid { display: grid; grid-template-columns: 1.4fr .8fr; gap: 20px; align-items: start; }
+  .panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+  .panel-header { padding: 16px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .panel-title { font-size: 16px; font-weight: 700; color: #0f172a; }
+  .panel-subtitle { font-size: 12px; color: #64748b; margin-top: 3px; }
+  .panel-body { padding: 16px; }
+
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .filter-select, .search-input, .date-input { height: 36px; padding: 0 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; background: #fff; color: #334155; }
+  .search-input { min-width: 240px; }
+  .date-range { display: inline-flex; align-items: center; gap: 6px; color: #64748b; font-size: 12px; }
+  .date-input { width: 132px; }
+  .filter-select:focus, .search-input:focus, .date-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
+
+  .candidate-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 12px; background: #fff; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
+  .candidate-card:hover { border-color: #c7d2fe; }
+  .candidate-card.selected { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
+  .candidate-card.needs-fix { border-color: #fde68a; background: #fffbeb; }
+  .candidate-card.needs-fix.selected { border-color: #6366f1; background: #fffbeb; }
+  .candidate-card.out-of-scope { border-color: #fecaca; background: #fef2f2; }
+  .candidate-card.out-of-scope.selected { border-color: #6366f1; background: #fef2f2; }
+  .candidate-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
+  .candidate-title { font-size: 14px; font-weight: 600; color: #0f172a; }
+  .candidate-meta { font-size: 11px; color: #64748b; margin-top: 3px; }
+  .candidate-text { font-size: 13px; line-height: 1.45; color: #334155; margin-top: 8px; }
+  .answer-preview { border-left: 3px solid #c7d2fe; padding-left: 10px; color: #475569; }
+  .candidate-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .candidate-pager { display: flex; justify-content: flex-end; align-items: center; gap: 8px; padding-top: 4px; }
+  .pager-btn { min-width: 30px; height: 30px; padding: 0 8px; border: 1px solid #e2e8f0; border-radius: 6px; background: #fff; color: #475569; cursor: pointer; font-size: 12px; }
+  .pager-btn:hover:not(:disabled), .pager-btn.active { background: #eef2ff; border-color: #c7d2fe; color: #4338ca; }
+  .pager-btn:disabled { cursor: not-allowed; color: #cbd5e1; background: #f8fafc; }
+  .pager-summary { margin-right: auto; font-size: 12px; color: #64748b; }
+
+  /* Trace panel */
+  .trace-header-id { font-size: 11px; color: #94a3b8; font-family: ui-monospace, monospace; }
+  /* Content shifted right; left gutter reserved for pipeline line + dots */
+  .trace-stage { position: relative; padding: 14px 0 14px 28px; border-bottom: 1px solid #f1f5f9; }
+  .trace-stage:last-child { border-bottom: none; }
+  .trace-stage:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 30px;
+    bottom: -14px;
+    width: 2px;
+    background: #c7d2fe;
+    z-index: 0;
+  }
+  .trace-stage-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; position: relative; z-index: 1; }
+  .trace-stage-title { font-size: 13px; font-weight: 600; color: #0f172a; display: flex; align-items: center; gap: 8px; }
+  .trace-stage-title .dot {
+    width: 16px; height: 16px; border-radius: 50%; background: #6366f1; color: #fff; font-size: 10px;
+    display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;
+    margin-left: -28px; margin-right: 4px; /* sit in left gutter */
+    position: relative; z-index: 1; box-shadow: 0 0 0 3px #fff;
+  }
+  .trace-stage-meta { font-size: 11px; color: #64748b; }
+  .trace-line { font-size: 13px; color: #334155; line-height: 1.45; margin-bottom: 8px; }
+  .trace-line strong { color: #4f46e5; font-weight: 600; }
+  .rate-label { font-size: 12px; color: #64748b; margin-bottom: 6px; }
+  .rate-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+  .rate-btn { height: 56px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 600; color: #64748b; transition: border-color .15s, background .15s; }
+  .rate-btn:hover { border-color: #c7d2fe; }
+  .rate-btn .icon { font-size: 16px; line-height: 1; }
+  .rate-btn.good { color: #16a34a; }
+  .rate-btn.partial { color: #7c3aed; border-color: #ddd6fe; background: #faf5ff; }
+  .rate-btn.bad { color: #ef4444; }
+  .rate-btn.selected.good { border-color: #86efac; background: #f0fdf4; }
+  .rate-btn.selected.partial { border-color: #c4b5fd; background: #f5f3ff; }
+  .rate-btn.selected.bad { border-color: #fca5a5; background: #fef2f2; }
+  .note-label { font-size: 12px; color: #64748b; margin-bottom: 6px; }
+  .note-input { width: 100%; min-height: 40px; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 10px; font-size: 13px; font-family: inherit; color: #334155; background: #f8fafc; resize: vertical; }
+  .note-input:focus { outline: none; border-color: #6366f1; background: #fff; box-shadow: 0 0 0 2px rgba(99,102,241,.12); }
+  .branch-box { padding: 10px 12px; background: #f1f5f9; border-radius: 8px; font-size: 12px; color: #475569; margin-bottom: 10px; line-height: 1.5; overflow-wrap: anywhere; }
+  .branch-box ul { margin: 6px 0 0 18px; padding: 0; }
+  .source-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; background: #f8fafc; margin-bottom: 10px; display: flex; flex-direction: column; gap: 10px; }
+  .source-card:last-child { margin-bottom: 0; }
+  .source-card.is-skip { opacity: .65; }
+  .source-tag { display: inline-flex; align-items: center; gap: 3px; height: 22px; padding: 0 10px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+  .source-tag.used { background: #dcfce7; color: #15803d; }
+  .source-tag.skip { background: #f1f5f9; color: #64748b; }
+  .source-chunk { font-size: 11px; color: #94a3b8; font-family: ui-monospace, monospace; }
+  .source-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+  .source-name { font-size: 13px; font-weight: 600; color: #0f172a; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; min-width: 0; flex: 1 1 auto; }
+  .source-score { font-size: 11px; color: #6366f1; font-weight: 600; white-space: nowrap; flex: 0 0 auto; }
+  .source-quote { font-size: 13px; color: #475569; line-height: 1.55; font-style: italic; word-break: break-word; }
+  .source-bar { height: 6px; background: #e2e8f0; border-radius: 999px; overflow: hidden; }
+  .source-bar > span { display: block; height: 100%; background: #6366f1; border-radius: 999px; }
+  .pass-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pass-chip { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: 999px; background: #dcfce7; color: #15803d; font-size: 12px; font-weight: 600; border: 1px solid #bbf7d0; }
+  .final-box { border: 1px solid #e2e8f0; border-radius: 10px; padding: 12px; background: #f8fafc; font-size: 13px; line-height: 1.5; color: #334155; margin-bottom: 10px; }
+  .cite { display: inline-block; min-width: 18px; height: 18px; padding: 0 5px; margin: 0 2px; border-radius: 4px; background: #eef2ff; color: #4338ca; font-size: 10px; font-weight: 700; line-height: 18px; text-align: center; vertical-align: 1px; }
+  .final-sources { font-size: 11px; color: #64748b; margin-bottom: 10px; }
+  .final-sources strong { color: #334155; }
+  .decision-box { padding: 12px; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 10px; margin-bottom: 10px; }
+  .decision-action { font-size: 13px; font-weight: 700; color: #3730a3; }
+  .decision-reason { font-size: 12px; color: #475569; margin-top: 4px; }
+  .condition-table { margin: 10px 0; border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; }
+  .condition-table th, .condition-table td { padding: 8px 10px; font-size: 11px; }
+  .condition-table th { text-transform: none; letter-spacing: 0; }
+  .result-pass { color: #15803d; font-weight: 700; }
+  .result-fail { color: #b91c1c; font-weight: 700; }
+  .result-unknown { color: #b45309; font-weight: 700; }
+  .run-details { padding: 10px 12px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 12px; color: #475569; line-height: 1.6; }
+  .prompt-toggle { width: 100%; height: 40px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; padding: 0 12px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 600; color: #475569; cursor: pointer; }
+  .prompt-toggle:hover { background: #f8fafc; }
+  .prompt-body { display: none; margin-top: 8px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 10px; background: #0f172a; color: #cbd5e1; font-size: 12px; line-height: 1.5; font-family: ui-monospace, monospace; white-space: pre-wrap; }
+  .prompt-body.open { display: block; }
+  .trace-empty { padding: 32px 16px; text-align: center; color: #94a3b8; font-size: 13px; }
+
+  .badge { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 8px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .badge-good { background: #dcfce7; color: #15803d; }
+  .badge-fix { background: #fef3c7; color: #b45309; }
+  .badge-boundary { background: #fee2e2; color: #b91c1c; }
+  .badge-new { background: #eef2ff; color: #4338ca; }
+  .badge-gray { background: #f1f5f9; color: #64748b; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: left; padding: 10px 12px; font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: .5px; border-bottom: 1px solid #e2e8f0; background: #f8fafc; }
+  td { padding: 12px; font-size: 13px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  .record-title { font-weight: 600; color: #0f172a; }
+  .record-meta { font-size: 11px; color: #94a3b8; margin-top: 2px; }
+
+  .rerun-list { display: flex; flex-direction: column; gap: 10px; }
+  .rerun-item { padding: 12px; border: 1px solid #fde68a; background: #fffbeb; border-radius: 10px; font-size: 13px; }
+  .rerun-item strong { color: #92400e; }
+  .empty-note { padding: 18px; text-align: center; color: #64748b; font-size: 13px; border: 1px dashed #cbd5e1; border-radius: 12px; background: #f8fafc; }
+
+  .drawer-backdrop { position: fixed; inset: 0; background: rgba(15,23,42,.18); display: none; justify-content: flex-end; }
+  .drawer-backdrop.open { display: flex; }
+  .drawer { width: 520px; height: 100vh; background: #fff; border-left: 1px solid #e2e8f0; box-shadow: -12px 0 32px rgba(15,23,42,.12); padding: 20px; display: flex; flex-direction: column; gap: 16px; overflow-y: auto; }
+  .drawer-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .drawer-title { font-size: 18px; font-weight: 700; color: #0f172a; }
+  .drawer-meta { font-size: 12px; color: #64748b; margin-top: 4px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label { font-size: 13px; font-weight: 600; color: #334155; }
+  .form-group textarea, .form-group input, .form-group select { border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px 12px; font-size: 13px; font-family: inherit; color: #334155; }
+  .form-group textarea { min-height: 86px; resize: vertical; }
+  .helper { font-size: 12px; color: #64748b; }
+  .drawer-footer { position: sticky; bottom: -20px; margin: 4px -20px -20px; padding: 14px 20px; background: #fff; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 8px; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="sidebar">
+    <div class="sidebar-logo">🧩 Knowledge Core</div>
+    <ul class="sidebar-nav">
+      <li class="sidebar-item">📊 Dashboard</li>
+      <li class="sidebar-item" onclick="window.location.href='package-list.html'">🧩 Intent Packages</li>
+      <li class="sidebar-item active" onclick="window.location.href='evaluate-conversation.html'">🧪 Review Conversation</li>
+      <li class="sidebar-item" onclick="window.location.href='readiness-gate.html'">🛡️ Readiness Gate</li>
+      <li class="sidebar-item" onclick="window.location.href='question-import.html'">🧪 Test Suites</li>
+    </ul>
+  </div>
+
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>🧪 Review Conversation</h1>
+        <div class="subtitle">Đánh giá chất lượng từng bước xử lý và phản hồi của cuộc hội thoại AI</div>
+      </div>
+    </div>
+
+    <div class="info-note">
+      💡 <span><strong>Đánh giá theo từng bước:</strong> Chọn một cuộc hội thoại, đánh giá phạm vi câu hỏi, phạm vi trả lời, nguồn kiến thức và phản hồi cuối để ghi nhận điểm cần cải thiện.</span>
+    </div>
+
+    <div class="content-grid">
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Danh sách hội thoại</div>
+            <div class="panel-subtitle">Hội thoại trong khung thời gian đã chọn, sẵn sàng để đánh giá</div>
+          </div>
+          <button class="btn btn-sm btn-outline">Làm mới danh sách</button>
+        </div>
+        <div class="panel-body">
+          <div class="toolbar">
+            <input class="search-input" value="Tìm câu hỏi, package, tên user,..." aria-label="Tìm hội thoại">
+            <div class="date-range" aria-label="Khoảng thời gian hội thoại">
+              <label for="dateFrom">Từ</label><input class="date-input" id="dateFrom" type="date" aria-label="Từ ngày">
+              <label for="dateTo">Đến</label><input class="date-input" id="dateTo" type="date" aria-label="Đến ngày">
+            </div>
+          </div>
+
+          <div id="candidateList">
+          <article class="candidate-card needs-fix" data-trace="wfh-manager">
+            <div class="candidate-top">
+              <div>
+                <div class="candidate-title">Manager chưa duyệt nhưng tôi vẫn muốn WFH, bot xác nhận giúp tôi được không?</div>
+                <div class="candidate-meta">WFH Dependent Care · HR Assistant · 06/07/2026 09:42 · Thinh.LT02 · Phòng IT</div>
+              </div>
+            </div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Bạn có thể WFH khi cần chăm sóc con bị sốt nếu vai trò của bạn đủ điều kiện WFH. Bạn nên thông báo cho quản lý và cập nhật lý do trên hệ thống. Trường hợp này có thể được xem xét theo chính sách WFH Dependent Care.” — thiếu điều kiện manager approval.</div>
+          </article>
+
+          <article class="candidate-card" data-trace="training">
+            <div class="candidate-top">
+              <div>
+                <div class="candidate-title">Ngân sách training có được chuyển sang khóa học online không?</div>
+                <div class="candidate-meta">Training Budget · OE Bot · 06/07/2026 11:18 · Thinh.LT02 · Phòng IT</div>
+              </div>
+            </div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Có. Ngân sách training có thể được dùng cho khóa học online nếu khóa học liên quan trực tiếp đến năng lực công việc, còn ngân sách trong kỳ, và được manager phê duyệt trước khi đăng ký. Vui lòng tham chiếu Training Budget Policy v2026.07.”</div>
+          </article>
+
+          <article class="candidate-card out-of-scope" data-trace="vendor">
+            <div class="candidate-top">
+              <div>
+                <div class="candidate-title">Chính sách WFH này áp dụng cho vendor bên ngoài không?</div>
+                <div class="candidate-meta">WFH Dependent Care · HR Assistant · 05/07/2026 15:05 · Thinh.LT02 · Phòng IT</div>
+              </div>
+            </div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Chính sách WFH thường áp dụng cho nhân viên nội bộ. Với vendor bên ngoài, bạn nên kiểm tra thêm với HR hoặc người phụ trách hợp đồng để xác nhận phạm vi áp dụng.” — chưa từ chối rõ ràng theo boundary vendor policy.</div>
+          </article>
+          <article class="candidate-card" data-trace="leave-annual">
+            <div class="candidate-top"><div><div class="candidate-title">Tôi còn bao nhiêu ngày phép năm và có thể dùng đến khi nào?</div><div class="candidate-meta">Chính sách nghỉ phép · HR Assistant · 06/07/2026 14:20 · Lan.NT · Phòng Nhân sự</div></div></div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Bạn có thể kiểm tra số ngày phép còn lại trên hệ thống HR. Phép năm cần sử dụng theo thời hạn của chính sách hiện hành.”</div>
+          </article>
+          <article class="candidate-card" data-trace="leave-carryover">
+            <div class="candidate-top"><div><div class="candidate-title">Phép năm chưa dùng hết có được chuyển sang năm sau không?</div><div class="candidate-meta">Chính sách nghỉ phép · HR Assistant · 06/07/2026 13:48 · Lan.NT · Phòng Nhân sự</div></div></div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Việc chuyển phép phụ thuộc vào chính sách và thời hạn được áp dụng trong từng năm.”</div>
+          </article>
+          <article class="candidate-card" data-trace="leave-unpaid">
+            <div class="candidate-top"><div><div class="candidate-title">Tôi có thể xin nghỉ không lương trong bao lâu?</div><div class="candidate-meta">Chính sách nghỉ phép · HR Assistant · 06/07/2026 13:05 · Lan.NT · Phòng Nhân sự</div></div></div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Nghỉ không lương cần được quản lý phê duyệt và tuân theo quy định People Operations.”</div>
+          </article>
+          <article class="candidate-card" data-trace="maternity-duration">
+            <div class="candidate-top"><div><div class="candidate-title">Thời gian nghỉ thai sản theo chính sách là bao lâu?</div><div class="candidate-meta">Chính sách thai sản · HR Assistant · 06/07/2026 12:30 · Lan.NT · Phòng Nhân sự</div></div></div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Thời gian nghỉ thai sản được áp dụng theo quy định pháp luật và chính sách phúc lợi hiện hành của công ty.”</div>
+          </article>
+          <article class="candidate-card" data-trace="maternity-benefit">
+            <div class="candidate-top"><div><div class="candidate-title">Tôi cần chuẩn bị hồ sơ gì để nhận chế độ thai sản?</div><div class="candidate-meta">Chính sách thai sản · HR Assistant · 06/07/2026 11:52 · Lan.NT · Phòng Nhân sự</div></div></div>
+            <div class="candidate-text answer-preview">Bot trả lời: “Bạn cần chuẩn bị hồ sơ theo hướng dẫn của People Operations và cơ quan bảo hiểm.”</div>
+          </article>
+          </div>
+          <div class="candidate-pager" id="candidatePager" aria-label="Phân trang danh sách hội thoại"></div>
+        </div>
+      </section>
+
+      <aside class="panel" id="rightPanel">
+        <div class="panel-header">
+          <div>
+            <div class="panel-title">Chi tiết đánh giá</div>
+            <div class="panel-subtitle">Đánh giá từng bước bot xử lý cuộc hội thoại được chọn</div>
+          </div>
+          <div class="trace-header-id" id="traceId">ID: —</div>
+        </div>
+        <div class="panel-body" id="traceBody">
+          <div class="trace-empty">Chọn một cuộc hội thoại bên trái để bắt đầu đánh giá.</div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+
+<div class="drawer-backdrop" id="promoteDrawer">
+  <aside class="drawer" aria-label="Promote Golden Candidate drawer">
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title">✨ Promote Candidate</div>
+        <div class="drawer-meta">WFH Dependent Care · source conversation #HR-2048</div>
+      </div>
+      <button class="btn btn-sm btn-outline js-close-promote">×</button>
+    </div>
+
+    <div class="form-group">
+      <label for="destination">Promote thành</label>
+      <select id="destination">
+        <option>Question Bank · Boundary</option>
+        <option>Golden Record</option>
+        <option>Question Bank · Standard</option>
+      </select>
+      <div class="helper">Guardrail: candidate không đi thẳng vào Test Suite; phải đủ chuẩn trong Question Bank trước.</div>
+    </div>
+
+    <div class="form-group">
+      <label for="canonical-question">Canonical question</label>
+      <textarea id="canonical-question">Nếu chưa có manager approval thì nhân viên có được WFH vì con bị ốm không?</textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="approved-answer">Approved answer / Expected behavior</label>
+      <textarea id="approved-answer">Bot không được xác nhận thay manager. Bot phải yêu cầu nhân viên xin manager approval hoặc escalate tới People Ops nếu là ngoại lệ cá nhân.</textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="source">Expected source</label>
+      <input id="source" value="WFH Policy v2026.07 · section Manager Approval">
+    </div>
+
+    <div class="form-group">
+      <label for="severity">Severity</label>
+      <select id="severity">
+        <option>Medium</option>
+        <option>High</option>
+        <option>Low</option>
+      </select>
+    </div>
+
+    <div class="info-note" style="margin-bottom:0;">
+      Sau khi lưu vào Question Bank, package chuyển <strong>Needs Re-run</strong>; snapshot Test Suite cũ không đổi.
+    </div>
+
+    <div class="drawer-footer">
+      <button class="btn btn-outline js-close-promote">Cancel</button>
+      <button class="btn btn-primary">Save to Question Bank & Mark Needs Re-run</button>
+    </div>
+  </aside>
+</div>
+
+<script>
+  const promoteDrawer = document.getElementById('promoteDrawer');
+  const traceBody = document.getElementById('traceBody');
+  const traceId = document.getElementById('traceId');
+
+  const TRACES = {
+    'wfh-manager': {
+      id: '0xf42a…9821',
+      scope: { label: 'WFH tạm thời · Context cần có cho WFH', conf: '0.91', audience: 'Toàn bộ nhân viên', result: 'Thuộc IP-HR-WFH-DEPENDENT-CARE', reasoning: { summary: 'LLM model ghi nhận câu hỏi thuộc IP-HR-WFH-DEPENDENT-CARE dựa trên các keyword và ngữ cảnh sau:', keywords: ['WFH', 'làm việc tại nhà', 'chăm sóc con bị sốt', 'dependent care', 'manager approval'] } },
+      behavior: { type: 'Recommendation', must: 'Nêu policy reference và điều kiện manager approval.', mustNot: 'Không kết luận “được WFH” khi thiếu approval.', escalation: 'Exception cá nhân hoặc conflict với manager → HR / People Ops.', decision: { action: 'DO_NOT_CONFIRM', reason: 'MANAGER_APPROVAL_MISSING', rule: 'WFH-APPROVAL-REQUIRED v2026.07', conditions: [['Vai trò đủ điều kiện WFH', 'Unknown'], ['Manager approval', 'Fail']] } },
+      retrieval: { path: 'GraphRAG only', sources: [{ name: 'WFH policy v2026.04', chunk: '#§3.2', score: '0.88', quote: '“…nhân viên cần được manager phê duyệt trước khi áp dụng WFH vì lý do chăm sóc người phụ thuộc…”', bar: 88, used: true }, { name: 'WFH policy v2026.04', chunk: '#§1.1', score: '0.74', quote: '“…WFH dependent care áp dụng cho nhân viên chính thức có con nhỏ hoặc người phụ thuộc cần chăm sóc y tế…”', bar: 74, used: false }] },
+      final: { text: 'Bạn có thể WFH khi cần chăm sóc con bị sốt nếu vai trò của bạn đủ điều kiện WFH. Bạn nên thông báo cho quản lý và cập nhật lý do trên hệ thống. Trường hợp này có thể được xem xét theo chính sách WFH Dependent Care.', usedSources: [{ name: 'WFH policy v2026.04', chunk: '#§3.2' }], reasoning: 'Bot kết hợp policy về điều kiện WFH (§3.2) với thông tin người dùng cung cấp (chưa có manager approval). Vì thiếu approval — điều kiện bắt buộc — bot không xác nhận giúp, mà hướng dẫn người dùng thông báo manager và cập nhật hệ thống. Không từ chối thẳng vì vai trò có thể đủ điều kiện WFH nếu được duyệt. Bỏ qua §1.1 vì nội dung về audience (nhân viên chính thức) đã được ngầm thỏa mãn.' },
+      prompt: 'System: Bạn là HR Assistant.\nIntent: WFH Dependent Care\nUser: Manager chưa duyệt nhưng tôi vẫn muốn WFH…\nConstraint: Không xác nhận thay manager.'
+    },
+    training: {
+      id: '0xa81c…4410',
+      scope: { label: 'Training Budget · Khóa học online', conf: '0.96', audience: 'Nhân viên', result: 'Thuộc package Training Budget', reasoning: { summary: 'LLM model ghi nhận câu hỏi thuộc package Training Budget dựa trên các keyword và ngữ cảnh sau:', keywords: ['ngân sách training', 'khóa học online', 'chuyển sang', 'năng lực công việc', 'manager phê duyệt'] } },
+      behavior: { type: 'Recommendation', must: 'Nêu điều kiện liên quan công việc và manager approval.', mustNot: 'Không cam kết khi chưa xác minh điều kiện.', escalation: 'Exception → People Ops.', decision: { action: 'ANSWER_WITH_CONDITIONS', reason: 'TRAINING_ELIGIBILITY_CONFIRMED', rule: 'TRAINING-BUDGET-ELIGIBILITY v2026.07', conditions: [['Khóa học liên quan công việc', 'Pass'], ['Manager approval', 'Pass']] } },
+      retrieval: { path: 'GraphRAG only', sources: [{ name: 'Training_Budget_Policy_v2026.07.pdf', chunk: 'p.4 §2', score: '0.94', quote: '“…ngân sách training có thể dùng cho khóa học online nếu liên quan năng lực công việc và được manager phê duyệt…”', bar: 94, used: true }, { name: 'OE_Guidelines_v2026.05.pdf', chunk: '#§5.3', score: '0.71', quote: '“…khóa học online cần đăng ký qua LMS nội bộ trước khi sử dụng ngân sách…”', bar: 71, used: false }] },
+      final: { text: 'Có. Ngân sách training có thể được dùng cho khóa học online nếu khóa học liên quan trực tiếp đến năng lực công việc, còn ngân sách trong kỳ, và được manager phê duyệt trước khi đăng ký.', usedSources: [{ name: 'Training_Budget_Policy_v2026.07.pdf', chunk: 'p.4 §2' }], reasoning: 'Bot dựa vào điều kiện eligibility trong Training Budget Policy (p.4 §2) — nêu 3 điều kiện rõ ràng: liên quan công việc, còn ngân sách, có manager approval. Bỏ qua OE_Guidelines §5.3 về LMS vì nội dung đó thuộc quy trình đăng ký, không phải điều kiện chi trả.' },
+      prompt: 'System: Bạn là OE Bot.\nIntent: Training Budget\nUser: Ngân sách training có được chuyển sang khóa học online không?'
+    },
+    vendor: {
+      id: '0xb03e…7722',
+      scope: { label: 'WFH tạm thời', conf: '0.84', audience: 'Toàn bộ nhân viên', result: 'Ngoài scope: vendor không thuộc audience', reasoning: { summary: 'LLM model xác định câu hỏi nằm ngoài scope audience vì đối tượng hỏi không thuộc nhóm áp dụng:', keywords: ['vendor bên ngoài', 'chính sách WFH', 'nhân viên nội bộ', 'phạm vi áp dụng', 'out-of-scope'] } },
+      behavior: { type: 'Recommendation', must: 'Nêu phạm vi áp dụng và policy reference.', mustNot: 'Không xác nhận áp dụng cho vendor.', escalation: 'Vendor case → HR / người phụ trách hợp đồng.', decision: { action: 'BOUNDARY_FALLBACK', reason: 'AUDIENCE_OUT_OF_SCOPE', rule: 'WFH-AUDIENCE-SCOPE v2026.07', conditions: [['Đối tượng là nhân viên nội bộ', 'Fail'], ['Có thể áp dụng policy', 'Unknown']] } },
+      retrieval: { path: 'GraphRAG only', sources: [{ name: 'WFH policy v2026.04', chunk: '#§1.1', score: '0.79', quote: '“…chính sách WFH áp dụng cho nhân viên chính thức của công ty…”', bar: 79, used: true }, { name: 'Vendor_Onboarding_Handbook_v2026.03.pdf', chunk: 'p.2 §1', score: '0.72', quote: '“…vendor là đối tượng hợp đồng ngoài, không thuộc phạm vi chính sách nhân sự nội bộ…”', bar: 72, used: true }] },
+      final: { text: 'Chính sách WFH thường áp dụng cho nhân viên nội bộ. Với vendor bên ngoài, bạn nên kiểm tra thêm với HR hoặc người phụ trách hợp đồng để xác nhận phạm vi áp dụng.', usedSources: [{ name: 'WFH policy v2026.04', chunk: '#§1.1' }, { name: 'Vendor_Onboarding_Handbook_v2026.03.pdf', chunk: 'p.2 §1' }], reasoning: 'Bot kết hợp 2 nguồn để từ chối rõ ràng: (1) WFH policy §1.1 giới hạn audience là nhân viên chính thức; (2) Vendor Handbook p.2 §1 xác nhận vendor thuộc đối tượng hợp đồng ngoài, không thuộc phạm vi nhân sự nội bộ. Từ 2 nguồn, bot khẳng định vendor nằm ngoài scope và escalate về HR/người phụ trách hợp đồng.' },
+      prompt: 'System: Bạn là HR Assistant.\nIntent: WFH Dependent Care\nUser: Chính sách WFH này áp dụng cho vendor bên ngoài không?'
+    }
+  };
+
+  const policyTrace = (id, scope, source, quote, final, reasoning) => ({
+    id,
+    scope: { label: scope, conf: '0.90', audience: 'Toàn bộ nhân viên', result: 'Thuộc package ' + scope, reasoning },
+    behavior: { type: 'Quoting policy', must: 'Nêu điều kiện và citation chính sách.', mustNot: 'Không cam kết ngoài chính sách.', escalation: 'Ngoại lệ → People Operations.' },
+    retrieval: { path: 'GraphRAG only', sources: [{ name: source, chunk: 'p.1 §1', score: '0.90', quote, bar: 90, used: true }] },
+    final: { text: final, usedSources: [{ name: source, chunk: 'p.1 §1' }], reasoning: `Bot trích dẫn nguyên văn từ policy ${source} (p.1 §1) và từ chối suy diễn ngoài phạm vi chính sách. Hướng người dùng liên hệ People Operations nếu cần xác nhận chi tiết.` }
+  });
+  Object.assign(TRACES, {
+    'leave-annual': policyTrace('0xc12a…1051', 'Chính sách nghỉ phép', 'Leave_Policy_v2026.07.pdf', '“…số ngày phép còn lại được quản lý trên hệ thống HR…”', 'Bạn có thể kiểm tra số ngày phép còn lại trên hệ thống HR. Phép năm cần sử dụng theo thời hạn của chính sách hiện hành.', { summary: 'LLM model ghi nhận câu hỏi thuộc package Chính sách nghỉ phép dựa trên các keyword và ngữ cảnh sau:', keywords: ['ngày phép năm', 'còn bao nhiêu', 'thời hạn', 'sử dụng đến khi nào', 'chính sách hiện hành'] }),
+    'leave-carryover': policyTrace('0xc12a…1052', 'Chính sách nghỉ phép', 'Leave_Policy_v2026.07.pdf', '“…việc chuyển phép được áp dụng theo quy định của từng năm…”', 'Việc chuyển phép phụ thuộc vào chính sách và thời hạn được áp dụng trong từng năm.', { summary: 'LLM model ghi nhận câu hỏi thuộc package Chính sách nghỉ phép dựa trên các keyword và ngữ cảnh sau:', keywords: ['phép năm chưa dùng hết', 'chuyển sang năm sau', 'carryover', 'quy định từng năm'] }),
+    'leave-unpaid': policyTrace('0xc12a…1053', 'Chính sách nghỉ phép', 'Leave_Policy_v2026.07.pdf', '“…nghỉ không lương cần được quản lý phê duyệt…”', 'Nghỉ không lương cần được quản lý phê duyệt và tuân theo quy định People Operations.', { summary: 'LLM model ghi nhận câu hỏi thuộc package Chính sách nghỉ phép dựa trên các keyword và ngữ cảnh sau:', keywords: ['nghỉ không lương', 'xin nghỉ', 'thời gian bao lâu', 'quản lý phê duyệt', 'People Operations'] }),
+    'maternity-duration': policyTrace('0xd31b…2041', 'Chính sách thai sản', 'Maternity_Policy_v2026.07.pdf', '“…thời gian nghỉ thai sản áp dụng theo quy định pháp luật…”', 'Thời gian nghỉ thai sản được áp dụng theo quy định pháp luật và chính sách phúc lợi hiện hành của công ty.', { summary: 'LLM model ghi nhận câu hỏi thuộc package Chính sách thai sản dựa trên các keyword và ngữ cảnh sau:', keywords: ['thai sản', 'thời gian nghỉ', 'bao lâu', 'quy định pháp luật', 'chính sách phúc lợi'] }),
+    'maternity-benefit': policyTrace('0xd31b…2042', 'Chính sách thai sản', 'Maternity_Policy_v2026.07.pdf', '“…hồ sơ thai sản nộp theo hướng dẫn People Operations…”', 'Bạn cần chuẩn bị hồ sơ theo hướng dẫn của People Operations và cơ quan bảo hiểm.', { summary: 'LLM model ghi nhận câu hỏi thuộc package Chính sách thai sản dựa trên các keyword và ngữ cảnh sau:', keywords: ['hồ sơ thai sản', 'chuẩn bị', 'chế độ thai sản', 'hướng dẫn People Operations', 'cơ quan bảo hiểm'] })
+  });
+
+  function rateRowHtml() {
+    return `
+      <div class="rate-label">Đánh giá chất lượng:</div>
+      <div class="rate-row">
+        <button type="button" class="rate-btn good" data-rate="good"><span class="icon">👍</span>Đúng</button>
+        <button type="button" class="rate-btn partial" data-rate="partial"><span class="icon">❗</span>Một phần</button>
+        <button type="button" class="rate-btn bad" data-rate="bad"><span class="icon">👎</span>Sai</button>
+      </div>
+      <div class="note-label">Ghi chú/Lý do lỗi:</div>
+      <textarea class="note-input" placeholder="Nhập chi tiết phát hiện sai sót hoặc gợi ý chỉnh sửa..."></textarea>`;
+  }
+
+  function renderTrace(key) {
+    const t = TRACES[key];
+    if (!t) return;
+    traceId.textContent = 'ID: ' + t.id;
+    traceBody.innerHTML = `
+      <div class="trace-stage">
+        <div class="trace-stage-head">
+          <div class="trace-stage-title"><span class="dot">1</span> Nhận diện Phạm vi Câu hỏi</div>
+          <div class="trace-stage-meta">Độ tin cậy: ${t.scope.conf}</div>
+        </div>
+        <div class="trace-line"><strong>${t.scope.result}</strong></div>
+        ${t.scope.reasoning ? `<div class="branch-box">💡 <strong>Lý do LLM ghi nhận:</strong> ${t.scope.reasoning.summary}<ul>${t.scope.reasoning.keywords.map(k => `<li><code>${k}</code></li>`).join('')}</ul></div>` : ''}
+        ${rateRowHtml()}
+      </div>
+      <div class="trace-stage">
+        <div class="trace-stage-head">
+          <div class="trace-stage-title"><span class="dot">2</span> Xác định Phạm vi Câu trả lời</div>
+        </div>
+        ${rateRowHtml()}
+      </div>
+      <div class="trace-stage">
+        <div class="trace-stage-head">
+          <div class="trace-stage-title"><span class="dot">3</span> Truy xuất Kiến thức</div>
+          <div class="trace-stage-meta">Đường dẫn: ${t.retrieval.path}</div>
+        </div>
+        ${t.retrieval.sources.map(s => `
+        <div class="source-card${s.used ? '' : ' is-skip'}">
+          <div class="source-top">
+            <div class="source-name">📄 ${s.name}<span class="source-chunk">${s.chunk}</span>${s.used ? '<span class="source-tag used">✓ Đã dùng</span>' : '<span class="source-tag skip">○ Bỏ qua</span>'}</div>
+            <div class="source-score">Độ tương đồng: ${s.score}</div>
+          </div>
+          <div class="source-quote">${s.quote}</div>
+          <div class="source-bar"><span style="width:${s.bar}%"></span></div>
+        </div>`).join('')}
+        ${rateRowHtml()}
+      </div>
+      <div class="trace-stage">
+        <div class="trace-stage-head">
+          <div class="trace-stage-title"><span class="dot">4</span> Tổng hợp Nội dung Phản hồi</div>
+        </div>
+        <div class="trace-stage-meta" style="margin-bottom:8px;">NỘI DUNG PHẢN HỒI (FINAL RESPONSE)</div>
+        <div class="final-box">${typeof t.final === 'string' ? t.final : t.final.text}</div>
+        ${t.final && t.final.usedSources ? `<div class="final-sources"><strong>📚 Dùng thông tin từ:</strong> ${t.final.usedSources.map(u => `${u.name} <span class="source-chunk">${u.chunk}</span>`).join(' · ')}</div>` : ''}
+        ${t.final && t.final.reasoning ? `<div class="branch-box">💡 <strong>Tóm tắt reasoning:</strong> ${t.final.reasoning}</div>` : ''}
+        ${rateRowHtml()}
+      </div>`;
+    traceBody.querySelectorAll('.rate-row').forEach(row => {
+      row.querySelectorAll('.rate-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          row.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+        });
+      });
+    });
+  }
+
+  function bindCandidateCards() { document.querySelectorAll('.candidate-card').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      if (e.target.closest('button')) return;
+      document.querySelectorAll('.candidate-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      renderTrace(card.dataset.trace);
+    });
+  }); }
+
+  const PAGE_SIZE = 8;
+  const candidateList = document.getElementById('candidateList');
+  const candidateCards = [...candidateList.querySelectorAll('.candidate-card')];
+  const candidatePager = document.getElementById('candidatePager');
+  function renderCandidatePage(page) {
+    const pageCount = Math.ceil(candidateCards.length / PAGE_SIZE);
+    candidateCards.forEach((card, index) => { card.style.display = Math.floor(index / PAGE_SIZE) === page ? '' : 'none'; });
+    candidatePager.innerHTML = `<span class="pager-summary">${page * PAGE_SIZE + 1}–${Math.min((page + 1) * PAGE_SIZE, candidateCards.length)} / ${candidateCards.length} hội thoại</span><button class="pager-btn" ${page === 0 ? 'disabled' : ''} data-page="${page - 1}">‹</button>${Array.from({ length: pageCount }, (_, i) => `<button class="pager-btn ${i === page ? 'active' : ''}" data-page="${i}">${i + 1}</button>`).join('')}<button class="pager-btn" ${page === pageCount - 1 ? 'disabled' : ''} data-page="${page + 1}">›</button>`;
+    candidatePager.querySelectorAll('[data-page]').forEach(button => button.addEventListener('click', () => renderCandidatePage(Number(button.dataset.page))));
+  }
+  bindCandidateCards();
+  renderCandidatePage(0);
+
+  document.querySelectorAll('.js-open-promote').forEach((button) => {
+    button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      promoteDrawer.classList.add('open');
+    });
+  });
+
+  document.querySelectorAll('.js-close-promote').forEach((button) => {
+    button.addEventListener('click', () => promoteDrawer.classList.remove('open'));
+  });
+</script>
+
+</body>
+</html>
