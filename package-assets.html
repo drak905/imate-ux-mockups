@@ -82,7 +82,7 @@
   
   /* Retrieval path radio cards */
   .path-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-  .path-card { border: 2px solid #e2e8f0; border-radius: 8px; padding: 14px; cursor: pointer; transition: all .15s; background: #fff; position: relative; }
+  .path-card { border: 2px solid #e2e8f0; border-radius: 8px; padding: 14px; cursor: pointer; transition: all .15s; background: #fff; position: relative; display: flex; flex-direction: column; align-items: flex-start; }
   .path-card:hover { border-color: #c7d2fe; background: #f8faff; }
   .path-card.selected { border-color: #6366f1; background: #eef2ff; }
   .path-card input[type="radio"] { position: absolute; opacity: 0; }
@@ -125,7 +125,7 @@
       <div>
         <div class="package-chip">🧩 IP-HR-WFH-DEPENDENT-CARE · Mức độ quan trọng của kịch bản: 🔴 Cao</div>
         <h1>Chỉnh sửa: Tài liệu tham khảo</h1>
-        <div class="meta">Chọn cơ chế truy xuất và nguồn tài liệu tham khảo cho phép. Golden Records là lựa chọn cho phase sau. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Tài liệu tham khảo"</strong>.</div>
+        <div class="meta">Chọn cơ chế truy xuất và nguồn tài liệu tham khảo cho phép.</div>
       </div>
     </div>
 
@@ -154,21 +154,21 @@
               <span class="check-mark">✓</span>
               <span class="path-icon">📖</span>
               <span class="path-title">Golden only</span>
-              <span class="path-desc">Chỉ dùng Golden Record — không fallback ra RAG</span>
+              <span class="path-desc">Chỉ dùng Golden Record làm nguồn tham khảo</span>
             </label>
             <label class="path-card selected" data-path="graphrag-only">
               <input type="radio" name="retrieval_path" checked>
               <span class="check-mark">✓</span>
               <span class="path-icon">🔍</span>
               <span class="path-title">GraphRAG only</span>
-              <span class="path-desc">Chỉ query GraphRAG — tránh tiếp cận CorpS MMG</span>
+              <span class="path-desc">Chỉ dùng Dataset GraphRAG làm nguồn tham khảo</span>
             </label>
             <label class="path-card" data-path="golden-graphrag">
               <input type="radio" name="retrieval_path">
               <span class="check-mark">✓</span>
-              <span class="path-icon">📖→🔍</span>
+              <span class="path-icon">📖+🔍</span>
               <span class="path-title">Golden AND GraphRAG</span>
-              <span class="path-desc">Hỏi Golden trước, sau đó bổ sung GraphRAG search</span>
+              <span class="path-desc">Linh hoạt tham khảo nhiều nguồn tài liệu</span>
             </label>
           </div>
         </div>
@@ -193,7 +193,7 @@
             </div>
             <button class="btn btn-ghost" style="width:100%; justify-content:center;">+ Chọn Golden Record</button>
           </div>
-          <span class="field-hint">Golden Record là answer contract chính — bot ưu tiên dùng trước khi fallback.</span>
+          <span class="field-hint">Nguồn nào được dùng cho kịch bản này phải liệt kê rõ để phục vụ audit.</span>
         </div>
       </div>
 

@@ -138,8 +138,8 @@
     <div class="page-header">
       <div>
         <div class="package-chip">🧩 IP-HR-WFH-DEPENDENT-CARE · Mức độ quan trọng của kịch bản: 🔴 Cao</div>
-        <h1>Chỉnh sửa: Phạm vi câu hỏi</h1>
-        <div class="meta">Định nghĩa những chủ đề package hỗ trợ. Chủ đề ngoài danh sách mặc định bot báo chưa hỗ trợ. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Phạm vi câu hỏi"</strong>.</div>
+        <h1>Phạm vi câu hỏi</h1>
+        <div class="meta">Định nghĩa những kịch bản được hỗ trợ.</div>
       </div>
     </div>
 
@@ -154,12 +154,12 @@
     <!-- Section 2: Scope -->
     <div class="form-card">
       <h2>2. Phạm vi câu hỏi</h2>
-      <div class="helper">Xác định ranh giới của package — chủ đề nào được support (ngoài danh sách = chưa hỗ trợ), cho ai, và khi nào cần hỏi thêm thông tin.</div>
+      <div class="helper">Xác định ranh giới của những chủ đề được hỗ trợ và không được hỗ trợ trong kịch bản</div>
 
       <!-- Supported User Need -->
       <div class="form-row full">
         <div class="form-group">
-          <label>Mô tả thông tin <span class="required">*</span> <span class="info-icon" title="Mô tả ngắn gọn nhu cầu mà package này giải quyết. VD: Nhân viên muốn biết có được WFH khi con ốm không.">?</span></label>
+          <label>Kịch bản này sẽ hỗ trợ giải đáp những điều gì ? <span class="required">*</span> <span class="info-icon" title="Mô tả ngắn gọn nhu cầu mà package này giải quyết. VD: Nhân viên muốn biết có được WFH khi con ốm không.">?</span></label>
           <textarea placeholder="VD: Nhân viên hỏi có thể WFH vì con/người phụ thuộc bị ốm không?" style="min-height:80px;">Nhân viên hỏi có thể WFH vì con/người phụ thuộc bị ốm không.</textarea>
           <span class="field-hint">Mô tả outcome package support, không chỉ keyword</span>
         </div>
@@ -168,7 +168,7 @@
       <!-- Included Topics -->
       <div class="form-row full">
         <div class="form-group">
-          <label>Chủ đề thuộc package <span class="info-icon" title="Những chủ đề mà Bot sẽ trả lời dựa trên package này. Có thể thêm, sửa, xóa từng chủ đề. Chủ đề ngoài danh sách → bot báo chưa hỗ trợ.">?</span></label>
+          <label>Chủ đề kịch bản hỗ trợ <span class="info-icon" title="Những chủ đề mà Bot sẽ trả lời dựa trên package này. Có thể thêm, sửa, xóa từng chủ đề. Chủ đề ngoài danh sách → bot báo chưa hỗ trợ.">?</span></label>
           <div class="crud-list" id="includedList">
             <div class="crud-item" data-id="1">
               <span class="crud-text">WFH tạm thời</span>
@@ -205,6 +205,35 @@
           </div>
           <span class="field-hint">Chỉ cấu hình chủ đề được hỗ trợ. Chủ đề ngoài danh sách → bot báo chưa hỗ trợ trong Intent package. Tối đa 50.</span>
           <span class="counter" id="includedCounter">4 / 50</span>
+        </div>
+      </div>
+
+      <!-- Excluded Topics -->
+      <div class="form-row full">
+        <div class="form-group">
+          <label>Chủ đề kịch bản không hỗ trợ <span class="info-icon" title="Những chủ đề nằm ngoài phạm vi hỗ trợ của package. Nếu người dùng hỏi về các chủ đề này, bot sẽ báo chưa hỗ trợ và hướng dẫn liên hệ bộ phận phụ trách.">?</span></label>
+          <div class="crud-list" id="excludedList">
+            <div class="crud-item" data-id="101">
+              <span class="crud-text">Chính sách nghỉ phép năm (Annual Leave)</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+            <div class="crud-item" data-id="102">
+              <span class="crud-text">Quyết định cuối cùng của manager về WFH</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="crud-add">
+            <input type="text" id="excludedAddInput" placeholder="Nhập chủ đề không hỗ trợ rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('excludedList','excludedAddInput');}">
+            <button class="btn btn-primary btn-sm" onclick="addItem('excludedList','excludedAddInput')">+ Thêm</button>
+          </div>
+          <span class="field-hint">Liệt kê các chủ đề bot sẽ từ chối trong kịch bản này. Tối đa 50.</span>
+          <span class="counter" id="excludedCounter">2 / 50</span>
         </div>
       </div>
 
