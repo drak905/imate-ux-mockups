@@ -95,8 +95,32 @@
   .behavior-card textarea { width: 100%; min-height: 64px; resize: vertical; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; font-family: inherit; padding: 8px 12px; line-height: 1.5; background: #fff; }
   .behavior-card textarea:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
   .behavior-card .field-hint { font-size: 11px; color: #94a3b8; margin-top: 4px; }
+
+  /* CRUD list (copied from package-scope) */
+  .crud-list { border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; }
+  .crud-item { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #f1f5f9; gap: 12px; }
+  .crud-item:last-child { border-bottom: none; }
+  .crud-item:hover { background: #f8fafc; }
+  .crud-text { font-size: 14px; color: #334155; flex: 1; line-height: 1.4; }
+  .crud-edit-input { flex: 1; height: 32px; padding: 0 8px; border: 1px solid #6366f1; border-radius: 4px; font-size: 14px; outline: none; font-family: inherit; }
+  .crud-actions { display: flex; gap: 4px; flex-shrink: 0; }
+  .crud-btn { width: 28px; height: 28px; border: none; border-radius: 4px; cursor: pointer; background: transparent; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; transition: background .15s; }
+  .crud-btn.edit { color: #6366f1; }
+  .crud-btn.edit:hover { background: #eef2ff; }
+  .crud-btn.delete { color: #ef4444; }
+  .crud-btn.delete:hover { background: #fef2f2; }
+  .crud-btn.save { color: #16a34a; }
+  .crud-btn.save:hover { background: #f0fdf4; }
+  .crud-btn.cancel { color: #64748b; }
+  .crud-btn.cancel:hover { background: #f1f5f9; }
+  .crud-add { display: flex; gap: 8px; margin-top: 8px; }
+  .crud-add input { flex: 1; height: 36px; padding: 0 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 14px; outline: none; font-family: inherit; }
+  .crud-add input:focus { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
+  .btn-sm { height: 36px; padding: 0 14px; font-size: 13px; }
+  .crud-empty { padding: 20px 12px; text-align: center; font-size: 13px; color: #94a3b8; }
+  .counter { font-size: 12px; color: #94a3b8; text-align: right; }
   
-  /* Escalation highlight for High risk */
+  /* Escalation highlight for Cao risk */
   .escalation-required { border: 2px solid #ef4444 !important; border-radius: 8px; padding: 16px; background: #fef2f2; }
   .escalation-required label { color: #991b1b; }
   .escalation-required label .badge { background: #ef4444; color: #fff; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 600; margin-left: 6px; }
@@ -123,7 +147,7 @@
 
     <div class="page-header">
       <div>
-        <div class="package-chip">🧩 IP-HR-WFH-DEPENDENT-CARE · 🔴 High Risk</div>
+        <div class="package-chip">🧩 IP-HR-WFH-DEPENDENT-CARE · Mức độ quan trọng của kịch bản: 🔴 Cao</div>
         <h1>Chỉnh sửa: Phạm vi trả lời</h1>
         <div class="meta">Cấu hình cách bot phản hồi — kiểu trả lời, nội dung bắt buộc, và khi nào cần escalate. Tất cả các mục dưới đây đều thuộc khu vực <strong>"Phạm vi trả lời"</strong>.</div>
       </div>
@@ -137,62 +161,64 @@
       <div class="step" onclick="window.location.href='package-assets.html'" style="cursor:pointer"><span class="num">4</span> Tài liệu tham khảo</div>
     </div>
 
-    <!-- Warning banner: High risk -->
-    <div class="warning-banner">⚠️ Package High risk đang được cấu hình. Bắt buộc khai báo <strong>quy tắc escalate</strong> trước khi chuyển sang bước tiếp theo.</div>
+    <!-- Warning banner: Cao risk -->
+    <div class="warning-banner">⚠️ Kịch bản quan trọng đang được cấu hình, bắt buộc nhập đầy đủ thông tin trước khi chuyển sang bước tiếp theo.</div>
 
     <!-- Section 3: Behavior -->
     <div class="form-card">
       <h2>3. Phạm vi câu trả lời</h2>
-      <div class="helper">Xác định hình dạng câu trả lời cuối cùng và cách bot xử lý các tình huống đặc biệt — khi nào phải bao gồm nội dung gì và khi nào escalate.</div>
+      <div class="helper">Cấu hình các quy tắc phản hồi cho Bot</div>
 
-      <!-- Expected Answer Type -->
-      <div class="form-row full">
-        <div class="form-group">
-          <label>Kiểu trả lời kỳ vọng <span class="required">*</span> <span class="info-icon" title="Định nghĩa hình dạng câu trả lời cuối cùng. Hỏi thêm context là phụ, không phải loại trả lời chính.">?</span></label>
-          <div class="radio-group" style="grid-template-columns: 1fr 1fr;">
-            <label class="radio-card selected">
-              <input type="radio" name="answer_type" checked>
-              <span class="check-mark">✓</span>
-              <span class="radio-icon">💡</span>
-              <span class="radio-title">Recommendation</span>
-              <span class="radio-desc">Tư vấn dựa trên policy — đưa ra hướng dẫn và điều kiện áp dụng</span>
-            </label>
-            <label class="radio-card">
-              <input type="radio" name="answer_type">
-              <span class="check-mark">✓</span>
-              <span class="radio-icon">📄</span>
-              <span class="radio-title">Quoting policy</span>
-              <span class="radio-desc">Trích dẫn chính sách trực tiếp — câu trả lời là nội dung policy</span>
-            </label>
-          </div>
-          <span class="field-hint">Chọn 1 kiểu chính. Câu trả lời cuối cùng phải phù hợp với kiểu đã chọn.</span>
-        </div>
-      </div>
+      <!-- Expected Answer Type removed -->
 
       <div class="section-divider"><span class="line"></span><span class="label">Quy tắc phản hồi</span><span class="line"></span></div>
 
-      <!-- Must Include / Must Not Include -->
+      <!-- Must Include / Must Not Include (CRUD list) -->
       <div class="behavior-pair">
         <div class="behavior-card include">
-          <label>✅ Phải bao gồm <span class="info-icon" title="Nội dung bắt buộc phải có trong câu trả lời.">?</span></label>
-          <textarea placeholder="VD: Nội dung bắt buộc phải có trong câu trả lời">Điều kiện WFH phụ thuộc: cần policy reference và manager approval.</textarea>
-          <div class="field-hint">Câu cam kết bắt buộc — không được thiếu ngữ cảnh.</div>
+          <label>✅ Câu trả lời phải có các thông tin sau <span class="info-icon" title="Nội dung bắt buộc phải có trong câu trả lời.">?</span></label>
+          <div class="crud-list" id="mustIncludeList">
+            <div class="crud-item" data-id="1">
+              <span class="crud-text">Điều kiện WFH phụ thuộc: cần policy reference và manager approval.</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="crud-add">
+            <input type="text" id="mustIncludeAddInput" placeholder="Nhập nội dung bắt buộc rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('mustIncludeList','mustIncludeAddInput');}">
+            <button class="btn btn-primary btn-sm" onclick="addItem('mustIncludeList','mustIncludeAddInput')">+ Thêm</button>
+          </div>
+          <span class="counter" id="mustIncludeCounter">1 / 50</span>
         </div>
         <div class="behavior-card exclude">
-          <label>🚫 Không được bao gồm <span class="info-icon" title="Nội dung bot KHÔNG được nói — quy tắc chống over-answer.">?</span></label>
-          <textarea placeholder="VD: Nội dung bot không được nói">Không kết luận "được WFH" khi thiếu context về role, location, hoặc approval.</textarea>
-          <div class="field-hint">Quy tắc chống over-answer — boundary quan trọng nhất.</div>
+          <label>🚫 Câu trả lời không được đề cập tới các thông tin sau <span class="info-icon" title="Nội dung bot KHÔNG được nói — quy tắc chống over-answer.">?</span></label>
+          <div class="crud-list" id="mustNotIncludeList">
+            <div class="crud-item" data-id="1">
+              <span class="crud-text">Không kết luận "được WFH" khi thiếu context về role, location, hoặc approval.</span>
+              <div class="crud-actions">
+                <button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button>
+                <button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>
+              </div>
+            </div>
+          </div>
+          <div class="crud-add">
+            <input type="text" id="mustNotIncludeAddInput" placeholder="Nhập nội dung cấm rồi nhấn Enter hoặc Thêm..." onkeydown="if(event.key==='Enter'){event.preventDefault();addItem('mustNotIncludeList','mustNotIncludeAddInput');}">
+            <button class="btn btn-primary btn-sm" onclick="addItem('mustNotIncludeList','mustNotIncludeAddInput')">+ Thêm</button>
+          </div>
+          <span class="counter" id="mustNotIncludeCounter">1 / 50</span>
         </div>
       </div>
 
       <div class="section-divider"><span class="line"></span><span class="label">Xử lý ngoại lệ</span><span class="line"></span></div>
 
-      <!-- Escalation Rule (required for High risk) -->
+      <!-- Escalation Rule (required for Cao risk) -->
       <div class="form-row full">
         <div class="form-group">
           <div class="behavior-card exclude">
-            <label>⚠️ Quy tắc escalate tới người phụ trách khi không biết trả lời <span class="required">*</span> <span class="badge" style="background:#ef4444; color:#fff; padding:2px 8px; border-radius:6px; font-size:10px; font-weight:600; margin-left:6px;">BẮT BUỘC — HIGH RISK</span> <span class="info-icon" title="Khi nào bot phải chuyển người xử lý thay vì tự trả lời? Bắt buộc cho High risk package.">?</span></label>
-            <textarea placeholder="VD: Khi nào bot phải escalate thay vì trả lời?">Exception cá nhân hoặc conflict với manager → escalate tới HR / People Ops để xử lý thủ công.</textarea>
+            <label>⚠️ Phản hồi mặc định nếu câu trả lời không nằm trong 2 mục trên <span class="required">*</span> <span class="badge" style="background:#ef4444; color:#fff; padding:2px 8px; border-radius:6px; font-size:10px; font-weight:600; margin-left:6px;">Kịch bản quan trọng = Bắt buộc nhập</span> <span class="info-icon" title="Khi nào bot phải chuyển người xử lý thay vì tự trả lời? Bắt buộc cho package Cao.">?</span></label>
+            <textarea placeholder="VD: Khi nào bot phải escalate thay vì trả lời?">Vui lòng liên hệ Hong.BLT để được tư vấn thêm thông tin chi tiết</textarea>
             <div class="field-hint">Biết khi nào phải chuyển người xử lý — không tự ý giải quyết trường hợp ngoại lệ.</div>
           </div>
         </div>
@@ -219,6 +245,114 @@
       document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
       card.querySelector('input[type="radio"]').checked = true;
+    });
+  });
+
+  // CRUD list logic (copied from package-scope)
+  let nextId = 100;
+  const MAX = 50;
+
+  function updateCounter(listId) {
+    const list = document.getElementById(listId);
+    if (!list) return;
+    const count = list.querySelectorAll('.crud-item').length;
+    const counter = list.parentElement.querySelector('.counter');
+    if (counter) counter.textContent = count + ' / ' + MAX;
+  }
+
+  function renderEmpty(list) {
+    if (list.querySelectorAll('.crud-item').length === 0) {
+      if (!list.querySelector('.crud-empty')) {
+        const empty = document.createElement('div');
+        empty.className = 'crud-empty';
+        empty.textContent = 'Chưa có mục nào. Thêm mục đầu tiên bên dưới.';
+        list.appendChild(empty);
+      }
+    } else {
+      const existing = list.querySelector('.crud-empty');
+      if (existing) existing.remove();
+    }
+  }
+
+  function addItem(listId, inputId) {
+    const input = document.getElementById(inputId);
+    const text = input.value.trim();
+    if (!text) return;
+    const list = document.getElementById(listId);
+    if (list.querySelectorAll('.crud-item').length >= MAX) {
+      alert('Đã đạt tối đa ' + MAX + ' mục.');
+      return;
+    }
+    const empty = list.querySelector('.crud-empty');
+    if (empty) empty.remove();
+    const id = nextId++;
+    const item = document.createElement('div');
+    item.className = 'crud-item';
+    item.dataset.id = id;
+    item.innerHTML = '<span class="crud-text"></span><div class="crud-actions"><button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button><button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button></div>';
+    item.querySelector('.crud-text').textContent = text;
+    list.appendChild(item);
+    input.value = '';
+    input.focus();
+    updateCounter(listId);
+  }
+
+  function deleteItem(btn) {
+    const item = btn.closest('.crud-item');
+    const list = item.closest('.crud-list');
+    if (!confirm('Xóa mục này?')) return;
+    item.remove();
+    renderEmpty(list);
+    updateCounter(list.id);
+  }
+
+  function editItem(btn) {
+    const item = btn.closest('.crud-item');
+    const textEl = item.querySelector('.crud-text');
+    const current = textEl.textContent;
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'crud-edit-input';
+    input.value = current;
+    textEl.replaceWith(input);
+    input.focus();
+    input.select();
+    const actions = item.querySelector('.crud-actions');
+    actions.innerHTML = '<button class="crud-btn save" title="Lưu" onclick="saveItem(this)">✓</button><button class="crud-btn cancel" title="Huỷ" onclick="cancelEdit(this,\'' + current.replace(/'/g,"\\'") + '\')">✕</button>';
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') { e.preventDefault(); saveItem(actions.querySelector('.save')); }
+      else if (e.key === 'Escape') { cancelEdit(actions.querySelector('.cancel'), current); }
+    });
+  }
+
+  function saveItem(btn) {
+    const item = btn.closest('.crud-item');
+    const input = item.querySelector('.crud-edit-input');
+    const text = input.value.trim();
+    if (!text) { alert('Mục không được để trống.'); input.focus(); return; }
+    const textEl = document.createElement('span');
+    textEl.className = 'crud-text';
+    textEl.textContent = text;
+    input.replaceWith(textEl);
+    const actions = item.querySelector('.crud-actions');
+    actions.innerHTML = '<button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button><button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>';
+  }
+
+  function cancelEdit(btn, original) {
+    const item = btn.closest('.crud-item');
+    const input = item.querySelector('.crud-edit-input');
+    const textEl = document.createElement('span');
+    textEl.className = 'crud-text';
+    textEl.textContent = original;
+    input.replaceWith(textEl);
+    const actions = item.querySelector('.crud-actions');
+    actions.innerHTML = '<button class="crud-btn edit" title="Sửa" onclick="editItem(this)">✎</button><button class="crud-btn delete" title="Xóa" onclick="deleteItem(this)">🗑</button>';
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    ['mustIncludeList','mustNotIncludeList'].forEach(function(id) {
+      const list = document.getElementById(id);
+      if (list) { updateCounter(id); renderEmpty(list); }
     });
   });
 </script>

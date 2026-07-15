@@ -117,7 +117,6 @@
   /* Risk badge small */
   .risk-mini { font-size: 11px; }
   .risk-high { color: #dc2626; }
-  .risk-medium { color: #d97706; }
   .risk-low { color: #16a34a; }
 
   /* Manual confidence drawer */
@@ -226,7 +225,7 @@
     <div class="section-title">📊 Package Readiness Table <span style="font-size:12px; color:#94a3b8; font-weight:400;">— smallest useful scope: hard gates + test pass + owner confidence</span></div>
     
     <div class="toolbar">
-      <select class="filter-select"><option>Tất cả risk levels</option><option>🔴 High</option><option>🟡 Medium</option><option>🟢 Low</option></select>
+      <select class="filter-select"><option>Tất cả mức quan trọng</option><option>🔴 Cao</option><option>🟢 Thấp</option></select>
       <select class="filter-select"><option>Tất cả states</option><option>✅ Ready</option><option>⚠️ Review</option><option>⛔ Hold</option></select>
       <select class="filter-select"><option>Tất cả review</option><option>✅ Owner reviewed</option><option>🕐 Chưa review</option><option>⚠️ Needs fix</option></select>
     </div>
@@ -249,7 +248,7 @@
         <tbody>
           <tr>
             <td><div class="pkg-name">WFH Dependent Care</div><div class="pkg-id">IP-HR-WFH-DEPENDENT-CARE</div></td>
-            <td><span class="risk-mini risk-high">🔴 High</span></td>
+            <td><span class="risk-mini risk-high">🔴 Cao</span></td>
             <td><div class="gate-cell"><span class="gate-icon gate-pass">✓</span><span class="gate-icon gate-pass">✓</span></div></td>
             <td><span class="pillar pillar-good">92%</span></td>
             <td><span class="score score-good">92%</span></td>
@@ -260,7 +259,7 @@
           </tr>
           <tr>
             <td><div class="pkg-name">Training Budget</div><div class="pkg-id">IP-OE-TRAINING-BUDGET</div></td>
-            <td><span class="risk-mini risk-medium">🟡 Medium</span></td>
+            <td><span class="risk-mini risk-low">🟢 Thấp</span></td>
             <td><div class="gate-cell"><span class="gate-icon gate-pass">✓</span><span class="gate-icon gate-pass">✓</span></div></td>
             <td><span class="pillar pillar-good">95%</span></td>
             <td><span class="score score-good">95%</span></td>
@@ -271,7 +270,7 @@
           </tr>
           <tr style="background:#fef2f2;">
             <td><div class="pkg-name">Payroll Slip</div><div class="pkg-id">IP-HR-PAYROLL-SLIP</div></td>
-            <td><span class="risk-mini risk-low">🟢 Low</span></td>
+            <td><span class="risk-mini risk-low">🟢 Thấp</span></td>
             <td><div class="gate-cell"><span class="gate-icon gate-fail">✕</span><span class="gate-icon gate-pass">✓</span></div></td>
             <td><span class="pillar pillar-low">70%</span></td>
             <td><span class="score score-na">—</span></td>
@@ -282,7 +281,7 @@
           </tr>
           <tr style="background:#fef2f2;">
             <td><div class="pkg-name">Leave Policy</div><div class="pkg-id">IP-HR-LEAVE-POLICY</div></td>
-            <td><span class="risk-mini risk-low">🟢 Low</span></td>
+            <td><span class="risk-mini risk-low">🟢 Thấp</span></td>
             <td><div class="gate-cell"><span class="gate-icon gate-pass">✓</span><span class="gate-icon gate-fail">✕</span></div></td>
             <td><span class="pillar pillar-good">88%</span></td>
             <td><span class="score score-na">—</span></td>
@@ -293,7 +292,7 @@
           </tr>
           <tr>
             <td><div class="pkg-name">Recruitment Process</div><div class="pkg-id">IP-OE-RECRUITMENT</div></td>
-            <td><span class="risk-mini risk-medium">🟡 Medium</span></td>
+            <td><span class="risk-mini risk-low">🟢 Thấp</span></td>
             <td><div class="gate-cell"><span class="gate-icon gate-pass">✓</span><span class="gate-icon gate-pass">✓</span></div></td>
             <td><span class="pillar pillar-mid">78%</span></td>
             <td><span class="score score-mid">78%</span></td>
@@ -324,7 +323,7 @@
     <div class="drawer-header">
       <div>
         <div class="drawer-title">💬 Try Package</div>
-        <div class="drawer-meta">WFH Dependent Care · v1.3 · 🔴 High Risk</div>
+        <div class="drawer-meta">WFH Dependent Care · v1.3 · 🔴 Cao</div>
       </div>
       <button class="btn btn-sm btn-outline js-close-drawer">×</button>
     </div>
@@ -413,7 +412,7 @@
         "Bạn có thể WFH khi cần chăm sóc con bị sốt nếu vai trò của bạn đủ điều kiện WFH. Bạn nên thông báo cho quản lý và cập nhật lý do trên hệ thống. Trường hợp này có thể được xem xét theo chính sách WFH Dependent Care."
 
         <div class="case-label">Impact</div>
-        Boundary fail · Medium severity · Package giữ trạng thái Review.
+        Boundary fail · mức trung bình · Package giữ trạng thái Review.
       </div>
     </div>
 
