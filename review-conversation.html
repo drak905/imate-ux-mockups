@@ -41,7 +41,7 @@
 
   .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
   .filter-select, .search-input, .date-input { height: 36px; padding: 0 12px; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 13px; background: #fff; color: #334155; }
-  .search-input { min-width: 240px; }
+  .search-input { min-width: 240px; flex: 1 1 50%; }
   .date-range { display: inline-flex; align-items: center; gap: 6px; color: #64748b; font-size: 12px; }
   .date-input { width: 132px; }
   .filter-select:focus, .search-input:focus, .date-input:focus { outline: none; border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
@@ -49,10 +49,6 @@
   .candidate-card { border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px; margin-bottom: 12px; background: #fff; cursor: pointer; transition: border-color .15s, box-shadow .15s; }
   .candidate-card:hover { border-color: #c7d2fe; }
   .candidate-card.selected { border-color: #6366f1; box-shadow: 0 0 0 2px rgba(99,102,241,.15); }
-  .candidate-card.needs-fix { border-color: #fde68a; background: #fffbeb; }
-  .candidate-card.needs-fix.selected { border-color: #6366f1; background: #fffbeb; }
-  .candidate-card.out-of-scope { border-color: #fecaca; background: #fef2f2; }
-  .candidate-card.out-of-scope.selected { border-color: #6366f1; background: #fef2f2; }
   .candidate-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; margin-bottom: 10px; }
   .candidate-title { font-size: 14px; font-weight: 600; color: #0f172a; }
   .candidate-meta { font-size: 11px; color: #64748b; margin-top: 3px; }
@@ -97,7 +93,7 @@
   .rate-btn:hover { border-color: #c7d2fe; }
   .rate-btn .icon { font-size: 16px; line-height: 1; }
   .rate-btn.good { color: #16a34a; }
-  .rate-btn.partial { color: #7c3aed; border-color: #ddd6fe; background: #faf5ff; }
+  .rate-btn.partial { color: #7c3aed; }
   .rate-btn.bad { color: #ef4444; }
   .rate-btn.selected.good { border-color: #86efac; background: #f0fdf4; }
   .rate-btn.selected.partial { border-color: #c4b5fd; background: #f5f3ff; }
@@ -173,6 +169,15 @@
   .form-group textarea { min-height: 86px; resize: vertical; }
   .helper { font-size: 12px; color: #64748b; }
   .drawer-footer { position: sticky; bottom: -20px; margin: 4px -20px -20px; padding: 14px 20px; background: #fff; border-top: 1px solid #e2e8f0; display: flex; justify-content: flex-end; gap: 8px; }
+  .trace-status { border-radius: 999px; padding: 5px 9px; font-weight: 600; }
+  .trace-status.complete { background: #dcfce7; color: #15803d; }.trace-status.partial { background: #fef3c7; color: #92400e; }.trace-status.absent { background: #fee2e2; color: #b91c1c; }
+  .conversation-context { margin-bottom: 16px; border: 1px solid #e2e8f0; border-radius: 10px; background: #f8fafc; overflow: hidden; }
+  .conversation-context summary { padding: 12px; cursor: pointer; font-size: 13px; font-weight: 700; color: #0f172a; }
+  .conversation-messages { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 8px; }
+  .conversation-message { max-width: 92%; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; font-size: 12px; line-height: 1.5; }
+  .conversation-message.user { align-self: flex-start; background: #f8fafc; }.conversation-message.bot { align-self: flex-end; border-color: #c7d2fe; }.conversation-message.active { background: #eef2ff; box-shadow: 0 0 0 2px rgba(99,102,241,.18); }
+  .conversation-message-meta { margin-bottom: 4px; color: #64748b; font-size: 11px; font-weight: 600; }.conversation-turn-action { margin-top: 8px; }.review-turn-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 0 0 14px; }.review-turn-status { color: #4338ca; font-size: 12px; font-weight: 700; text-align: center; }
+  .review-fieldset { border: 0; padding: 0; margin: 0; }.review-fieldset legend { font-size: 12px; color: #64748b; margin-bottom: 6px; }.error-panel { margin-top: 10px; padding: 12px; border: 1px solid #ddd6fe; border-radius: 10px; background: #faf5ff; }.error-choice { display: flex; align-items: flex-start; gap: 7px; padding: 7px 0; font-size: 12px; cursor: pointer; }.error-choice input { margin-top: 2px; }.code { color: #6366f1; font-family: ui-monospace, monospace; font-size: 10px; }.validation-error { color: #b91c1c; font-size: 12px; margin-top: 6px; }.char-count { color: #64748b; font-size: 11px; text-align: right; margin-top: 3px; }.skip-row { margin-top: 9px; font-size: 12px; }.review-actions { position: sticky; bottom: 0; z-index: 3; display: flex; justify-content: flex-end; gap: 8px; padding: 12px; margin: 0 -16px -16px; background: rgba(255,255,255,.96); border-top: 1px solid #e2e8f0; }.audit-history { margin-top: 14px; padding-top: 12px; border-top: 1px solid #e2e8f0; font-size: 12px; }.toast { position: fixed; right: 24px; bottom: 24px; display: none; padding: 12px 16px; background: #0f172a; color: #fff; border-radius: 8px; box-shadow: 0 8px 24px rgba(15,23,42,.2); font-size: 13px; }.toast.show { display: block; }
 </style>
 </head>
 <body>
@@ -183,7 +188,7 @@
     <ul class="sidebar-nav">
       <li class="sidebar-item">📊 Dashboard</li>
       <li class="sidebar-item" onclick="window.location.href='package-list.html'">🧩 Intent Packages</li>
-      <li class="sidebar-item active" onclick="window.location.href='evaluate-conversation.html'">🧪 Review Conversation</li>
+      <li class="sidebar-item active" onclick="window.location.href='review-conversation.html'">🧪 Review Conversation</li>
       <li class="sidebar-item" onclick="window.location.href='readiness-gate.html'">🛡️ Readiness Gate</li>
       <li class="sidebar-item" onclick="window.location.href='question-import.html'">🧪 Test Suites</li>
     </ul>
@@ -212,7 +217,7 @@
         </div>
         <div class="panel-body">
           <div class="toolbar">
-            <input class="search-input" value="Tìm câu hỏi, package, tên user,..." aria-label="Tìm hội thoại">
+            <input class="search-input" value="Tìm câu hỏi, tên package, tên nhân viên, tên phòng ban..." aria-label="Tìm hội thoại">
             <div class="date-range" aria-label="Khoảng thời gian hội thoại">
               <label for="dateFrom">Từ</label><input class="date-input" id="dateFrom" type="date" aria-label="Từ ngày">
               <label for="dateTo">Đến</label><input class="date-input" id="dateTo" type="date" aria-label="Đến ngày">
@@ -220,7 +225,7 @@
           </div>
 
           <div id="candidateList">
-          <article class="candidate-card needs-fix" data-trace="wfh-manager">
+          <article class="candidate-card" data-trace="wfh-manager">
             <div class="candidate-top">
               <div>
                 <div class="candidate-title">Manager chưa duyệt nhưng tôi vẫn muốn WFH, bot xác nhận giúp tôi được không?</div>
@@ -240,7 +245,7 @@
             <div class="candidate-text answer-preview">Bot trả lời: “Có. Ngân sách training có thể được dùng cho khóa học online nếu khóa học liên quan trực tiếp đến năng lực công việc, còn ngân sách trong kỳ, và được manager phê duyệt trước khi đăng ký. Vui lòng tham chiếu Training Budget Policy v2026.07.”</div>
           </article>
 
-          <article class="candidate-card out-of-scope" data-trace="vendor">
+          <article class="candidate-card" data-trace="vendor">
             <div class="candidate-top">
               <div>
                 <div class="candidate-title">Chính sách WFH này áp dụng cho vendor bên ngoài không?</div>
@@ -403,7 +408,7 @@
       <textarea class="note-input" placeholder="Nhập chi tiết phát hiện sai sót hoặc gợi ý chỉnh sửa..."></textarea>`;
   }
 
-  function renderTrace(key) {
+  function renderTraceBase(key) {
     const t = TRACES[key];
     if (!t) return;
     traceId.textContent = 'ID: ' + t.id;
@@ -492,6 +497,166 @@
   document.querySelectorAll('.js-close-promote').forEach((button) => {
     button.addEventListener('click', () => promoteDrawer.classList.remove('open'));
   });
+</script>
+
+<script>
+  const ERROR_CODES = [
+    ['EC-INTENT-01','Phân loại Intent sai',1,'Cao'],['EC-INTENT-02','Độ tin cậy thấp nhưng vẫn trả lời',1,'Cao'],['EC-INTENT-03','Câu hỏi thuộc Intent mới',1,'Thấp'],['EC-INTENT-04','Va chạm đa Intent',1,'Thấp'],['EC-SCOPE-Q-01','Ngoài phạm vi nhưng vẫn trả lời',1,'Cao'],['EC-SCOPE-Q-02','Thiếu ngữ cảnh bắt buộc',1,'Cao'],['EC-SCOPE-Q-03','Nhận diện sai đối tượng',1,'Cao'],
+    ['EC-SCOPE-A-01','Trả lời thừa / quá dài',2,'Thấp'],['EC-SCOPE-A-02','Trả lời thiếu thông tin quan trọng',2,'Thấp'],['EC-SCOPE-A-03','Sai kiểu trả lời',2,'Thấp'],['EC-SCOPE-A-04','Vi phạm quy tắc “Tôi không biết”',2,'Cao'],
+    ['EC-RETRIEVAL-01','Thiếu tài liệu quan trọng',3,'Cao'],['EC-RETRIEVAL-02','Truy xuất nhầm tài liệu',3,'Cao'],['EC-RETRIEVAL-03','Dùng tài liệu cũ / hết hiệu lực',3,'Cao'],['EC-RETRIEVAL-04','Bỏ sót tài liệu liên quan',3,'Thấp'],['EC-RETRIEVAL-05','Thiếu trích dẫn hoặc trích dẫn sai',3,'Cao'],['EC-RETRIEVAL-06','Sai đường dẫn truy xuất',3,'Thấp'],
+    ['EC-SYNTH-01','Bịa thông tin',4,'Cao'],['EC-SYNTH-02','Mâu thuẫn với chính sách / tài liệu',4,'Cao'],['EC-SYNTH-03','Sai giọng điệu / định dạng',4,'Thấp'],['EC-SYNTH-04','Sai ngôn ngữ',4,'Thấp'],['EC-SYNTH-05','Từ chối câu hỏi hợp lệ',4,'Thấp'],
+    ['EC-OTHER-01','Phản hồi chậm / timeout',0,'Thấp'],['EC-OTHER-02','Lỗi hiển thị giao diện',0,'Thấp'],['EC-OTHER-99','Chưa phân loại được',0,'Thấp']
+  ].map(([code, name, phase, severity]) => ({ code, name, phase, severity }));
+  const reviewState = {};
+
+  function codesFor(phase) { return ERROR_CODES.filter(code => code.phase === phase || code.phase === 0); }
+  function reviewFor(key, phase) { return (reviewState[key] ||= {})[phase] ||= { verdict: '', primary: '', secondary: [], note: '', skipped: false }; }
+  function validateReview(review) {
+    const errors = [];
+    Object.entries(review).forEach(([phase, value]) => {
+      if (value.skipped) return;
+      if (!value.verdict) errors.push(`Chặng ${phase}: cần chọn verdict.`);
+      if (['partial', 'wrong'].includes(value.verdict) && !value.primary) errors.push(`Chặng ${phase}: cần chọn lỗi chính.`);
+      if (value.verdict === 'wrong' && value.note.trim().length < 20) errors.push(`Chặng ${phase}: ghi chú cần tối thiểu 20 ký tự.`);
+      if (value.primary === 'EC-OTHER-99' && !value.note.trim()) errors.push(`Chặng ${phase}: EC-OTHER-99 cần ghi chú.`);
+    });
+    return errors;
+  }
+  console.assert(validateReview({ 1: { verdict: 'wrong', primary: 'EC-INTENT-01', secondary: [], note: 'Ghi chú hợp lệ dài hơn hai mươi ký tự.', skipped: false } }).length === 0, 'Valid review must pass');
+  console.assert(validateReview({ 1: { verdict: 'wrong', primary: '', secondary: [], note: '', skipped: false } }).length === 2, 'Invalid review must fail');
+
+  function reviewControls(key, phase) {
+    const r = reviewFor(key, phase);
+    const needsCodes = ['partial', 'wrong'].includes(r.verdict);
+    const choices = codesFor(phase);
+    return `<fieldset class="review-fieldset" data-phase="${phase}"><legend>Đánh giá chất lượng:</legend><div class="rate-row">${[['correct','good','👍','Đúng'],['partial','partial','❗','Một phần'],['wrong','bad','👎','Sai']].map(([value, cls, icon, label]) => `<button type="button" class="rate-btn ${cls} ${r.verdict === value ? 'selected' : ''}" data-verdict="${value}" aria-pressed="${r.verdict === value}"><span class="icon">${icon}</span>${label}</button>`).join('')}</div>${needsCodes ? `<div class="error-panel"><strong>Lỗi chính <span aria-hidden="true">*</span></strong>${choices.map(c => `<label class="error-choice"><input type="radio" name="primary-${key}-${phase}" value="${c.code}" data-primary ${r.primary === c.code ? 'checked' : ''}><span>${c.name} <span class="code">${c.code}</span></span></label>`).join('')}<strong>Lỗi phụ (không bắt buộc)</strong>${choices.filter(c => c.code !== r.primary).map(c => `<label class="error-choice"><input type="checkbox" value="${c.code}" data-secondary ${r.secondary.includes(c.code) ? 'checked' : ''}><span>${c.name} <span class="code">${c.code}</span></span></label>`).join('')}</div>` : ''}<label class="note-label" for="note-${key}-${phase}">Ghi chú${r.verdict === 'wrong' ? ' (bắt buộc, tối thiểu 20 ký tự)' : ''}:</label><textarea id="note-${key}-${phase}" class="note-input" data-note placeholder="Nêu phát hiện hoặc đề xuất chỉnh sửa...">${r.note}</textarea><div class="char-count">${r.note.length} ký tự</div><div class="validation-error" aria-live="polite"></div></fieldset>`;
+  }
+
+  function renderTraceBase(key) {
+    const t = TRACES[key];
+    if (!t) return;
+    traceId.textContent = `ID: ${t.id} · Review v${t.reviewVersion || 1}`;
+    traceBody.innerHTML = `
+      <div class="trace-stage">
+        <div class="trace-stage-head">
+          <div class="trace-stage-title"><span class="dot">1</span> Nhận diện Phạm vi Câu hỏi</div>
+          <div class="trace-stage-meta">Độ tin cậy: ${t.scope.conf}</div>
+        </div>
+        <div class="trace-line"><strong>${t.scope.result}</strong></div>
+        ${t.scope.reasoning ? `<div class="branch-box">💡 <strong>Lý do LLM ghi nhận:</strong> ${t.scope.reasoning.summary}<ul>${t.scope.reasoning.keywords.map(k => `<li><code>${k}</code></li>`).join('')}</ul></div>` : ''}
+        ${reviewControls(key, 1)}
+      </div>
+      <div class="trace-stage">
+        <div class="trace-stage-head">
+          <div class="trace-stage-title"><span class="dot">2</span> Xác định Phạm vi Câu trả lời</div>
+        </div>
+        ${reviewControls(key, 2)}
+      </div>
+      <div class="trace-stage">
+        <div class="trace-stage-head">
+          <div class="trace-stage-title"><span class="dot">3</span> Truy xuất Kiến thức</div>
+          <div class="trace-stage-meta">Đường dẫn: ${t.retrieval.path}</div>
+        </div>
+        ${t.retrieval.sources.map(s => `
+        <div class="source-card${s.used ? '' : ' is-skip'}">
+          <div class="source-top">
+            <div class="source-name">📄 ${s.name}<span class="source-chunk">${s.chunk}</span>${s.used ? '<span class="source-tag used">✓ Đã dùng</span>' : '<span class="source-tag skip">○ Bỏ qua</span>'}</div>
+            <div class="source-score">Độ tương đồng: ${s.score}</div>
+          </div>
+          <div class="source-quote">${s.quote}</div>
+          <div class="source-bar"><span style="width:${s.bar}%"></span></div>
+        </div>`).join('')}
+        ${reviewControls(key, 3)}
+      </div>
+      <div class="trace-stage">
+        <div class="trace-stage-head">
+          <div class="trace-stage-title"><span class="dot">4</span> Tổng hợp Nội dung Phản hồi</div>
+        </div>
+        <div class="trace-stage-meta" style="margin-bottom:8px;">NỘI DUNG PHẢN HỒI (FINAL RESPONSE)</div>
+        <div class="final-box">${typeof t.final === 'string' ? t.final : t.final.text}</div>
+        ${t.final && t.final.usedSources ? `<div class="final-sources"><strong>📚 Dùng thông tin từ:</strong> ${t.final.usedSources.map(u => `${u.name} <span class="source-chunk">${u.chunk}</span>`).join(' · ')}</div>` : ''}
+        ${t.final && t.final.reasoning ? `<div class="branch-box">💡 <strong>Tóm tắt reasoning:</strong> ${t.final.reasoning}</div>` : ''}
+        ${reviewControls(key, 4)}
+      </div>
+      <div class="audit-history"><strong>Lịch sử phiên bản</strong><br>v${t.reviewVersion || 1} · Lan Nguyễn · Đang chỉnh sửa<br>${t.reviewVersion ? `v${t.reviewVersion - 1} · Lan Nguyễn · 06/07/2026 16:30 · Chỉ đọc` : 'Chưa có phiên bản trước.'}</div>
+      <div class="review-actions"><button class="btn btn-outline" type="button" id="cancelReview">Hủy thay đổi</button><button class="btn btn-primary" type="button" id="saveReview">Lưu đánh giá</button></div>`;
+    bindReviewControls(key, t);
+  }
+
+  function bindReviewControls(key, t) {
+    traceBody.querySelectorAll('[data-phase]').forEach(fieldset => {
+      const phase = Number(fieldset.dataset.phase), r = reviewFor(key, phase);
+      fieldset.querySelectorAll('[data-verdict]').forEach(button => button.addEventListener('click', () => { r.verdict = button.dataset.verdict; if (r.verdict === 'correct') { r.primary = ''; r.secondary = []; } renderTrace(key); }));
+      fieldset.querySelector('[data-primary]')?.addEventListener('change', event => { r.primary = event.target.value; r.secondary = r.secondary.filter(code => code !== r.primary); renderTrace(key); });
+      fieldset.querySelectorAll('[data-secondary]').forEach(input => input.addEventListener('change', event => { r.secondary = event.target.checked ? [...new Set([...r.secondary, event.target.value])] : r.secondary.filter(code => code !== event.target.value); }));
+      fieldset.querySelector('[data-note]')?.addEventListener('input', event => { r.note = event.target.value; event.target.nextElementSibling.textContent = `${r.note.length} ký tự`; });
+    });
+    document.getElementById('cancelReview').addEventListener('click', () => { delete reviewState[key]; renderTrace(key); });
+    document.getElementById('saveReview').addEventListener('click', () => { const errors = validateReview(reviewState[key] || {}); if (errors.length) { alert(`Chưa thể lưu:\n${errors.join('\n')}`); return; } t.reviewVersion = (t.reviewVersion || 1) + 1; document.getElementById('toast').textContent = `✓ Đã lưu đánh giá phiên bản ${t.reviewVersion}`; document.getElementById('toast').classList.add('show'); renderTrace(key); setTimeout(() => document.getElementById('toast').classList.remove('show'), 2500); });
+  }
+</script>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script>
+  const activeBotTurns = {};
+  let reviewTurnId = '';
+
+  function botTurnsFor(key) {
+    const trace = TRACES[key];
+    const question = document.querySelector(`.candidate-card[data-trace="${key}"] .candidate-title`)?.textContent || 'Bạn cần hỗ trợ nội dung gì?';
+    const firstReply = key === 'wfh-manager'
+      ? 'Bạn vui lòng cho biết manager đã duyệt WFH chưa? Khi chưa có phê duyệt, tôi chưa thể xác nhận việc WFH.'
+      : `Để xác nhận theo ${trace.scope.label}, tôi cần kiểm tra điều kiện và chính sách áp dụng cho trường hợp của bạn.`;
+    return trace.conversation ||= [
+      { id: 'b1', time: '09:41', text: firstReply, final: key === 'wfh-manager' ? 'Bạn vui lòng xin manager approval trước khi WFH. Nếu đây là ngoại lệ cá nhân, hãy liên hệ People Operations để được hỗ trợ.' : `Tôi sẽ kiểm tra chính sách ${trace.scope.label} trước khi xác nhận.` },
+      { id: 'b2', time: '09:42', text: trace.final.text, final: trace.final.text }
+    ];
+  }
+
+  function reviewFor(key, phase) {
+    const turns = reviewState[key] ||= {};
+    const turn = turns[reviewTurnId] ||= {};
+    return turn[phase] ||= { verdict: '', primary: '', secondary: [], note: '', skipped: false };
+  }
+
+  function validateReview(review) {
+    const current = review[reviewTurnId] || review;
+    const errors = [];
+    Object.entries(current).forEach(([phase, value]) => {
+      if (!value.verdict) errors.push(`Chặng ${phase}: cần chọn verdict.`);
+      if (['partial', 'wrong'].includes(value.verdict) && !value.primary) errors.push(`Chặng ${phase}: cần chọn lỗi chính.`);
+      if (value.verdict === 'wrong' && value.note.trim().length < 20) errors.push(`Chặng ${phase}: ghi chú cần tối thiểu 20 ký tự.`);
+    });
+    return errors;
+  }
+
+  function transcriptHtml(key, active) {
+    const turns = botTurnsFor(key);
+    const question = document.querySelector(`.candidate-card[data-trace="${key}"] .candidate-title`)?.textContent || 'Bạn cần hỗ trợ nội dung gì?';
+    const messages = [
+      { role: 'user', time: '09:40', text: question },
+      { role: 'bot', ...turns[0] },
+      { role: 'user', time: '09:42', text: key === 'wfh-manager' ? 'Manager chưa duyệt nhưng tôi vẫn muốn WFH, bot xác nhận giúp tôi được không?' : 'Vậy trong trường hợp của tôi, chính sách này được áp dụng như thế nào?' },
+      { role: 'bot', ...turns[1] }
+    ];
+    return `<details class="conversation-context" open><summary>Ngữ cảnh hội thoại · ${messages.length} lượt</summary><div class="conversation-messages">${messages.map(message => `<div class="conversation-message ${message.role}${message.id === active.id ? ' active' : ''}"><div class="conversation-message-meta">${message.role === 'bot' ? 'Bot' : 'Người dùng'} · ${message.time}${message.id === active.id ? ' · Đang đánh giá' : ''}</div>${message.text}${message.role === 'bot' ? `<button class="btn btn-sm ${message.id === active.id ? 'btn-soft' : 'btn-outline'} conversation-turn-action" type="button" data-turn="${message.id}">${message.id === active.id ? 'Đang đánh giá' : 'Đánh giá lượt này'}</button>` : ''}</div>`).join('')}</div></details>`;
+  }
+
+  function renderTrace(key) {
+    const turns = botTurnsFor(key);
+    const active = turns.find(turn => turn.id === (activeBotTurns[key] ||= turns.at(-1).id));
+    reviewTurnId = active.id;
+    const trace = TRACES[key];
+    const originalFinal = trace.final;
+    trace.final = { ...trace.final, text: active.final };
+    renderTraceBase(key);
+    trace.final = originalFinal;
+    const turnIndex = turns.indexOf(active);
+    traceId.textContent = `ID: ${trace.id} · Phản hồi bot ${turnIndex + 1}/${turns.length}`;
+    traceBody.insertAdjacentHTML('afterbegin', `${transcriptHtml(key, active)}<div class="review-turn-nav"><button class="btn btn-sm btn-outline" type="button" data-nav="previous" ${turnIndex === 0 ? 'disabled' : ''}>‹ Phản hồi trước</button><div class="review-turn-status">Đang đánh giá phản hồi bot ${turnIndex + 1}/${turns.length}</div><button class="btn btn-sm btn-outline" type="button" data-nav="next" ${turnIndex === turns.length - 1 ? 'disabled' : ''}>Phản hồi sau ›</button></div>`);
+    traceBody.querySelectorAll('[data-turn]').forEach(button => button.addEventListener('click', () => { activeBotTurns[key] = button.dataset.turn; renderTrace(key); }));
+    traceBody.querySelectorAll('[data-nav]').forEach(button => button.addEventListener('click', () => { activeBotTurns[key] = turns[turnIndex + (button.dataset.nav === 'next' ? 1 : -1)].id; renderTrace(key); }));
+  }
 </script>
 
 </body>
